@@ -4,7 +4,7 @@ export default [
         brand: "Koenigsegg", 
         type:"Sport", 
         fuelCapacity:90, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:99.00,
         image:"koenigsegg.svg"
@@ -14,7 +14,7 @@ export default [
         brand: "NissanGT-R", 
         type:"Sport", 
         fuelCapacity:80, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:80.00,
         image:"nissangtr.svg"
@@ -24,7 +24,7 @@ export default [
         brand: "Rolls-Royce", 
         type:"Sedan", 
         fuelCapacity:70, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:4,
         pricePerDay:96.00,
         image:"rollsroyce.svg"
@@ -34,7 +34,7 @@ export default [
         brand: "All New Rush", 
         type:"SUV", 
         fuelCapacity:70, 
-        transimission:"Manual", 
+        transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:72.00,
         image:"newrush.svg"
@@ -44,7 +44,7 @@ export default [
         brand: "CR-V", 
         type:"SUV", 
         fuelCapacity:80, 
-        transimission:"Manual", 
+        transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:80.00,
         image:"crv.svg"
@@ -54,7 +54,7 @@ export default [
         brand: "Koenigsegg", 
         type:"Sport", 
         fuelCapacity:90, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:99.00,
         image:"koenigsegg.svg"
@@ -64,7 +64,7 @@ export default [
         brand: "NissanGT-R", 
         type:"Sport", 
         fuelCapacity:80, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:80.00,
         image:"nissangtr.svg"
@@ -74,7 +74,7 @@ export default [
         brand: "Rolls-Royce", 
         type:"Sedan", 
         fuelCapacity:70, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:4,
         pricePerDay:96.00,
         image:"rollsroyce.svg"
@@ -84,7 +84,7 @@ export default [
         brand: "All New Rush", 
         type:"SUV", 
         fuelCapacity:70, 
-        transimission:"Manual", 
+        transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:72.00,
         image:"newrush.svg"
@@ -94,7 +94,7 @@ export default [
         brand: "CR-V", 
         type:"SUV", 
         fuelCapacity:80, 
-        transimission:"Manual", 
+        transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:80.00,
         image:"crv.svg"
@@ -104,7 +104,7 @@ export default [
         brand: "Koenigsegg", 
         type:"Sport", 
         fuelCapacity:90, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:99.00,
         image:"koenigsegg.svg"
@@ -114,7 +114,7 @@ export default [
         brand: "NissanGT-R", 
         type:"Sport", 
         fuelCapacity:80, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:80.00,
         image:"nissangtr.svg"
@@ -124,7 +124,7 @@ export default [
         brand: "Rolls-Royce", 
         type:"Sedan", 
         fuelCapacity:70, 
-        transimission:"Automatic", 
+        transmission:"Automatic", 
         seatingCapacity:4,
         pricePerDay:96.00,
         image:"rollsroyce.svg"
@@ -134,7 +134,7 @@ export default [
         brand: "All New Rush", 
         type:"SUV", 
         fuelCapacity:70, 
-        transimission:"Manual", 
+        transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:72.00,
         image:"newrush.svg"
@@ -144,7 +144,7 @@ export default [
         brand: "CR-V", 
         type:"SUV", 
         fuelCapacity:80, 
-        transimission:"Manual", 
+        transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:80.00,
         image:"crv.svg"

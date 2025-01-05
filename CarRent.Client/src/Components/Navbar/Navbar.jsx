@@ -20,7 +20,7 @@ export default function Navbar() {
   ]
 
   return (
-    <header className='fixed top-0 w-full bg-white border-b bg-opacity-50 z-50 backdrop-blur-md'>
+    <header className='fixed top-0 w-full bg-white border-b z-50'>
       <nav className='py-4 px-6 max-w-7xl mx-auto flex flex-row justify-between items-center relative'>
         <Logo/>
         
@@ -48,7 +48,7 @@ export default function Navbar() {
           {mobileMenu ? 
             <XIcon className='transition-all duration-300'/> 
             : 
-            <Menu color='#ffff' className=' transition-all duration-300'/>
+            <Menu className=' transition-all duration-300'/>
           }
         </button>
         <MobileMenu isOpen={mobileMenu} links={links}/>
