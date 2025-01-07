@@ -1,7 +1,7 @@
-import { Fuel, HeartIcon, LifeBuoy, Users } from "lucide-react"
-import { useState } from "react";
+import { Fuel, LifeBuoy, Users } from "lucide-react"
 import { Link } from 'react-router-dom';
 import { Tooltip } from "react-tooltip";
+import FavoriteButton from "./Buttons/FavoriteButton";
 
 export default function CarCard({
     id,
@@ -13,16 +13,13 @@ export default function CarCard({
     pricePerDay,
     image }) {
 
-    const [favorite,setFavorite] = useState()
-    function toggleFavorite(){
-        setFavorite(prevState => !prevState)
-    }
+    
 
   return (
     <div className="bg-white shadow-md p-6 rounded-xl">
         <div className="flex justify-between">
             <h2 className="text-lg font-bold">{brand}</h2>
-            <HeartIcon className={`hover:scale-110 cursor-pointer transition-all text-gray-400 ${favorite && "fill-red-500 text-red-500"}`} onClick={toggleFavorite}/>
+            <FavoriteButton/>
         </div>
         <p className="text-sm text-gray-400">{type}</p>
         <div className="flex flex-row justify-between gap-6 md:flex-col md:mb-8">

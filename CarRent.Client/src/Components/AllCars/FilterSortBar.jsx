@@ -6,7 +6,7 @@ export default function FilterSortBar({toggleExpanded}) {
     <div className='flex flex-row gap-5 mb-6 w-full'>
         <button 
           onClick={toggleExpanded}
-          className='md:hidden flex flex-row justify-between items-center bg-blue-500 
+          className='lg:hidden md:w-52 flex flex-row justify-between items-center bg-blue-500 
                   text-white shadow-md w-1/2 text-left px-4 py-2 rounded-md 
                   hover:text-black hover:bg-white transition-colors duration-300'>
             Filter

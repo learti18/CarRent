@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import cars from "../cars"
 import CarCard from '../Components/CarCard'
-import FilterSidebar from '../Components/AllCars/FilterSidebar'
+import FilteringSidebar from '../Components/FilteringSidebar'
 import FilterSortBar from '../Components/AllCars/FilterSortBar'
 import LocationSelector from '../Components/AllCars/LocationSelector'
 
@@ -14,7 +14,7 @@ export default function AllCars() {
   
   return (
     <div className='flex flex-row bg-gray-100'>
-      <FilterSidebar isExpanded={isExpanded} toggleExpanded={toggleExpanded}/>
+      <FilteringSidebar isExpanded={isExpanded} toggleExpanded={toggleExpanded}/>
       <div className='px-5 py-10 mx-auto'>
         <LocationSelector/>
         <FilterSortBar toggleExpanded={toggleExpanded}/>

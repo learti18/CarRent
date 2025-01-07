@@ -10,7 +10,7 @@ export default function LocationSelector() {
 
     return (
     <div className="pb-10 w-full">
-        <div className='flex flex-col  md:flex-row relative items-center md:items-start gap-4 md:gap-10'>
+        <div className='flex flex-col  md:flex-row relative items-center md:items-start gap-7 md:gap-10'>
             <PickupDropoffInfo type={isSwitched ? "PickUp":"Drop-Off"}/>
             <button 
                 onClick={toggleSwitch}

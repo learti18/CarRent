@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
-import CheckBox from '../CheckBox'
-import Slider from '../Slider'
+import CheckBox from './CheckBox'
+import Slider from './Slider'
 
-export default function FilterSidebar({ isExpanded, toggleExpanded }) {
+export default function FilteringSidebar({ isExpanded, toggleExpanded }) {
     const [rangeValues, setRangeValues] = useState({ min: 20, max: 100 });
 
     const handleRangeChange = (values) => {
@@ -23,14 +23,14 @@ export default function FilterSidebar({ isExpanded, toggleExpanded }) {
     }, [isExpanded]);
 
     return (
-      <div className={`fixed md:relative inset-0 transition-all duration-300 ease-in-out z-30 
-                    ${isExpanded ? 'visible bg-black/70':'invisible'} md:visible md:bg-transparent`}>
-        <div className={`fixed md:relative md:h-full top-0 left-0 z-40 flex flex-col 
-                        w-[85%] sm:w-[320px] md:w-[220px] lg:w-[240px] xl:w-[280px] border-r border-gray-100 
+      <div className={`fixed lg:relative inset-0 transition-all duration-300 ease-in-out z-30 
+                    ${isExpanded ? 'visible bg-black/70':'invisible'} lg:visible lg:bg-transparent`}>
+        <div className={`fixed lg:relative lg:h-full top-0 left-0 z-40 flex flex-col pb-10
+                        w-[60%] md:w-[260px] lg:w-[280px] xl:w-[300px] border-r border-gray-100 
                         bg-white transform transition-transform duration-300 ease-in-out h-screen
-                        ${isExpanded ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+                        ${isExpanded ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
           <div className="px-4 sm:px-6 md:px-8 pt-10 flex-1 overflow-y-auto scrollbar-hide">
-            <button className="flex pt-12 pb-5 ml-auto md:hidden" onClick={toggleExpanded}>
+            <button className="flex pt-12 pb-5 ml-auto lg:hidden" onClick={toggleExpanded}>
               <X  size={26}/>
             </button>
             <div className="flex flex-col gap-14">
