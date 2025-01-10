@@ -9,7 +9,7 @@ export default function FavoriteButton({toggleFavorite,className}) {
 
   return (
     <HeartIcon 
-        className={`hover:scale-110 cursor-pointer transition-all text-gray-400 select-none
+        className={`size-7 hover:scale-110 cursor-pointer transition-all text-gray-400 select-none
                   ${favorite && "fill-red-500 text-red-500"} ${className}`} 
         onClick={toggleFavorite}
       />

@@ -4,6 +4,7 @@ import cars from '../cars'
 import FilteringSidebar from '../Components/FilteringSidebar'
 import CarInfo from '../Components/CarDetails/CarInfo';
 import Carousel from '../Components/Carousel';
+import ReviewSection from '../Components/Reviews/ReviewSection';
 
 export default function CarDetails() {
   const { id } = useParams()
@@ -24,13 +25,13 @@ export default function CarDetails() {
   if (!car) return <div>Car not found</div>
 
   return (
-    <div className='flex flex-row'>
-      <FilteringSidebar/>
-      <div className='px-5 py-10 mx-auto bg-gray-100'>
+    <div className='bg-gray-100'>
+      <div className='flex flex-col gap-10 px-6 py-10 max-w-7xl mx-auto '>
         <div className='flex flex-col  md:flex-row  gap-6'>
           <Carousel car={car}/>
           <CarInfo car={car}/>
         </div>
+        <ReviewSection/>
       </div>
     </div>
   )
