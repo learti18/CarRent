@@ -13,7 +13,7 @@ export default function PopularRentals() {
         <p className="text-md md:text-lg text-blue-600 bg-blue-100 px-3 py-1 rounded-lg justify-self-center">Popular rental deals</p>
         <h1 className="text-2xl md:text-4xl font-bold">Most popular cars rental deals</h1>
       </div>
-      <div className="flex flex-row flex-wrap justify-center gap-6 sm:px-10 my-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 sm:px-10 my-12">
           
           {
             cars.slice(0,4).map(car => (

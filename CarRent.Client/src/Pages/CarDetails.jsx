@@ -5,6 +5,7 @@ import FilteringSidebar from '../Components/FilteringSidebar'
 import CarInfo from '../Components/CarDetails/CarInfo';
 import Carousel from '../Components/Carousel';
 import ReviewSection from '../Components/Reviews/ReviewSection';
+import CarSlider from '../Components/CarSlider';
 
 export default function CarDetails() {
   const { id } = useParams()
@@ -32,6 +33,9 @@ export default function CarDetails() {
           <CarInfo car={car}/>
         </div>
         <ReviewSection/>
+      </div>
+      <div className='pl-5 max-w-7xl'>
+        <CarSlider title='Reccommended'/>
       </div>
     </div>
   )
