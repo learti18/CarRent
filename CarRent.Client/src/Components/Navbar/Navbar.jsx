@@ -51,7 +51,7 @@ export default function Navbar() {
             <Menu className=' transition-all duration-300'/>
           }
         </button>
-        <MobileMenu isOpen={mobileMenu} links={links}/>
+        <MobileMenu isOpen={mobileMenu} links={links} toggleMobileMenu={toggleMobileMenu}/>
 
     </header>
   )

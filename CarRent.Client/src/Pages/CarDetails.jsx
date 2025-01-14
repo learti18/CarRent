@@ -34,7 +34,8 @@ export default function CarDetails() {
         </div>
         <ReviewSection/>
       </div>
-      <div className='pl-5 max-w-7xl'>
+      <div className='lg:mx-auto max-w-7xl px-6'>
+        <CarSlider title='Recent'/>
         <CarSlider title='Reccommended'/>
       </div>
     </div>

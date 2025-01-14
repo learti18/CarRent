@@ -4,7 +4,7 @@ import PopularRentals from '../Components/PopularRentals'
 
 export default function Home() {
   return (
-    <div className=''>
+    <div className='bg-gray-100'>
         <Hero/>
         <HowItWorks />
         <PopularRentals/>

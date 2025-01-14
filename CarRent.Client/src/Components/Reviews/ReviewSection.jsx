@@ -34,6 +34,7 @@ export default function ReviewSection() {
             {
                 reviews.map(review => (
                     <ReviewCard
+                        key={review.description}
                         avatar={review.userAvatar}
                         userName={review.userName}
                         userTitle={review.userTitle}

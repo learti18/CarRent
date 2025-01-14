@@ -9,6 +9,8 @@ import CarDetails from './Pages/CarDetails';
 import Layout from './Components/Layout';
 import About from './Pages/About';
 import ContactUs from './Pages/ContactUs';
+import Payment from './Pages/Payment';
+import ScrollToTop from './hooks/ScrollToTop';
 
 function App() {
 
@@ -16,6 +18,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop/>
         <Routes>
           <Route element={<Layout/>}>
             <Route path='/' element={<Home/>}/>
@@ -23,6 +26,7 @@ function App() {
             <Route path='contactus' element={<ContactUs/>} />
             <Route path='cars' element={<AllCars/>} />
             <Route path='cars/:id' element={<CarDetails/>} />
+            <Route path='cars/:id/payment' element={<Payment/>} />
           </Route>
           <Route path='sign-up' element={<Signup/>} />
           <Route path='sign-in' element={<Signin/>} />

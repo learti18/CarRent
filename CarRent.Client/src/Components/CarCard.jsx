@@ -17,18 +17,27 @@ export default function CarCard({
     const isSlider = variant === 'slider'
 
   return (
-    <div className="flex flex-col justify-between bg-white shadow-md p-6 rounded-xl">
+    <div 
+        className={`flex flex-col justify-between bg-white p-6 rounded-xl ${isSlider ? 'min-w-72' : ''}`}>
         <div className="flex justify-between">
             <h2 className="text-lg font-bold">{brand}</h2>
             <FavoriteButton/>
         </div>
         <p className="text-sm text-gray-400">{type}</p>
-        <div className={`flex flex-row justify-between ${isSlider ? '' : 'md:flex-col md:mb-8'}`}>
-            <div className="py-10 md:py-12 relative">
-                <img src={`/${image}`} alt="" className="flex-grow justify-self-center max-h-24"/>
+        <div className={`flex ${
+            isSlider 
+                ? 'flex-col space-y-4' 
+                : 'flex-row sm:flex-col sm:justify-between'
+        }`}>
+            <div className="flex justify-center relative w-full py-8">
+                <img src={`/${image}`} alt="" className="max-h-24"/>
                 <div className="absolute w-full h-24 bottom-0 top-0 mt-auto bg-gradient-to-t from-white"></div>
             </div>
-            <div className="flex flex-col justify-start md:justify-between my-auto gap-5 md:flex-row">
+            <div className={`flex py-5 ${
+                isSlider 
+                    ? 'flex-row justify-between' 
+                    : 'flex-col sm:flex-row justify-between'
+            }`}>
                 <div className="flex gap-1 text-gray-400" data-tooltip-content={`Fuel capacity:${fuelCapacity}`}>
                     <Fuel size={18}/>
                     <span className="text-xs">{fuelCapacity}L</span>

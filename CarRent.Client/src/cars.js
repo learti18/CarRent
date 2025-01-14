@@ -7,6 +7,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:99.00,
+        rating:4,
         image:"koenigsegg.svg"
     },
     {
@@ -17,6 +18,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:80.00,
+        rating:5,
         image:"nissangtr.svg"
     },
     {
@@ -27,6 +29,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:4,
         pricePerDay:96.00,
+        rating:5,
         image:"rollsroyce.svg"
     },
     {
@@ -37,6 +40,7 @@ export default [
         transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:72.00,
+        rating:4,
         image:"newrush.svg"
     },
     {
@@ -47,6 +51,7 @@ export default [
         transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:80.00,
+        rating:5,
         image:"crv.svg"
     },
     {
@@ -57,6 +62,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:99.00,
+        rating:3,
         image:"koenigsegg.svg"
     },
     {
@@ -67,6 +73,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:80.00,
+        rating:5,
         image:"nissangtr.svg"
     },
     {
@@ -77,6 +84,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:4,
         pricePerDay:96.00,
+        rating:4,
         image:"rollsroyce.svg"
     },
     {
@@ -87,6 +95,7 @@ export default [
         transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:72.00,
+        rating:5,
         image:"newrush.svg"
     },
     {
@@ -97,6 +106,7 @@ export default [
         transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:80.00,
+        rating:4,
         image:"crv.svg"
     },
     {
@@ -107,6 +117,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:99.00,
+        rating:4,
         image:"koenigsegg.svg"
     },
     {
@@ -117,6 +128,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:2,
         pricePerDay:80.00,
+        rating:5,
         image:"nissangtr.svg"
     },
     {
@@ -127,6 +139,7 @@ export default [
         transmission:"Automatic", 
         seatingCapacity:4,
         pricePerDay:96.00,
+        rating:5,
         image:"rollsroyce.svg"
     },
     {
@@ -137,6 +150,7 @@ export default [
         transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:72.00,
+        rating:4,
         image:"newrush.svg"
     },
     {
@@ -147,6 +161,7 @@ export default [
         transmission:"Manual", 
         seatingCapacity:6,
         pricePerDay:80.00,
+        rating:4,
         image:"crv.svg"
     }
 ]

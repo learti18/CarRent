@@ -44,7 +44,8 @@ export default function CarInfo({car}) {
               <span className="text-gray-400 text-xs"> day</span>
           </p>
           <Link 
-              to={``} 
+              to={`payment`}
+              state={{car}}
               className="bg-blue-500 text-white  lg:text-lg px-5 py-2 rounded-md  transition-colors duration-300 hover:bg-blue-600">
               Rent Now
           </Link>

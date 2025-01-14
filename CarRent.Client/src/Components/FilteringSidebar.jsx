@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
-import CheckBox from './CheckBox'
 import Slider from './Slider'
+import CheckBox from './Inputs/CheckBox';
 
 export default function FilteringSidebar({ isExpanded, toggleExpanded }) {
     const [rangeValues, setRangeValues] = useState({ min: 20, max: 100 });

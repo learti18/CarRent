@@ -8,7 +8,7 @@ export default function PopularRentals() {
   const [cars,setCars] = useState(carsData)
 
   return (
-    <div className="flex flex-col items-center my-20">
+    <div className="flex flex-col items-center py-10">
       <div className="space-y-6 px-5 text-center">
         <p className="text-md md:text-lg text-blue-600 bg-blue-100 px-3 py-1 rounded-lg justify-self-center">Popular rental deals</p>
         <h1 className="text-2xl md:text-4xl font-bold">Most popular cars rental deals</h1>

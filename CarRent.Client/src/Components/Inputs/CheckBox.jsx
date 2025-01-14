@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CheckBox({ id, value, label, amount, name }) {
+export default function CheckBox({ id, value, label, amount, name}) {
   return (
     <div className="flex flex-row items-center gap-2">
       <input
@@ -13,7 +13,9 @@ export default function CheckBox({ id, value, label, amount, name }) {
       <label className="text-base text-gray-700 cursor-pointer" htmlFor={id}>
         {label}
       </label>
-      <span className="text-sm text-gray-400">({amount})</span>
+      {
+        amount && <span className="text-sm text-gray-400">({amount})</span>
+      }
     </div>
   );
 }

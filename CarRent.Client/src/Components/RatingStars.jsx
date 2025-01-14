@@ -7,7 +7,9 @@ export default function RatingStars({rating}) {
     <div className='flex gap-[3px]'>
         {
             [...Array(5)].map((_,index) => (
-                <Star className={`size-4 md:size-5 ${index < rating ? 
+                <Star
+                  key={index} 
+                  className={`size-4 md:size-5 ${index < rating ? 
                                         'fill-amber-400 text-amber-400'
                                         :'text-gray-400'}`}/>
             ))
