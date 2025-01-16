@@ -6,6 +6,7 @@ import CarInfo from '../Components/CarDetails/CarInfo';
 import Carousel from '../Components/Carousel';
 import ReviewSection from '../Components/Reviews/ReviewSection';
 import CarSlider from '../Components/CarSlider';
+import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner';
 
 export default function CarDetails() {
   const { id } = useParams()
@@ -22,7 +23,13 @@ export default function CarDetails() {
     findCar()
   }, [id])
 
-  if (loading) return <div>Loading...</div>
+  if(!car) {
+    return (
+      <div className='flex justify-center items-center min-h-screen w-full'>
+        <LoaderBarsSpinner/>
+      </div>
+    ) 
+  }
   if (!car) return <div>Car not found</div>
 
   return (

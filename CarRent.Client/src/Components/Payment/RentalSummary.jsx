@@ -22,7 +22,7 @@ export default function RentalSummary({car}) {
                         className='relative z-10'/>
                 </div>
                 <div className='space-y-4'>
-                    <h1 className='text-3xl font-bold'>NissanGT-R</h1>
+                    <h1 className='text-3xl font-bold'>{car.brand}</h1>
                     <div className='flex flex-row gap-2'>
                         <RatingStars rating={car.rating}/>
                         <p className='text-sm text-slate-500'>440+ Reviewer</p>

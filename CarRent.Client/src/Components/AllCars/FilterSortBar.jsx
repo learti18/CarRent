@@ -1,24 +1,18 @@
-import { ArrowUpDown, SlidersHorizontal } from 'lucide-react'
 import React from 'react'
+import { SlidersHorizontal, ArrowUpDown } from 'lucide-react'
+import SortDropdown from './SortDropdown'
 
-export default function FilterSortBar({toggleExpanded}) {
+export default function FilterSortBar({ toggleExpanded, onSort }) {
   return (
-    <div className='flex flex-row gap-5 mb-6 w-full'>
-        <button 
-          onClick={toggleExpanded}
-          className='lg:hidden md:w-52 flex flex-row justify-between items-center bg-blue-500 
-                  text-white shadow-md w-1/2 text-left px-4 py-2 rounded-md 
-                  hover:text-black hover:bg-white transition-colors duration-300'>
-            Filter
-            <SlidersHorizontal size={20}/>
-        </button>
-        <button 
-            className='flex flex-row justify-between items-center bg-white shadow-md 
-                    hover:bg-blue-500 hover:text-white transition-colors duration-300
-                      w-1/2 md:w-52 gap-16 text-left px-4 py-2 rounded-md'>
-            Sort
-          <ArrowUpDown size={20}/>
-        </button>
+    <div className="flex justify-between items-center mb-6">
+      <button
+        onClick={toggleExpanded}
+        className="md:hidden flex items-center gap-2 px-4 py-2 bg-white rounded-lg hover:bg-gray-50"
+      >
+        <SlidersHorizontal className="w-5 h-5" />
+        <span>Filters</span>
+      </button>
+      <SortDropdown onSort={onSort} />
     </div>
   )
 }

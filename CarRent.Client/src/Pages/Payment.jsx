@@ -5,12 +5,13 @@ import PaymentMethod from '../Components/Payment/PaymentMethod'
 import Confirmation from '../Components/Payment/Confirmation'
 import RentalSummary from '../Components/Payment/RentalSummary'
 import { useLocation } from 'react-router-dom'
+import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner'
 
 export default function Payment() {
   const { state } = useLocation()
   const { car } = state || {} 
   
-  if(!car) return <div>Loading...</div>
+  if(!car) return <div className='flex justify-center items-center min-h-screen w-full'><LoaderBarsSpinner/></div>
 
   return (
     <div className='bg-gray-100'>

@@ -40,7 +40,7 @@ export default function CarInfo({car}) {
         </div>
         <div className="mt-5 flex justify-between items-center">
           <p className="text-xl md:text-2xl font-bold">
-              $220/
+              ${car.pricePerDay}/
               <span className="text-gray-400 text-xs"> day</span>
           </p>
           <Link 
