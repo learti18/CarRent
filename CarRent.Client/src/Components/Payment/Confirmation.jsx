@@ -30,7 +30,8 @@ export default function Confirmation() {
                 </div>
                 <Button className='mr-auto'>Rent now</Button>
                 <div>
-                    <h2 className='font-bold'>All your data are safe</h2>
+                    <img src="/security-safety.svg" alt="" />
+                    <h2 className='font-bold mt-4'>All your data is safe</h2>
                     <p className='text-sm text-slate-400'>We are using the most advanced security to provide you the best experience ever.</p>
                 </div>
             </div>
