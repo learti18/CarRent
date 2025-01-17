@@ -36,7 +36,7 @@ export default function Navbar() {
           }
         </div>
         <div className='space-x-8 hidden md:flex items-center'>
-            <Link to="/sign-in" className='text-gray-900 text-sm relative group'>
+            <Link to="/signin" className='text-gray-900 text-sm relative group'>
               Sign in
               <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
             </Link>

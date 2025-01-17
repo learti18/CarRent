@@ -19,11 +19,11 @@ export default function MobileMenu({isOpen, links, toggleMobileMenu}) {
         }`}
       >
         <div className="flex flex-col pt-12">
-          <Link to="/sign-up" className='text-black text-md relative group py-4 pl-4 w-full ease-in-out'>
+          <Link to="/signup" className='text-black text-md relative group py-4 pl-4 w-full ease-in-out'>
             Sign up
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
           </Link>
-          <Link to="/sign-in" className='text-black text-md relative group py-4 pl-4 w-full'>
+          <Link to="/signin" className='text-black text-md relative group py-4 pl-4 w-full'>
             Sign in
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
           </Link>

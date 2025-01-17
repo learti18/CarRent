@@ -28,8 +28,8 @@ function App() {
             <Route path='cars/:id' element={<CarDetails/>} />
             <Route path='cars/:id/payment' element={<Payment/>} />
           </Route>
-          <Route path='sign-up' element={<Signup/>} />
-          <Route path='sign-in' element={<Signin/>} />
+          <Route path='signup' element={<Signup/>} />
+          <Route path='signin' element={<Signin/>} />
         </Routes>
       </BrowserRouter>
     </>
