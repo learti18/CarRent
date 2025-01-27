@@ -30,7 +30,7 @@ export default function RentalInfo() {
   return (
     <div>
         <div className='bg-white rounded-lg py-8 px-5'>
-            <h1 className='text-lg font-bold'>Rental Info</h1>
+            <h1 className='text-lg font-semibold'>Rental Info</h1>
             <div className='flex flex-row justify-between text-sm text-slate-400'>
                 <p>Please enter your billing info</p>
                 <p>step 2 of 4</p>

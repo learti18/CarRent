@@ -27,7 +27,7 @@ export default function ReviewSection() {
   return (
     <div className='p-7 rounded-xl bg-white w-full'>
         <div className='flex items-center gap-4'>
-            <h1 className='text-xl font-bold'>Reviews</h1>
+            <h1 className='text-xl font-semibold'>Reviews</h1>
             <span className='text-white rounded-md bg-blue-600 px-4 py-1'>13</span>
         </div>
         <div className='pt-8 space-y-7'>

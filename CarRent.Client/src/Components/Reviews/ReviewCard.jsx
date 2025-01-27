@@ -15,7 +15,7 @@ export default function ReviewCard({avatar,userName,userTitle,description,rating
         </div>
         <div className='flex flex-col gap-2 w-full'>
             <div className='flex flex-row justify-between'>
-                <h1 className='text-xl font-bold'>{userName}</h1>
+                <h1 className='text-xl font-semibold'>{userName}</h1>
                 <span className='text-slate-400'>{createdAt}</span>
             </div>
             <div className='flex flex-row justify-between'>

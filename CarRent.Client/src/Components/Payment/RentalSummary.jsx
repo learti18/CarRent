@@ -7,7 +7,7 @@ export default function RentalSummary({car}) {
     <div className='h-fit bg-white rounded-lg'>
         <div className='flex flex-col gap-5 py-8 px-5'>
             <div>
-                <h1 className='text-lg font-bold'>Rental Summary</h1>
+                <h1 className='text-lg font-semibold'>Rental Summary</h1>
                 <p className='text-sm text-slate-400'>Prices may change depending on the length of the rental and the price of your rental car.</p>
             </div>
             <div className='flex flex-row items-center gap-5'>
@@ -22,7 +22,7 @@ export default function RentalSummary({car}) {
                         className='relative z-10'/>
                 </div>
                 <div className='space-y-4'>
-                    <h1 className='text-3xl font-bold'>{car.brand}</h1>
+                    <h1 className='text-3xl font-semibold'>{car.brand}</h1>
                     <div className='flex flex-row gap-2'>
                         <RatingStars rating={car.rating}/>
                         <p className='text-sm text-slate-500'>440+ Reviewer</p>
@@ -34,18 +34,18 @@ export default function RentalSummary({car}) {
         <div className='flex flex-col gap-5 py-8 px-5'>
             <div className='flex flex-row justify-between'>
                 <p className='text-slate-400'>Subtotal</p>
-                <p className='font-bold'>${car.pricePerDay}</p>
+                <p className='font-semibold'>${car.pricePerDay}</p>
             </div>
             <div className='flex flex-row justify-between'>
                 <p className='text-slate-400'>Tax</p>
-                <p className='font-bold'>${0}</p>
+                <p className='font-semibold'>${0}</p>
             </div>
             <div className='flex flex-row justify-between items-center'>
                 <div>
-                    <h1 className='text-2xl font-bold'>Total Rental Price</h1>
+                    <h1 className='text-2xl font-semibold'>Total Rental Price</h1>
                     <p className='text-slate-400'>Overall price and includes rental discount</p>
                 </div>
-                <h1 className='text-4xl font-bold'>${car.pricePerDay}.00</h1>
+                <h1 className='text-4xl font-semibold'>${car.pricePerDay}.00</h1>
             </div>
         </div>
     </div>

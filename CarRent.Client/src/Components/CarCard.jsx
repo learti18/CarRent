@@ -19,44 +19,46 @@ export default function CarCard({
   return (
     <div 
         className={`flex flex-col justify-between bg-white p-6 rounded-xl ${isSlider ? 'min-w-72' : ''}`}>
-        <div className="flex justify-between">
-            <h2 className="text-lg font-bold">{brand}</h2>
-            <FavoriteButton/>
+       <div className="flex flex-col mb-4">
+            <div className="flex justify-between">
+                <h2 className="text-xl font-semibold">{brand}</h2>
+                <FavoriteButton/>
+            </div>
+            <p className="font-medium text-sm text-gray-400">{type}</p>
         </div>
-        <p className="text-sm text-gray-400">{type}</p>
         <div className={`flex ${
             isSlider 
                 ? 'flex-col space-y-4' 
                 : 'flex-row sm:flex-col sm:justify-between'
         }`}>
-            <div className="flex justify-center relative w-full py-8">
-                <img src={`/${image}`} alt="" className="max-h-24"/>
-                <div className="absolute w-full h-24 bottom-0 top-0 mt-auto bg-gradient-to-t from-white"></div>
-            </div>
-            <div className={`flex py-5 ${
-                isSlider 
-                    ? 'flex-row justify-between' 
-                    : 'flex-col sm:flex-row justify-between'
+        <div className="flex justify-center relative w-full py-8">
+            <img src={`/${image}`} alt="" className="max-h-24"/>
+            <div className="absolute w-full h-24 bottom-0 top-0 mt-auto bg-gradient-to-t from-white"></div>
+        </div>
+        <div className={`flex py-5 ${
+            isSlider 
+                ? 'flex-row justify-between' 
+                : 'flex-col sm:flex-row justify-between'
             }`}>
-                <div className="flex gap-1 text-gray-400" data-tooltip-content={`Fuel capacity:${fuelCapacity}`}>
-                    <Fuel size={18}/>
-                    <span className="text-xs">{fuelCapacity}L</span>
-                    <Tooltip/>
-                </div>
-                <div className="flex gap-1 text-gray-400" data-tip={`Transimssion:${transmission}`}>
-                    <LifeBuoy size={18}/>
-                    <span className="text-xs">{transmission}</span>
-                    <Tooltip/>
-                </div>
-                <div className="flex gap-1 text-gray-400" data-tip={`Seating capacity:${seatingCapactity}`}>
-                    <Users size={18}/>
-                    <span className="text-xs">{seatingCapactity} People</span>
-                    <Tooltip/>
-                </div>
+            <div className="flex gap-1 text-gray-400" data-tooltip-content={`Fuel capacity:${fuelCapacity}`}>
+                <Fuel size={18}/>
+                <span className="text-xs">{fuelCapacity}L</span>
+                <Tooltip/>
+            </div>
+            <div className="flex gap-1 text-gray-400" data-tip={`Transimssion:${transmission}`}>
+                <LifeBuoy size={18}/>
+                <span className="text-xs">{transmission}</span>
+                <Tooltip/>
+            </div>
+            <div className="flex gap-1 text-gray-400" data-tip={`Seating capacity:${seatingCapactity}`}>
+                <Users size={18}/>
+                <span className="text-xs">{seatingCapactity} People</span>
+                <Tooltip/>
+            </div>
             </div>
         </div>
         <div className="flex justify-between items-center">
-            <p className="font-bold">
+            <p className="font-semibold text-lg">
                 ${pricePerDay}/
                 <span className="text-gray-400 text-xs"> day</span>
             </p>

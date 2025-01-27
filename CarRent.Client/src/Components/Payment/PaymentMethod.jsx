@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import DefaultInput from '../Inputs/DefaultInput'
 import CardNumberInput from '../Inputs/CardNumberInput'
 import ExpirationInput from '../Inputs/ExpirationInput'
-import RadioGroup from '../Inputs/RadioGroup'
 
 export default function PaymentMethod() {
   const [cardData,setCardData] = useState({
@@ -24,7 +23,7 @@ export default function PaymentMethod() {
   return (
     <div>
         <div className='bg-white rounded-lg py-8 px-5'>
-            <h1 className='text-lg font-bold'>Payment Method</h1>
+            <h1 className='text-lg font-semibold'>Payment Method</h1>
             <div className='flex flex-row justify-between text-sm text-slate-400'>
                 <p>Please enter your payment method</p>
                 <p>step 3 of 4</p>

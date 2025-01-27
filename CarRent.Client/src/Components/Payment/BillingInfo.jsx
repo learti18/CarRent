@@ -4,7 +4,7 @@ import DefaultInput from '../Inputs/DefaultInput'
 export default function BillingInfo() {
   return (
     <div className='bg-white rounded-lg py-8 px-5'>
-      <h1 className='text-lg font-bold'>Billing info</h1>
+      <h1 className='text-lg font-semibold'>Billing info</h1>
       <div className='flex flex-row justify-between text-sm text-slate-400'>
         <p>Please select  your rental info</p>
         <p>step 1 of 4</p>
