@@ -10,7 +10,7 @@ const brands = [
 
 export default function BrandsSlider() {
   return (
-    <div className="relative overflow-hidden my-20">
+    <div className="relative overflow-hidden mt-10">
       <motion.div
         className="flex space-x-16"
         animate={{

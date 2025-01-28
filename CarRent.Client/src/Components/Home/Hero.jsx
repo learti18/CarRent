@@ -34,7 +34,7 @@ export default function Hero() {
             </span>
           </h1>
           
-          <p className='text-gray-300 text-lg md:text-xl'>
+          <p className='text-gray-200 text-sm md:text-xl'>
             Get a car wherever and whenever you need it with your iOS and Android device.
           </p>
 
@@ -43,9 +43,9 @@ export default function Hero() {
               Get Started
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button variant="outline" className='text-white border-white hover:bg-white/10'>
+            {/* <Button variant="outline" className='text-white border-white hover:bg-white/10'>
               Learn More
-            </Button>
+            </Button> */}
           </div>
 
           {/* Features */}

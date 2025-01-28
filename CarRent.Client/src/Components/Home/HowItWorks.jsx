@@ -3,7 +3,7 @@ import BrandsSlider from "../BrandsSlider";
 
 export default function HowItWorks() {
   return (
-    <div className="my-20">
+    <div className="py-14">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col items-center text-center space-y-5 mb-10 px-7">
           <p className="text-md md:text-lg text-blue-600 bg-blue-100 px-3 py-1 rounded-lg">How it works</p>

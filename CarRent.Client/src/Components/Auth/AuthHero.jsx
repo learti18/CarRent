@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import Logo from '../Logo'
 
 export default function AuthHero({ title, description }) {
   return (
@@ -9,13 +10,12 @@ export default function AuthHero({ title, description }) {
         alt="Luxury car showcase" 
         className="w-full h-full shadow-md object-cover rounded-2xl"
       />
-      <Link to="/" className="absolute top-7 left-7 z-10">
-        <div className="flex items-center gap-2 px-7 py-[5px] rounded-xl bg-white/10 backdrop-blur-md shadow-lg transition-all duration-300 hover:bg-white/20 hover:scale-105">
-          <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-100 bg-clip-text text-transparent">
-            Car<span className="text-blue-500">Rent</span>
-          </span>
+      <div className="absolute top-7 left-7 z-10">
+        <div className="px-7 py-3 rounded-xl bg-white/10 backdrop-blur-md shadow-lg 
+                      transition-all duration-300 hover:bg-white/20">
+          <Logo variant="gradient" />
         </div>
-      </Link>
+      </div>
       <div className="absolute space-y-3 bottom-10 left-7 text-white">
         <h2 className="text-4xl font-bold">{title}</h2>
         <p className="max-w-md text-gray-100">{description}</p>

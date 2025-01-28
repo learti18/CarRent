@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom"
-import Button from "../Components/Buttons/Button"
-import DefaultInput from "../Components/Inputs/DefaultInput"
+import Button from "../../Components/Buttons/Button"
+import DefaultInput from "../../Components/Inputs/DefaultInput"
 import { Lock, Mail } from 'lucide-react'
-import AuthLayout from "../Components/Auth/AuthLayout"
-import AuthHero from "../Components/Auth/AuthHero"
-import SocialLogin from "../Components/Auth/SocialLogin"
+import AuthLayout from "../../Components/Auth/AuthLayout"
+import AuthHero from "../../Components/Auth/AuthHero"
+import SocialLogin from "../../Components/Auth/SocialLogin"
 
 export default function Signin() {
   const formSection = (
