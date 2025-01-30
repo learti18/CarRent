@@ -4,7 +4,7 @@ import { Car } from 'lucide-react'
 
 export default function Logo({ className, variant = "default" }) {
   const styles = {
-    default: "bg-white text-gray-900",
+    default: " text-gray-900",
     light: "text-white",
     gradient: "bg-gradient-to-r from-white to-gray-100 bg-clip-text text-transparent"
   }

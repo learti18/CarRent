@@ -13,11 +13,14 @@ import ScrollToTop from './hooks/ScrollToTop';
 import DashboardLayout from './Components/Layouts/DashboardLayout';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import Layout from './Components/Layouts/Layout';
-import Rentals from './Pages/Dashboard/Rentals';
+import Rentals from './Pages/Dashboard/Rentals/Rentals';
 import { Calendar, Inbox } from 'lucide-react';
 import Accounts from './Pages/Dashboard/Accounts';
 import Settings from './Pages/Dashboard/Settings';
 import Reimbursements from './Pages/Dashboard/Reimbursements';
+import AddRental from './Pages/Dashboard/Rentals/AddRental';
+import Vehicles from './Pages/Dashboard/Vehicles/Vehicles';
+import AddVehicle from './Pages/Dashboard/Vehicles/AddVehicle';
 
 function App() {
 
@@ -38,7 +41,10 @@ function App() {
 
           <Route path='/dashboard' element={<DashboardLayout/>}>
             <Route index element={<Dashboard/> }/>
+            <Route path='vehicles' element={<Vehicles/>} />
+            <Route path='vehicles/new' element={<AddVehicle/>} />
             <Route path='rentals' element={<Rentals/> }/>
+            <Route path='rentals/new' element={<AddRental/>} />
             <Route path='inbox' element={<Inbox/>}/>
             <Route path='accounts' element={<Accounts/>}/>
             <Route path='calendar' element={<Calendar/>} />

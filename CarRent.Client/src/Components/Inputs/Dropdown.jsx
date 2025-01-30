@@ -1,17 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
-export default function DropDown({ label, options, placeholder, onSelect }) {
-  const [selectedOption, setSelectedOption] = useState("");
+export default function DropDown({ label, options, placeholder, onSelect, value, onChange, name }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showAbove, setShowAbove] = useState(false);
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const buttonRect = buttonRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - buttonRect.bottom;
+      const spaceNeeded = 200; // approximate height of dropdown
+
+      setShowAbove(spaceBelow < spaceNeeded);
+    }
+  }, [isOpen]);
 
   const handleSelect = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
-    
-    if (onSelect) {
+    if (onChange && name) {
+      // Handle form-style onChange
+      onChange({ target: { name, value: option } });
+    } else if (onSelect) {
+      // Handle direct onSelect callback
       onSelect(option);
     }
+    setIsOpen(false);
   };
 
   return (
@@ -21,10 +36,13 @@ export default function DropDown({ label, options, placeholder, onSelect }) {
       )}
       <div className="relative">
         <button
+          ref={buttonRef}
+          type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between px-5 py-3 text-slate-400 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
+          className={`w-full flex items-center justify-between px-5 py-3 bg-gray-100 rounded-lg
+                    ${value ? 'text-black':'text-slate-400'} focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500`}
         >
-          <span>{selectedOption || placeholder || "Select an option"}</span>
+          <span>{value || placeholder || "Select an option"}</span>
           <ChevronDown
             className={`h-5 w-5 text-slate-400 transition-transform duration-200 ${
               isOpen ? "rotate-180" : ""
@@ -32,7 +50,12 @@ export default function DropDown({ label, options, placeholder, onSelect }) {
           />
         </button>
         {isOpen && (
-          <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-md max-h-40 overflow-auto">
+          <ul 
+            ref={dropdownRef}
+            className={`absolute ${
+              showAbove ? 'bottom-full mb-1' : 'top-full mt-1'
+            } z-10 w-full bg-white border border-gray-300 rounded-lg shadow-md max-h-40 overflow-auto`}
+          >
             {options.map((option, index) => (
               <li
                 key={index}

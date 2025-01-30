@@ -1,10 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ArrowUpDown } from 'lucide-react'
 import PickupDropoffInfo from './PickUpDropOffInfo'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function LocationSelector() {
-    const [isSwitched,setIsSwitched] = useState(false)
+    const [isSwitched, setIsSwitched] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(max-width: 768px)')
+        setIsMobile(mediaQuery.matches)
+
+        const handler = (e) => setIsMobile(e.matches)
+        mediaQuery.addEventListener('change', handler)
+        return () => mediaQuery.removeEventListener('change', handler)
+    }, [])
+
+    const getAnimationProps = (isFirst) => {
+        if (isMobile) {
+            return {
+                initial: { opacity: 0, y: isFirst ? -20 : 20 },
+                animate: { opacity: 1, y: 0 },
+                exit: { opacity: 0, y: isFirst ? 20 : -20 }
+            }
+        }
+        return {
+            initial: { opacity: 0, x: isFirst ? -20 : 20 },
+            animate: { opacity: 1, x: 0 },
+            exit: { opacity: 0, x: isFirst ? 20 : -20 }
+        }
+    }
+
     function toggleSwitch(){
         setIsSwitched(prevState => !prevState)
     }
@@ -16,9 +42,7 @@ export default function LocationSelector() {
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={isSwitched ? "pickup" : "dropoff"}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
+                        {...getAnimationProps(true)}
                         transition={{ duration: 0.2 }}
                     >
                         <PickupDropoffInfo type={isSwitched ? "PickUp":"Drop-Off"}/>
@@ -26,7 +50,7 @@ export default function LocationSelector() {
                 </AnimatePresence>
             </div>
 
-            <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50'>
+            <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30'>
                 <motion.button 
                     onClick={toggleSwitch}
                     whileHover={{ scale: 1.05 }}
@@ -48,9 +72,7 @@ s                    hover:bg-blue-600 transition-all"
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={isSwitched ? "dropoff" : "pickup"}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
+                        {...getAnimationProps(false)}
                         transition={{ duration: 0.2 }}
                     >
                         <PickupDropoffInfo type={isSwitched ? "Drop-Off":"PickUp"}/>

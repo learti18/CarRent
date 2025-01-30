@@ -10,7 +10,7 @@ export default function MobileMenu({isOpen, links, toggleMobileMenu}) {
     }
   } ,[pathname])
   return (
-    <div className={`fixed inset-0 transition-all duration-300 ease-in-out ${
+    <div className={`fixed inset-0 transition-all z-50 duration-300 ease-in-out ${
       isOpen ? 'visible bg-black/60' : 'invisible'
     }`}>
       <div 

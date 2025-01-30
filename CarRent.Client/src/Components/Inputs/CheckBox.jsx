@@ -1,10 +1,12 @@
 import React from 'react';
 
-export default function CheckBox({ id, value, label, amount, name}) {
+export default function CheckBox({ id, value,checked, onChange,label, amount, name}) {
   return (
     <div className="flex flex-row items-center gap-2">
       <input
         name={name}
+        checked={checked}
+        onChange={onChange}
         value={value}
         type="checkbox"
         id={id}

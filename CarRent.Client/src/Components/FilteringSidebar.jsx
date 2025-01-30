@@ -23,9 +23,9 @@ export default function FilteringSidebar({ isExpanded, toggleExpanded }) {
     }, [isExpanded]);
 
     return (
-      <div className={`fixed lg:relative inset-0 transition-all duration-300 ease-in-out z-30 
+      <div className={`fixed lg:relative inset-0 transition-all duration-300 ease-in-out z-40 
                     ${isExpanded ? 'visible bg-black/70':'invisible'} lg:visible lg:bg-transparent`}>
-        <div className={`fixed lg:relative lg:h-full top-0 left-0 z-40 flex flex-col pb-10
+        <div className={`fixed lg:relative lg:h-full top-0 left-0 z-50 flex flex-col pb-10
                         w-[60%] md:w-[260px] lg:w-[280px] xl:w-[300px] border-r border-gray-100 
                         bg-white transform transition-transform duration-300 ease-in-out h-screen
                         ${isExpanded ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>

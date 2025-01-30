@@ -11,7 +11,7 @@ export default function DefaultInput({
 }) {
   return (
     <div className='flex flex-col relative gap-3 w-full'>
-        <label htmlFor={id} className=''>
+        <label htmlFor={id} className='font-medium'>
           {label} {required && <span className='text-red-500'>*</span> }</label>
           <div className='relative'>
             {icon && (
