@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { ChevronDown } from 'lucide-react'
 
-export default function YearPicker({ label, value, onChange, name, required }) {
+export default function YearPicker({ label, register, name, required, error }) {
     const [isOpen, setIsOpen] = useState(false)
     const [showAbove, setShowAbove] = useState(false)
+    const [selectedYear, setSelectedYear] = useState('')
     const dropdownRef = useRef(null)
     const buttonRef = useRef(null)
     
     const currentYear = new Date().getFullYear()
     const years = Array.from({ length: 30 }, (_, i) => currentYear - i)
+
+    // Get the register props
+    const { onChange } = register(name)
 
     useEffect(() => {
         if (isOpen && buttonRef.current) {
@@ -22,7 +26,9 @@ export default function YearPicker({ label, value, onChange, name, required }) {
     }, [isOpen])
 
     const handleSelect = (year) => {
-        onChange({ target: { name, value: year } })
+        setSelectedYear(year)
+        // Trigger the onChange event for react-hook-form
+        onChange({ target: { value: year, name } })
         setIsOpen(false)
     }
 
@@ -32,16 +38,25 @@ export default function YearPicker({ label, value, onChange, name, required }) {
                 <label className="block font-medium text-black mb-3">{label}</label>
             )}
             <div className="relative">
+                <input 
+                    type="hidden" 
+                    {...register(name)}
+                    value={selectedYear}
+                />
                 <button
+                    type="button" // Important to prevent form submission
                     ref={buttonRef}
-                    type="button"
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`w-full flex items-center justify-between px-5 py-3 bg-gray-100 rounded-lg
-                        ${value ? 'text-black':'text-slate-400'} focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500`}
-                >
-                    <span>{value || "Select Year"}</span>
+                    className={` w-full flex items-center justify-between px-5 py-3 bg-gray-100 rounded-lg 
+                        ${selectedYear ? 'text-black':'text-gray-400'} 
+                        ${error ? 'border-2 border-red-500' : ''} 
+                        focus:outline-none focus:ring-2 
+                        ${error ? 'focus:ring-red-200' : 'focus:ring-gray-500'} 
+                        focus:border-gray-500`}
+                    >
+                    <span>{selectedYear || "Select Year"}</span>
                     <ChevronDown
-                        className={`h-5 w-5 text-slate-400 transition-transform duration-200 ${
+                        className={`h-5 w-5 ${error ? 'text-red-500' : 'text-slate-400'} transition-transform duration-200 ${
                             isOpen ? "rotate-180" : ""
                         }`}
                     />
@@ -65,6 +80,9 @@ export default function YearPicker({ label, value, onChange, name, required }) {
                     </ul>
                 )}
             </div>
+            {error && (
+                <span className="text-red-500 text-sm mt-1">{error.message}</span>
+            )}
         </div>
     )
 }

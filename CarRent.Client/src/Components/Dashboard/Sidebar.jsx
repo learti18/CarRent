@@ -61,7 +61,7 @@ export default function Sidebar() {
                     {links.slice(4).map(link => (
                         <Link 
                             key={link.to}
-                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg duration-200 transition-all
+                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg duration-100 transition-colors
                                 ${isActive(link.to) 
                                     ? 'bg-blue-500 text-white font-medium' 
                                     : 'text-gray-500 hover:bg-blue-50 hover:text-gray-700'} 
