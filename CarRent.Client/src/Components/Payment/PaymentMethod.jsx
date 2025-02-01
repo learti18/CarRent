@@ -1,25 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import DefaultInput from '../Inputs/DefaultInput'
-import CardNumberInput from '../Inputs/CardNumberInput'
-import ExpirationInput from '../Inputs/ExpirationInput'
+import NumericInput from '../Inputs/NumericInput'
 
-export default function PaymentMethod() {
-  const [cardData,setCardData] = useState({
-    cardNumber:'',
-    expiration:'',
-    cardHolder:'',
-    cvc:''
-  })
-
-  const handleChange = (e) => {
-    const { name,value } = e.target
-  
-    setCardData(prev => ({
-      ...prev,
-      [name]:value
-    }))
-  }
-
+export default function PaymentMethod({register, control, errors}) {
   return (
     <div>
         <div className='bg-white rounded-lg py-8 px-5'>
@@ -40,50 +23,41 @@ export default function PaymentMethod() {
                 </div>
               </div>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-5 pt-5'>
-                <CardNumberInput
+                <NumericInput
+                  className='bg-white'
                   id='cardNumber'
                   name='cardNumber'
                   label='Card Number'
                   placeholder='0000 0000 0000 0000'
-                  required
-                  className='bg-white'
-                  value={cardData.cardNumber}
-                  onChange={handleChange}
+                  register={register}
+                  error={errors.cardNumber}
                 />
-                <ExpirationInput
+                <NumericInput
                   className='bg-white'
                   id='expiration'
                   name='expiration'
                   label='Expiration Date'
-                  required
-                  value={cardData.expiration}
-                  onChange={handleChange}
+                  placeholder='MM/YY'
+                  register={register}
+                  error={errors.expiration}
                 />
                 <DefaultInput 
                   className='bg-white'
                   id='cardholder'
                   label='Card Holder'
-                  name='cardHolder'
                   placeholder='Card holder'
-                  maxLength='20'
-                  required
-                  value={cardData.cardHolder}
-                  onChange={handleChange}
-
+                  name='cardHolder'
+                  register={register}
+                  error={errors.cardHolder}
                 />
-                <DefaultInput 
+                <NumericInput 
                   className='bg-white'
                   id='cvc'
                   label='CVC'
                   name='cvc'
                   placeholder='CVC'
-                  type='text'
-                  inputMode='numeric'
-                  maxLength='4'
-                  pattern='^[0-9]{3,4}$'
-                  required
-                  value={cardData.cvc}
-                  onChange={handleChange}
+                  register={register}
+                  error={errors.cvc}
                 />
               </div>
             </div>

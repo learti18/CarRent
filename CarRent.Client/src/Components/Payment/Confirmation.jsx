@@ -2,7 +2,7 @@ import React from 'react'
 import CheckBox from '../Inputs/CheckBox';
 import Button from '../Buttons/Button';
 
-export default function Confirmation() {
+export default function Confirmation({register}) {
   return (
     <div>
         <div className='bg-white rounded-lg py-8 px-5'>
@@ -15,9 +15,11 @@ export default function Confirmation() {
                 <div className='space-y-4'>
                     <div className='p-3 rounded-md bg-gray-100'>
                         <CheckBox
-                            id='marketing'
-                            value='marketing'
+                            id='newsletter'
+                            value='newsletter'
+                            name='newsletter'
                             label='I agree with sending an Marketing and newsletter emails. No spam, promissed!'
+                            register={register}
                         />
                     </div>
                     <div className='p-3 rounded-md bg-gray-100'>
@@ -25,10 +27,14 @@ export default function Confirmation() {
                             id='terms&conditions' 
                             value='terms&conditions'
                             label='I agree with our terms and conditions and privacy policy.'
+                            name='termsConditions'
+                            register={register}
                         />
                     </div>
                 </div>
-                <Button className='mr-auto'>Rent now</Button>
+                <Button
+                    type='submit' 
+                    className='mr-auto'>Rent now</Button>
                 <div>
                     <img src="/security-safety.svg" alt="" />
                     <h2 className='font-semibold mt-4'>All your data is safe</h2>

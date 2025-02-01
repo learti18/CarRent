@@ -5,8 +5,24 @@ import { Lock, Mail } from 'lucide-react'
 import AuthLayout from "../../Components/Auth/AuthLayout"
 import AuthHero from "../../Components/Auth/AuthHero"
 import SocialLogin from "../../Components/Auth/SocialLogin"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { SignInSchema } from "../../Schemas/SignInSchema"
 
 export default function Signin() {
+  
+  const { register, handleSubmit, formState:{errors} } = useForm({
+    resolver: yupResolver(SignInSchema),
+    defaultValues:{
+      email:'',
+      password:'',
+    }
+  })
+
+  const submitForm = (data) => {
+    console.log('Data: ',data)
+  }
+
   const formSection = (
     <>
       {/* mobile image */}
@@ -15,15 +31,33 @@ export default function Signin() {
         <img src="background4.jpg" alt="car image" className="w-full h-56 md:h-72 object-cover" />
       </div>
 
-      <div className="flex flex-col gap-3 w-full">
+      <form
+        onSubmit={handleSubmit(submitForm)} 
+        className="flex flex-col gap-3 w-full">
         <div className="space-y-3 mb-5">
           <h1 className="text-3xl text-blue-500 font-semibold">Welcome back👋</h1> 
           <p className="text-gray-700">Today is a new day. It's your day. You shape it.</p>
         </div>
-        
-        <DefaultInput icon={<Mail size={16}/>} id='email' label='Email' placeholder='Email' name='email' type='email' />
-        <DefaultInput icon={<Lock size={16}/>} id='password' label='Password' placeholder='********' minlength='8' name='password' type='password' />
-        
+        <DefaultInput 
+          icon={<Mail size={16}/>} 
+          id='email' 
+          label='Email' 
+          placeholder='Email' 
+          name='email' 
+          type='email'
+          register={register}
+          error={errors.email} 
+        />
+        <DefaultInput 
+          icon={<Lock size={16}/>} 
+          id='password' 
+          label='Password' 
+          placeholder='********'  
+          name='password' 
+          type='password'
+          register={register} 
+          error={errors.password}
+        />
         <Link className='text-blue-500 self-end'>Forgot password?</Link>
         <Button>Sign in</Button>
         
@@ -33,7 +67,7 @@ export default function Signin() {
           Don't have an account?{' '}
           <Link to="/signup" className="text-blue-500 hover:text-blue-600 font-medium">Sign up</Link>
         </p>
-      </div>
+      </form>
     </>
   )
 

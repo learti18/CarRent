@@ -10,6 +10,7 @@ import { BODY_TYPES, FUEL_TYPES, LOCATIONS, SEAT_OPTIONS, TRANSMISSIONS } from '
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { VehicleSchema } from '../../../Schemas/VehicleSchema';
+import toast from 'react-hot-toast';
 
 export default function AddVehicle() {
   const { handleSubmit, register, control, watch, formState:{errors} } = useForm({
@@ -32,14 +33,23 @@ export default function AddVehicle() {
   })
 
   const submitForm = (data) => {
-    console.log('form data:', data)
+    try{
+      console.log('Data:',data)
+      toast.success('Vehicle added successfully')
+    }catch(error){
+      toast.error('Failed to add vehicle')
+    }
+  }
+
+  const onError = (errors) => {
+    toast.error('Please fill in all required fields')
   }
 
   return (
     <div className=''>
       <form
         className='flex flex-col gap-8' 
-        onSubmit={handleSubmit(submitForm)}>
+        onSubmit={handleSubmit(submitForm, onError)}>
         
         {/* header */}
         <div className='flex items-center justify-between'>

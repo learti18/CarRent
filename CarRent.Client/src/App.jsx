@@ -21,12 +21,15 @@ import Reimbursements from './Pages/Dashboard/Reimbursements';
 import AddRental from './Pages/Dashboard/Rentals/AddRental';
 import Vehicles from './Pages/Dashboard/Vehicles/Vehicles';
 import AddVehicle from './Pages/Dashboard/Vehicles/AddVehicle';
+import toast, { Toaster } from 'react-hot-toast'
+
 
 function App() {
 
   
   return (
     <>
+      <Toaster position='top-right'/>
       <BrowserRouter>
         <ScrollToTop/>
         <Routes>

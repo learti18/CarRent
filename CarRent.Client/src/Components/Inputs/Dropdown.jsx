@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
-export default function DropDown({ label, options, placeholder, register, name, error }) {
+export default function DropDown({ label, options, placeholder, register, name, error, className }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showAbove, setShowAbove] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
@@ -37,6 +37,7 @@ export default function DropDown({ label, options, placeholder, register, name, 
           type="hidden" 
           {...register(name)}
           value={selectedOption}
+          className={className}
         />
         <button
           ref={buttonRef}

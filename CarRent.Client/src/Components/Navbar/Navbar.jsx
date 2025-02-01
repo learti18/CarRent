@@ -21,7 +21,7 @@ export default function Navbar() {
   ]
 
   return (
-    <header className='fixed top-0 w-full bg-white border-b z-50'>
+    <header className='fixed top-0 w-full bg-white border-b z-[100]'>
       <nav className='py-4 px-6 max-w-7xl mx-auto flex flex-row justify-between items-center relative'>
         <Logo/>
         

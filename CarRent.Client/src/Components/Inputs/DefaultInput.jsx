@@ -5,6 +5,7 @@ export default function DefaultInput({
   label,
   className ='',
   register,
+  placeholder,
   name,
   icon,
   error,
@@ -23,6 +24,7 @@ export default function DefaultInput({
             
             <input 
               type={type}
+              placeholder={placeholder}
               className={`w-full px-6 py-3 bg-gray-100 rounded-lg border-none 
                 focus:ring-2 focus:ring-gray-500 placeholder-slate-400
                 ${icon ? 'pl-10' : ''} 
