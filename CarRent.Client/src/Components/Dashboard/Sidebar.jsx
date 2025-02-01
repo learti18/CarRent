@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LayoutDashboard, Car, Inbox, Calendar, Receipt, Settings, UserCircle, ChevronLeft, ClipboardCheck, KeyRound } from 'lucide-react'
+import { LayoutDashboard, Car, Inbox, Calendar, Receipt, Settings, UserCircle, ChevronLeft, ClipboardCheck, KeyRound, Home } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
 export default function Sidebar() {
@@ -14,13 +14,14 @@ export default function Sidebar() {
 
     const links = [
         { name: "Dashboard", to: "/dashboard", icon: <LayoutDashboard size={22} /> },
-        { name: "Vehicles", to: "/dashboard/vehicles", icon: <Car size={22} /> },
-        { name: "Rentals", to: "/dashboard/rentals", icon:  <KeyRound size={22}/>},
+        { name: "Vehicles", to: "/dashboard/vehicles", icon: <Car size={22} />,},
+        { name: "Rentals", to: "/dashboard/rentals", icon: <KeyRound size={22}/>,},
         { name: "Inbox", to: "/dashboard/inbox", icon: <Inbox size={22} /> },
         { name: "Calendar", to: "/dashboard/calendar", icon: <Calendar size={22} /> },
         { name: "Reimbursements", to: "/dashboard/reimbursements", icon: <Receipt size={20} /> },
         { name: "Accounts", to: "/dashboard/accounts", icon: <UserCircle size={22} /> },
-        { name: "Settings", to: "/dashboard/settings", icon: <Settings size={22} /> },    
+        { name: "Settings", to: "/dashboard/settings", icon: <Settings size={22} /> },
+        { name: "Home", to: "../", icon: <Home size={22} /> }
     ]
 
   return (

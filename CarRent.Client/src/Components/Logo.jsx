@@ -21,7 +21,7 @@ export default function Logo({ className, variant = "default" }) {
           ${variant === 'light' ? 'text-white' : 'text-blue-500'}`}
         />
       </div>
-      <span className={`text-2xl font-bold tracking-tight ${styles[variant]}`}>
+      <span className={`text-xl md:text-2xl font-bold tracking-tight ${styles[variant]}`}>
         Car
         <span className="text-blue-500 inline-block transition-transform group-hover:scale-110">
           Rent

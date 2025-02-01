@@ -2,11 +2,12 @@ import React from 'react'
 import DefaultInput from '../Inputs/DefaultInput'
 import NumericInput from '../Inputs/NumericInput'
 
-export default function PaymentMethod({register, control, errors}) {
+
+export default function PaymentMethod({register, errors}) {
   return (
     <div>
         <div className='bg-white rounded-lg py-8 px-5'>
-            <h1 className='text-lg font-semibold'>Payment Method</h1>
+            <h1 className='text-xl font-semibold'>Payment Method</h1>
             <div className='flex flex-row justify-between text-sm text-slate-400'>
                 <p>Please enter your payment method</p>
                 <p>step 3 of 4</p>
@@ -29,6 +30,7 @@ export default function PaymentMethod({register, control, errors}) {
                   name='cardNumber'
                   label='Card Number'
                   placeholder='0000 0000 0000 0000'
+                  maxLength={19}
                   register={register}
                   error={errors.cardNumber}
                 />
@@ -38,6 +40,7 @@ export default function PaymentMethod({register, control, errors}) {
                   name='expiration'
                   label='Expiration Date'
                   placeholder='MM/YY'
+                  maxLength={5}
                   register={register}
                   error={errors.expiration}
                 />
@@ -56,6 +59,7 @@ export default function PaymentMethod({register, control, errors}) {
                   label='CVC'
                   name='cvc'
                   placeholder='CVC'
+                  maxLength={4}
                   register={register}
                   error={errors.cvc}
                 />

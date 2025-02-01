@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { RegisterSchema } from "../../Schemas/RegisterSchema"
 import NumericInput from "../../Components/Inputs/NumericInput"
+import Logo from "../../Components/Logo"
 
 export default function Signup() {
   const { register,handleSubmit, formState:{errors} } = useForm({
@@ -30,6 +31,13 @@ export default function Signup() {
     <>
       {/* mobile image */}
       <div className="relative md:hidden rounded-xl overflow-hidden">
+        <div className="absolute top-5 left-5 z-10">
+          <div className="px-5 py-2 rounded-xl bg-white/10 backdrop-blur-md shadow-lg 
+                        transition-all duration-300 hover:bg-white/20">
+            <Logo variant="gradient" />
+          </div>
+        </div>
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-black/20 rounded-2xl"></div>
         <img src="background4.jpg" alt="car image" className="w-full h-56 md:h-72 object-cover" />
       </div>

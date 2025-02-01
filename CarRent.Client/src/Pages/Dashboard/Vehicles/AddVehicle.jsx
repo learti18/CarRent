@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { VehicleSchema } from '../../../Schemas/VehicleSchema';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, ArrowLeftToLine, ChevronLeft } from 'lucide-react';
 
 export default function AddVehicle() {
   const { handleSubmit, register, control, watch, formState:{errors} } = useForm({
@@ -47,6 +49,13 @@ export default function AddVehicle() {
 
   return (
     <div className=''>
+      {/* <Link
+        to='..'
+        relative='path'
+        className='flex flex-row justify-start items-center text-gray-500  text-lg mb-5 gap-2 underline underline-offset-4'
+      >
+        <ArrowLeft size={20}/>
+        back to all vehicles</Link> */}
       <form
         className='flex flex-col gap-8' 
         onSubmit={handleSubmit(submitForm, onError)}>

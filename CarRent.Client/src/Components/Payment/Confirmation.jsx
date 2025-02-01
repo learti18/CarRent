@@ -6,7 +6,7 @@ export default function Confirmation({register}) {
   return (
     <div>
         <div className='bg-white rounded-lg py-8 px-5'>
-            <h1 className='text-lg font-semibold'>Confirmation</h1>
+            <h1 className='text-xl font-semibold'>Confirmation</h1>
             <div className='flex flex-row justify-between text-sm text-slate-400'>
                 <p>We are getting to the end. Just few clicks and your rental is ready!</p>
                 <p>step 4 of 4</p>

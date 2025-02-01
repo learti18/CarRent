@@ -59,59 +59,48 @@ export default function DatePickerInput({ label, name, control, error, className
                       <ChevronRight className="h-5 w-5" />
                     </button>
                   </div>
-
-                  {/* Week days header */}
-                  <div className="grid grid-cols-7 gap-1 mb-2">
+                  {/* Calendar Grid */}
+                  <div className="grid grid-cols-7 gap-1">
                     {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
                       <div
                         key={day}
-                        className="text-center text-sm font-medium text-gray-400"
+                        className="text-center text-sm font-medium text-gray-500"
                       >
                         {day}
                       </div>
                     ))}
-                  </div>
-
-                  {/* Calendar grid */}
-                  <div className="grid grid-cols-7 gap-1">
-                    {Array.from({ length: startOfMonth(currentMonth).getDay() }).map((_, index) => (
-                      <div key={`empty-${index}`} className="h-8" />
+                    {daysInMonth.map((day, idx) => (
+                      <button
+                        key={day.toString()}
+                        type="button"
+                        onClick={() => {
+                          // Format the date before setting it in the form
+                          const formattedDate = format(day, "yyyy-MM-dd");
+                          onChange(formattedDate);
+                          setIsOpen(false);
+                        }}
+                        className={`text-sm p-2 rounded-full hover:bg-gray-100 ${
+                          value && isSameDay(new Date(value), day)
+                            ? "bg-blue-600 text-white hover:bg-blue-700"
+                            : ""
+                        } ${
+                          !isSameMonth(day, currentMonth)
+                            ? "text-gray-300"
+                            : "text-gray-900"
+                        }`}
+                      >
+                        {format(day, "d")}
+                      </button>
                     ))}
-                    {daysInMonth.map((day) => {
-                      const isSelected = value && isSameDay(new Date(value), day);
-                      const isCurrentMonth = isSameMonth(day, currentMonth);
-                      const isCurrentDay = isToday(day);
-                      
-                      return (
-                        <button
-                          key={day.toString()}
-                          onClick={() => {
-                            onChange(day.toISOString());
-                            setIsOpen(false);
-                          }}
-                          disabled={!isCurrentMonth}
-                          type="button"
-                          className={`h-8 w-8 flex items-center justify-center rounded-full text-sm
-                            ${!isCurrentMonth ? 'text-gray-300' : 'hover:bg-gray-100'}
-                            ${isSelected ? 'bg-blue-500 text-white hover:bg-blue-600' : ''}
-                            ${isCurrentDay && !isSelected ? 'border border-blue-500' : ''}
-                          `}
-                        >
-                          {format(day, "d")}
-                        </button>
-                      );
-                    })}
                   </div>
                 </div>
               )}
             </>
           )}
         />
-        <CalendarIcon className="absolute right-6 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5 pointer-events-none" />
+        <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none h-5 w-5" />
       </div>
-      {error && (
-        <p className="text-red-500 text-sm mt-1">{error.message}</p>
-      )}
+      {error && <span className="text-sm text-red-500">{error.message}</span>}
     </div>
   );
 }

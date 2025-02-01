@@ -8,6 +8,7 @@ import SocialLogin from "../../Components/Auth/SocialLogin"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { SignInSchema } from "../../Schemas/SignInSchema"
+import Logo from "../../Components/Logo"
 
 export default function Signin() {
   
@@ -27,6 +28,12 @@ export default function Signin() {
     <>
       {/* mobile image */}
       <div className="relative md:hidden rounded-xl overflow-hidden">
+        <div className="absolute top-5 left-5 z-10">
+          <div className="px-5 py-2 rounded-xl bg-white/10 backdrop-blur-md shadow-lg 
+                        transition-all duration-300 hover:bg-white/20">
+            <Logo variant="gradient" />
+          </div>
+        </div>
         <div className="absolute inset-0 bg-black opacity-15 rounded-2xl"></div>
         <img src="background4.jpg" alt="car image" className="w-full h-56 md:h-72 object-cover" />
       </div>

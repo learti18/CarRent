@@ -33,8 +33,8 @@ export default function Payment() {
       expiration:'',
       cardHolder:'',
       cvc:'',
-      newsletter:false,
-      termsConditions:false
+      // newsletter:false,
+      // termsConditions:false
     }
   })
 

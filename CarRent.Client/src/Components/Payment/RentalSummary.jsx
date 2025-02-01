@@ -7,7 +7,7 @@ export default function RentalSummary({car}) {
     <div className='h-fit bg-white rounded-lg'>
         <div className='flex flex-col gap-5 py-8 px-5'>
             <div>
-                <h1 className='text-lg font-semibold'>Rental Summary</h1>
+                <h1 className='text-xl font-semibold'>Rental Summary</h1>
                 <p className='text-sm text-slate-400'>Prices may change depending on the length of the rental and the price of your rental car.</p>
             </div>
             <div className='flex flex-row items-center gap-5'>

@@ -26,7 +26,7 @@ export default function Rentals() {
         </div>
         <Link 
           to='new'
-          className='flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700'
+          className='flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600'
         >
           <Plus size={20} />
           Add New Rental
