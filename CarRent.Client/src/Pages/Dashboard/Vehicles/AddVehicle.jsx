@@ -37,6 +37,7 @@ export default function AddVehicle() {
   const submitForm = (data) => {
     try{
       console.log('Data:',data)
+      
       toast.success('Vehicle added successfully')
     }catch(error){
       toast.error('Failed to add vehicle')
@@ -66,7 +67,7 @@ export default function AddVehicle() {
             <h1 className='text-2xl font-semibold'>Add Vehicle</h1>
             <p className='text-gray-500'>Enter Info for your new vehicle</p>
           </div>
-          <Button>Save Vehicle</Button>
+          <Button type='submit'>Save Vehicle</Button>
         </div>
 
         {/* image upload */}

@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "Q//mxU6/QRHYbJZMadXsoSTFjFd99L7Nr4CNsWPrMd4=",
+  "Source": "CarRent.Server",
+  "BasePath": "_content/CarRent.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

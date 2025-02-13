@@ -11,7 +11,7 @@ export default function AuthHero({ title, description }) {
         className="w-full h-full shadow-md object-cover rounded-2xl"
       />
       <div className="absolute top-7 left-7 z-10">
-        <div className="px-7 py-3 rounded-xl bg-white/10 backdrop-blur-md shadow-lg 
+        <div className="px-6 py-2 rounded-xl bg-white/10 backdrop-blur-md shadow-lg 
                       transition-all duration-300 hover:bg-white/20">
           <Logo variant="gradient" />
         </div>

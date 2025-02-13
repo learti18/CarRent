@@ -1,4 +1,5 @@
 import React from 'react'
+import { LOCATIONS } from '../../common/constants'
 
 export default function PickupDropoffInfo({type}) {
   return (
@@ -14,9 +15,11 @@ export default function PickupDropoffInfo({type}) {
                 <h2 className='text-lg font-medium'>Locations</h2>
                 <label htmlFor="underline_select" className="sr-only">Underline select</label>
                 <select className="w-full text-sm text-gray-400 pl-0 border-none focus:ring-0">
-                    <option>Select your city</option>
-                    <option>New York</option>
-                    <option>Los Angeles</option>
+                    {
+                        LOCATIONS.map(location => (
+                            <option>{location}</option>
+                        ))
+                    }
                 </select>
             </div>
             <div className='border-r-2 mr-3'>
