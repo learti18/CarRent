@@ -3,10 +3,13 @@ import { Link } from "react-router-dom"
 import { Menu, XIcon } from "lucide-react"
 import MobileMenu from './MobileMenu'
 import Logo from '../Logo'
+import { useAuth } from './../../Hooks/useAuth';
+import Button from './../Buttons/Button';
 
 export default function Navbar() {
 
   const [mobileMenu,setMobileMenu] = useState(false)
+  const { isAuthenticated, logout } = useAuth()
 
   function toggleMobileMenu(){
     setMobileMenu(prevstate => !prevstate)
@@ -41,11 +44,29 @@ export default function Navbar() {
           }
         </div>
         <div className='space-x-8 hidden md:flex items-center'>
-            <Link to="/signin" className='text-gray-900 py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'>
-              Sign in
-              <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
-            </Link>
-            <Link to="/signup" className='text-sm px-6 py-1.5 rounded-md bg-blue-500 text-white duration-200 hover:bg-blue-600'>Sign up</Link>
+            { 
+              isAuthenticated ?  
+              <Button onClick={() => logout}>
+                Logout
+              </Button>
+              :
+              <div>
+              <Link 
+                to="/sign-in" 
+                className='text-gray-900 py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
+              >
+                Sign in
+                <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
+              </Link>
+              <Link 
+                to="/sign-up" 
+                className='text-sm px-6 py-1.5 rounded-md bg-blue-500 text-white duration-200 hover:bg-blue-600'
+              >
+                Sign up
+              </Link>
+              </div>
+            }
+        
         </div>
       </nav>
         {/* Mobile menu*/}

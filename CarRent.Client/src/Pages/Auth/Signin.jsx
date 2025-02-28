@@ -72,7 +72,7 @@ export default function Signin() {
 
         <p className="text-center text-sm text-gray-500 mt-2">
           Don't have an account?{' '}
-          <Link to="/signup" className="text-blue-500 hover:text-blue-600 font-medium">Sign up</Link>
+          <Link to="/sign-up" className="text-blue-500 hover:text-blue-600 font-medium">Sign up</Link>
         </p>
       </form>
     </>

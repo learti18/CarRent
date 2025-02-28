@@ -10,21 +10,33 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { RegisterSchema } from "../../Schemas/RegisterSchema"
 import NumericInput from "../../Components/Inputs/NumericInput"
 import Logo from "../../Components/Logo"
+import useRegister from './../../Hooks/useRegister';
+import { useState } from "react"
 
 export default function Signup() {
+  const [serverError,setServerError] = useState('')
   const { register,handleSubmit, formState:{errors} } = useForm({
     resolver: yupResolver(RegisterSchema),
     defaultValues:{
       firstName:'',
       lastName:'',
+      username:'',
       email:'',
       phone:'',
       password:'',
       confirmPassword:''
     }
   })
-  const submitForm = (data) => {
-    console.log('Data:',data)
+  const registerMutation = useRegister() 
+
+  const onSubmit = async (data) => {
+    setServerError('')
+
+    try{
+      await registerMutation.mutateAsync(data);
+    }catch(err){
+      setServerError(err.message)
+    }
   }
 
   const formSection = (
@@ -41,15 +53,21 @@ export default function Signup() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-black/20 rounded-2xl"></div>
         <img src="background4.jpg" alt="car image" className="w-full h-56 md:h-72 object-cover" />
       </div>
-
       <form
-        onSubmit={handleSubmit(submitForm)}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3 w-full">
         <div className="space-y-3 mb-5">
           <h1 className="text-3xl text-blue-500 font-semibold">Create Account ✨</h1> 
           <p className="text-gray-700">Join us today! Create an account to access premium car rentals.</p>
         </div>
 
+        {
+          serverError && (
+            <div className="bg-red-50 p-3 rounded-md text-red-600">
+              {serverError}
+            </div>
+          )
+        }
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <DefaultInput 
               icon={<User size={16}/>} 
@@ -72,7 +90,16 @@ export default function Signup() {
               error={errors.lastName}
             />
         </div>
-
+        <DefaultInput 
+            icon={<User size={16}/>} 
+            id='username' 
+            label='Username'
+            placeholder='Doe21' 
+            name='username' 
+            type='text' 
+            register={register}
+            error={errors.username}
+        />
         <DefaultInput 
             icon={<Mail size={16}/>} 
             id='email' 
@@ -113,13 +140,13 @@ export default function Signup() {
             register={register}
             error={errors.confirmPassword}
           />
-        <Button className='mt-4'>Create Account</Button>
+        <Button type="submit" className='mt-4'>Create Account</Button>
        
         <SocialLogin type="sign up" />
 
         <p className="text-center text-sm text-gray-500 mt-2">
           Already have an account?{' '}
-          <Link to="/signin" className="text-blue-500 hover:text-blue-600 font-medium">Sign in</Link>
+          <Link to="/sign-in" className="text-blue-500 hover:text-blue-600 font-medium">Sign in</Link>
         </p>
       </form>
     </>

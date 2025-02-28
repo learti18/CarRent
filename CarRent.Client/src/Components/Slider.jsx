@@ -65,7 +65,7 @@ const Slider = ({
     return (
         <div className="w-full flex items-center justify-center flex-col space-y-8">
             {/* Slider container */}
-            <div className="relative w-full max-w-[250px] px-4 flex items-center justify-center">
+            <div className="relative w-full  px-4 flex items-center justify-center">
                 <input
                     type="range"
                     min={min}

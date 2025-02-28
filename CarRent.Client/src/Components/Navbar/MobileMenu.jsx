@@ -9,6 +9,7 @@ export default function MobileMenu({isOpen, links, toggleMobileMenu}) {
       toggleMobileMenu()
     }
   } ,[pathname])
+  
   return (
     <div className={`fixed inset-0 transition-all z-50 duration-300 ease-in-out ${
       isOpen ? 'visible bg-black/60' : 'invisible'
@@ -19,11 +20,11 @@ export default function MobileMenu({isOpen, links, toggleMobileMenu}) {
         }`}
       >
         <div className="flex flex-col pt-12">
-          <Link to="/signup" className='text-black text-md relative group py-3 pl-4 w-full hover:text-blue-500 transition-colors duration-200'>
+          <Link to="/sign-up" className='text-black text-md relative group py-3 pl-4 w-full hover:text-blue-500 transition-colors duration-200'>
             Sign up
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
           </Link>
-          <Link to="/signin" className='text-black text-md relative group py-3 pl-4 w-full hover:text-blue-500 transition-colors duration-200'>
+          <Link to="/sign-in" className='text-black text-md relative group py-3 pl-4 w-full hover:text-blue-500 transition-colors duration-200'>
             Sign in
             <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
           </Link>

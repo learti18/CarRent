@@ -7,6 +7,7 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const RegisterSchema = yup.object({
     firstName: yup.string().required('First Name is required'),
     lastName: yup.string().required('Last Name is required'),
+    username: yup.string().required('Username is required'),
     email: yup.string()
         .matches(emailRegex, 'Please enter a valid email')
         .required('Email is required'),

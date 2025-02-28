@@ -1,14 +1,16 @@
-﻿using CarRent.Server.Dtos.Account;
+﻿using System.Security.Claims;
+using CarRent.Server.Dtos.Account;
 using CarRent.Server.Interfaces;
 using CarRent.Server.Models;
 using CarRent.Server.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRent.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/authentication")]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -64,7 +66,7 @@ namespace CarRent.Server.Controllers
 
                 var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
-                if(createdUser.Succeeded)
+                if (createdUser.Succeeded)
                 {
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
 
@@ -91,11 +93,49 @@ namespace CarRent.Server.Controllers
                 }
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return StatusCode(500,e);
+                return StatusCode(500, e);
             }
         }
+
+        [HttpGet("user")]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Invalid token!");
+                }
+
+                var user = await _userManager.Users
+                        .FirstOrDefaultAsync(u => u.Id == userId);
+
+                if (user == null)
+                {
+                    return NotFound("User not found!");
+                }
+
+                return Ok
+                (
+                    new NewUserDto
+                    {
+                        Username = user.UserName,
+                        Email = user.Email,
+                        Token = _tokenService.CreateToken(user)
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+
+        }
     }
-    
+
 }
