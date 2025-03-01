@@ -16,7 +16,7 @@ export default function Hero() {
           transition={{ duration: 0.8 }}
           className='absolute inset-0 bg-[url("background4.jpg")] bg-cover bg-center'
         />
-        <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20'></div>
+        <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 to-black/20'></div>
       </div>
 
       {/* Content */}

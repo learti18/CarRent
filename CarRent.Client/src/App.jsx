@@ -24,8 +24,10 @@ import AddVehicle from './Pages/Dashboard/Vehicles/AddVehicle';
 import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AuthProvider } from './Contexts/AuthContext';
-import ProtectedRoute from './Pages/ProtectedRoute';
-import GuestRoute from './Pages/GuestRoute';
+import ProtectedRoute from './Routes/ProtectedRoute';
+import GuestRoute from './Routes/GuestRoute';
+import AdminRoute from './Routes/AdminRoute';
+import Unauthorized from './Pages/Unauthorized';
 
 const queryClient = new QueryClient()
 
@@ -35,11 +37,12 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Toaster position='bottom-right'/>
-          <BrowserRouter>
+        <Toaster position='bottom-right'/>
+        <BrowserRouter>
+          <AuthProvider>
             <ScrollToTop/>
             <Routes>
+              <Route path='/unauthorized' element={<Unauthorized/>} />
               {/* user routes */}
               <Route element={<Layout/>}>
                 <Route element={<ProtectedRoute/>}>
@@ -57,10 +60,10 @@ function App() {
                   <Route path='sign-up' element={<Signup/>} />
                   <Route path='sign-in' element={<Signin/>} />
               </Route>
-
+              
               {/* admin dashboard routes */}
-              <Route path='/dashboard' element={<DashboardLayout/>}>
-                <Route element={<ProtectedRoute/>}>
+              <Route element={<AdminRoute/>}>
+                <Route path='/dashboard' element={<DashboardLayout/>}>
                   <Route index element={<Dashboard/> }/>
                   <Route path='vehicles' element={<Vehicles/>} />
                   <Route path='vehicles/new' element={<AddVehicle/>} />
@@ -73,9 +76,10 @@ function App() {
                   <Route path='settings' element={<Settings/>} />
                 </Route>
               </Route>
+
             </Routes>
-          </BrowserRouter>
-        </AuthProvider>
+          </AuthProvider>
+        </BrowserRouter>
       </QueryClientProvider>
     </>
   )

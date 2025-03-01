@@ -9,19 +9,21 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { SignInSchema } from "../../Schemas/SignInSchema"
 import Logo from "../../Components/Logo"
+import useLogin from './../../Hooks/useLogin';
 
 export default function Signin() {
   
   const { register, handleSubmit, formState:{errors} } = useForm({
     resolver: yupResolver(SignInSchema),
     defaultValues:{
-      email:'',
+      username:'',
       password:'',
     }
   })
+  const loginMutation = useLogin()
 
-  const submitForm = (data) => {
-    console.log('Data: ',data)
+  const onSubmit = async (data) => {
+    await loginMutation.mutateAsync(data)
   }
 
   const formSection = (
@@ -39,13 +41,13 @@ export default function Signin() {
       </div>
 
       <form
-        onSubmit={handleSubmit(submitForm)} 
+        onSubmit={handleSubmit(onSubmit)} 
         className="flex flex-col gap-3 w-full">
         <div className="space-y-3 mb-5">
           <h1 className="text-3xl text-blue-500 font-semibold">Welcome back👋</h1> 
           <p className="text-gray-700">Today is a new day. It's your day. You shape it.</p>
         </div>
-        <DefaultInput 
+        {/* <DefaultInput 
           icon={<Mail size={16}/>} 
           id='email' 
           label='Email' 
@@ -54,6 +56,16 @@ export default function Signin() {
           type='email'
           register={register}
           error={errors.email} 
+        /> */}
+         <DefaultInput 
+          icon={<Mail size={16}/>} 
+          id='username' 
+          label='Username' 
+          placeholder='Username' 
+          name='username' 
+          type='text'
+          register={register}
+          error={errors.username} 
         />
         <DefaultInput 
           icon={<Lock size={16}/>} 
@@ -66,7 +78,7 @@ export default function Signin() {
           error={errors.password}
         />
         <Link className='text-blue-500 self-end'>Forgot password?</Link>
-        <Button>Sign in</Button>
+        <Button type="submit">Sign in</Button>
         
         <SocialLogin type="sign in" />
 

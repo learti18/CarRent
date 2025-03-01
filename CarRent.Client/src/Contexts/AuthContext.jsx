@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { useQueryClient } from "@tanstack/react-query"
 import api, { setAuthtoken } from './../Services/Api';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext()
 
@@ -8,8 +9,11 @@ export const AuthContext = createContext()
 export const AuthProvider = ({children}) => {
     const [token,setToken] = useState(() => sessionStorage.getItem("token"))
     const [user,setUser] = useState(null)
+    const [isAdmin,setIsAdmin] = useState(false)
     const queryClient = useQueryClient()
     const [isLoading,setIsLoading] = useState(true)
+    const navigate = useNavigate()
+    
 
     useEffect(() => {
         if(token){
@@ -26,6 +30,7 @@ export const AuthProvider = ({children}) => {
             const { data } = await api.get("/authentication/user")
             setUser(data)
             queryClient.setQueryData(["user"],data)
+            
 
             return data
         }catch(e){
@@ -44,10 +49,20 @@ export const AuthProvider = ({children}) => {
     const handleLogout = () => {
         setToken(null)
         setUser(null)
+        setIsAdmin(false)
         sessionStorage.removeItem("token")
         queryClient.clear()
+        navigate("sign-in")
     }
 
+    useEffect(() => {
+        if(user && user.roles){
+            setIsAdmin(user.roles.includes("Admin"))
+        }else{
+            setIsAdmin(false)
+        }
+    },[user])
+    
     useEffect(() => {
         const initializeAuth = async () => {
             if(token){
@@ -65,6 +80,7 @@ export const AuthProvider = ({children}) => {
             login: handleLogin,
             logout: handleLogout,
             isLoading,
+            isAdmin,
             isAuthenticated: !!token
         }}>
             {!isLoading && children}

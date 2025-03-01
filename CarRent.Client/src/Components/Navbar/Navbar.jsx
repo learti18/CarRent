@@ -4,23 +4,21 @@ import { Menu, XIcon } from "lucide-react"
 import MobileMenu from './MobileMenu'
 import Logo from '../Logo'
 import { useAuth } from './../../Hooks/useAuth';
-import Button from './../Buttons/Button';
 
 export default function Navbar() {
 
   const [mobileMenu,setMobileMenu] = useState(false)
-  const { isAuthenticated, logout } = useAuth()
+  const { isAuthenticated, logout, isAdmin } = useAuth()
 
   function toggleMobileMenu(){
     setMobileMenu(prevstate => !prevstate)
   }
 
-
   const links = [
     {name:"Rent now", to:"/cars"},
     {name:"About", to:"/about"},
     {name:"Contact us", to:"/contactus"},
-    {name:"Dashboard", to:"/dashboard"}
+    isAdmin ? {name:"Dashboard", to:"/dashboard"} : ''
   ]
 
   return (
@@ -29,13 +27,13 @@ export default function Navbar() {
         <Logo/>
         
         {/* Desktop navbar */}
-        <div className='hidden md:flex gap-16'>
+        <div className='hidden md:flex gap-12'>
           {
             links.map(link => (
               <Link
                 key={link.name}
                 to={link.to}
-                className='text-gray-900 py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
+                className='text-gray-700 font-medium py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
               >
                 {link.name}
                 <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full'></span>
@@ -46,24 +44,27 @@ export default function Navbar() {
         <div className='space-x-8 hidden md:flex items-center'>
             { 
               isAuthenticated ?  
-              <Button onClick={() => logout}>
+              <button 
+                className='bg-blue-500 text-white py-1 px-6 rounded-md duration-200 transition-colors hover:bg-blue-600'
+                onClick={() => logout()}
+                >
                 Logout
-              </Button>
+              </button>
               :
-              <div>
-              <Link 
-                to="/sign-in" 
-                className='text-gray-900 py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
-              >
-                Sign in
-                <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
-              </Link>
-              <Link 
-                to="/sign-up" 
-                className='text-sm px-6 py-1.5 rounded-md bg-blue-500 text-white duration-200 hover:bg-blue-600'
-              >
-                Sign up
-              </Link>
+              <div className='flex gap-6'>
+                <Link 
+                  to="/sign-in" 
+                  className='text-gray-900 py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
+                >
+                  Sign in
+                  <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
+                </Link>
+                <Link 
+                  to="/sign-up" 
+                  className='text-sm px-6 py-1.5 rounded-md bg-blue-500 text-white duration-200 hover:bg-blue-600'
+                >
+                  Sign up
+                </Link>
               </div>
             }
         

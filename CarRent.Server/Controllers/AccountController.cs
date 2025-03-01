@@ -25,28 +25,36 @@ namespace CarRent.Server.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == loginDto.Username.ToLower());
+                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == loginDto.Username.ToLower());
 
-            if (user == null) return Unauthorized("Invalid username!");
+                if (user == null) return Unauthorized("Invalid username!");
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-            if (!result.Succeeded) return Unauthorized("Username not found and/or password incorrect!");
+                if (!result.Succeeded) return Unauthorized("Username not found and/or password incorrect!");
 
-            return Ok
-                (
-                    new NewUserDto
-                    {
-                        Username = user.UserName,
-                        Email = user.Email,
-                        Token = _tokenService.CreateToken(user)
-                    }
-                );
+                return Ok
+                    (
+                        new NewUserDto
+                        {
+                            Username = user.UserName,
+                            Email = user.Email,
+                            Token = _tokenService.CreateToken(user)
+                        }
+                    );
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+
         }
 
         [HttpPost("register")]
@@ -61,6 +69,8 @@ namespace CarRent.Server.Controllers
                 {
                     UserName = registerDto.Username,
                     Email = registerDto.Email,
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
                     PhoneNumber = registerDto.Phone
                 };
 
@@ -120,12 +130,17 @@ namespace CarRent.Server.Controllers
                     return NotFound("User not found!");
                 }
 
+                var roles = await _userManager.GetRolesAsync(user);
+
                 return Ok
                 (
-                    new NewUserDto
+                    new UserDto
                     {
                         Username = user.UserName,
                         Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Roles = roles,
                         Token = _tokenService.CreateToken(user)
                     }
                 );
