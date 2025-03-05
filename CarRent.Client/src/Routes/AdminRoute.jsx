@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useAuth } from '../Hooks/useAuth'
 import { Navigate, Outlet } from 'react-router-dom'
+import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner'
 
 export default function AdminRoute() {
-    const { isAuthenticated, isAdmin, isLoading } = useAuth()
+    const { isLoading,isAuthenticated, isAdmin } = useAuth()
     
     if (isLoading) {
         return (

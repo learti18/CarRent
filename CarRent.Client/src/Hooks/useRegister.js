@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "./useAuth"
 import api from "../Services/Api"
-import toast from "react-hot-toast"
+import { toast } from "sonner"
 
 const useRegister = () => {
     const navigate = useNavigate()

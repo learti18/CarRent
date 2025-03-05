@@ -176,3 +176,4 @@ C:\web\CarRent\CarRent.Server\obj\Debug\net8.0\refint\CarRent.Server.dll
 C:\web\CarRent\CarRent.Server\obj\Debug\net8.0\CarRent.Server.pdb
 C:\web\CarRent\CarRent.Server\obj\Debug\net8.0\CarRent.Server.genruntimeconfig.cache
 C:\web\CarRent\CarRent.Server\obj\Debug\net8.0\ref\CarRent.Server.dll
+C:\web\CarRent\CarRent.Server\bin\Debug\net8.0\CarRent.Server.staticwebassets.runtime.json

@@ -8,7 +8,14 @@ export default function DropDown({ label, options, placeholder, register, name, 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const { onChange } = register(name);
+  const { onChange, value } = register(name);
+
+  useEffect(() => {
+    if (value) {
+      console.log(`Dropdown ${name} value changed:`, value);
+      setSelectedOption(value);
+    }
+  }, [value, name]);
 
   useEffect(() => {
     if (isOpen && buttonRef.current) {
@@ -22,6 +29,7 @@ export default function DropDown({ label, options, placeholder, register, name, 
   }, [isOpen]);
 
   const handleSelect = (option) => {
+    console.log(`Dropdown ${name} selected:`, option);
     setSelectedOption(option);
     onChange({ target: { value: option, name } });
     setIsOpen(false);
@@ -33,12 +41,6 @@ export default function DropDown({ label, options, placeholder, register, name, 
         <label className="block font-medium text-black mb-3">{label}</label>
       )}
       <div className="relative">
-        <input 
-          type="hidden" 
-          {...register(name)}
-          value={selectedOption}
-          className={className}
-        />
         <button
           ref={buttonRef}
           type="button"
@@ -68,7 +70,9 @@ export default function DropDown({ label, options, placeholder, register, name, 
               <li
                 key={index}
                 onClick={() => handleSelect(option)}
-                className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                className={`px-4 py-2 hover:bg-blue-100 cursor-pointer ${
+                  option === selectedOption ? 'bg-blue-50' : ''
+                }`}
               >
                 {option}
               </li>

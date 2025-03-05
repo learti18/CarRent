@@ -1,10 +1,19 @@
 import { HeartIcon } from 'lucide-react'
 import React, { useState } from 'react'
+import { toast } from 'sonner'
 
-export default function FavoriteButton({toggleFavorite,className}) {
-  const [favorite,setFavorite] = useState()
-  function toggleFavorite(){
-      setFavorite(prevState => !prevState)
+export default function FavoriteButton({ className, isFavorite}) {
+  const [favorite,setFavorite] = useState(isFavorite)
+
+  const toggleFavorite = () => {
+    setFavorite(prev => !prev)
+    if(favorite){
+      toast.error("Removed from favorite!",{
+
+      })
+    }else{
+      toast.success("Successfully added to favorite")
+    }
   }
 
   return (

@@ -5,21 +5,20 @@ import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext()
 
-
 export const AuthProvider = ({children}) => {
-    const [token,setToken] = useState(() => sessionStorage.getItem("token"))
+    const [token,setToken] = useState(() => localStorage.getItem("token"))
     const [user,setUser] = useState(null)
     const [isAdmin,setIsAdmin] = useState(false)
     const queryClient = useQueryClient()
     const [isLoading,setIsLoading] = useState(true)
     const navigate = useNavigate()
     
-
     useEffect(() => {
         if(token){
             setAuthtoken(token)
         }else{
             setAuthtoken(null)
+            setIsLoading(false)
         }
     },[token])
 
@@ -28,50 +27,60 @@ export const AuthProvider = ({children}) => {
 
         try{
             const { data } = await api.get("/authentication/user")
+            if (data.token) {
+                setToken(data.token)
+                localStorage.setItem("token", data.token)
+            }
             setUser(data)
+            setIsAdmin(data.roles?.includes("Admin") || false)
             queryClient.setQueryData(["user"],data)
-            
-
+            setIsLoading(false)
             return data
         }catch(e){
-            console.log(e)
-            handleLogout()
+            console.error("Error fetching user:", e)
+            if (e.response?.status === 401) {
+                handleLogout()
+            }
+            setIsLoading(false)
             return null;
         }
     }
 
     const handleLogin = async (newToken) => {
         setToken(newToken)
-        sessionStorage.setItem("token",newToken)
-
+        localStorage.setItem("token",newToken)
         return await fetchUser()
     }
+
     const handleLogout = () => {
         setToken(null)
         setUser(null)
         setIsAdmin(false)
-        sessionStorage.removeItem("token")
+        localStorage.removeItem("token")
         queryClient.clear()
-        navigate("sign-in")
+        navigate("/sign-in", { replace: true })
     }
-
-    useEffect(() => {
-        if(user && user.roles){
-            setIsAdmin(user.roles.includes("Admin"))
-        }else{
-            setIsAdmin(false)
-        }
-    },[user])
     
     useEffect(() => {
         const initializeAuth = async () => {
             if(token){
                 await fetchUser()
+            } else {
+                setIsLoading(false)
             }
-            setIsLoading(false)
         }
         initializeAuth()
-    },[token])
+    },[])
+
+    useEffect(() => {
+        if (!token) return
+
+        const refreshInterval = setInterval(() => {
+            fetchUser()
+        }, 4 * 60 * 1000)
+
+        return () => clearInterval(refreshInterval)
+    }, [token])
 
     return (
         <AuthContext.Provider value={{
@@ -81,9 +90,9 @@ export const AuthProvider = ({children}) => {
             logout: handleLogout,
             isLoading,
             isAdmin,
-            isAuthenticated: !!token
+            isAuthenticated: !!token && !!user
         }}>
-            {!isLoading && children}
+            {children}
         </AuthContext.Provider>
     )
 }

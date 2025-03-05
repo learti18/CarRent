@@ -17,7 +17,7 @@ export default function Navbar() {
   const links = [
     {name:"Rent now", to:"/cars"},
     {name:"About", to:"/about"},
-    {name:"Contact us", to:"/contactus"},
+    // {name:"Contact us", to:"/contactus"},
     isAdmin ? {name:"Dashboard", to:"/dashboard"} : ''
   ]
 
@@ -31,7 +31,7 @@ export default function Navbar() {
           {
             links.map(link => (
               <Link
-                key={link.name}
+                key={link.to}
                 to={link.to}
                 className='text-gray-700 font-medium py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
               >

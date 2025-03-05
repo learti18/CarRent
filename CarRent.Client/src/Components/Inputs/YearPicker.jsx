@@ -9,10 +9,20 @@ export default function YearPicker({ label, register, name, required, error }) {
     const buttonRef = useRef(null)
     
     const currentYear = new Date().getFullYear()
-    const years = Array.from({ length: 30 }, (_, i) => currentYear - i)
+    const years = Array.from({ length: 34 }, (_, i) => currentYear - i)
 
     // Get the register props
-    const { onChange } = register(name)
+    const { onChange, value } = register(name)
+
+    // Update selected year when form value changes
+    useEffect(() => {
+        if (value) {
+            console.log(`YearPicker ${name} value changed:`, value);
+            // Convert value to number if it's a string
+            const yearValue = typeof value === 'string' ? parseInt(value) : value;
+            setSelectedYear(yearValue);
+        }
+    }, [value, name])
 
     useEffect(() => {
         if (isOpen && buttonRef.current) {
@@ -26,6 +36,7 @@ export default function YearPicker({ label, register, name, required, error }) {
     }, [isOpen])
 
     const handleSelect = (year) => {
+        console.log(`YearPicker ${name} selected:`, year);
         setSelectedYear(year)
         // Trigger the onChange event for react-hook-form
         onChange({ target: { value: year, name } })
@@ -38,16 +49,11 @@ export default function YearPicker({ label, register, name, required, error }) {
                 <label className="block font-medium text-black mb-3">{label}</label>
             )}
             <div className="relative">
-                <input 
-                    type="hidden" 
-                    {...register(name)}
-                    value={selectedYear}
-                />
                 <button
                     type="button" // Important to prevent form submission
                     ref={buttonRef}
                     onClick={() => setIsOpen(!isOpen)}
-                    className={` w-full flex items-center justify-between px-5 py-3 bg-gray-100 rounded-lg 
+                    className={`w-full flex items-center justify-between px-5 py-3 bg-gray-100 rounded-lg 
                         ${selectedYear ? 'text-black':'text-gray-400'} 
                         ${error ? 'border-2 border-red-500' : ''} 
                         focus:outline-none focus:ring-2 
@@ -72,7 +78,9 @@ export default function YearPicker({ label, register, name, required, error }) {
                             <li
                                 key={year}
                                 onClick={() => handleSelect(year)}
-                                className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                                className={`px-4 py-2 hover:bg-blue-100 cursor-pointer ${
+                                    year === selectedYear ? 'bg-blue-50' : ''
+                                }`}
                             >
                                 {year}
                             </li>

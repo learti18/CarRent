@@ -8,6 +8,7 @@ export default [
         seatingCapacity:2,
         pricePerDay:99.00,
         rating:4,
+        isFavorite:false,
         image:"koenigsegg.svg"
     },
     {
@@ -19,6 +20,7 @@ export default [
         seatingCapacity:2,
         pricePerDay:80.00,
         rating:5,
+        isFavorite:false,
         image:"nissangtr.svg"
     },
     {
@@ -30,6 +32,7 @@ export default [
         seatingCapacity:4,
         pricePerDay:96.00,
         rating:5,
+        isFavorite:true,
         image:"rollsroyce.svg"
     },
     {
@@ -41,6 +44,7 @@ export default [
         seatingCapacity:6,
         pricePerDay:72.00,
         rating:4,
+        isFavorite:false,
         image:"newrush.svg"
     },
     {
@@ -52,6 +56,7 @@ export default [
         seatingCapacity:6,
         pricePerDay:80.00,
         rating:5,
+        isFavorite:true,
         image:"crv.svg"
     },
     {
@@ -63,6 +68,7 @@ export default [
         seatingCapacity:2,
         pricePerDay:99.00,
         rating:3,
+        isFavorite:false,
         image:"koenigsegg.svg"
     },
     {
@@ -74,6 +80,7 @@ export default [
         seatingCapacity:2,
         pricePerDay:80.00,
         rating:5,
+        isFavorite:false,
         image:"nissangtr.svg"
     },
     {
@@ -85,6 +92,7 @@ export default [
         seatingCapacity:4,
         pricePerDay:96.00,
         rating:4,
+        isFavorite:false,
         image:"rollsroyce.svg"
     },
     {
@@ -96,6 +104,7 @@ export default [
         seatingCapacity:6,
         pricePerDay:72.00,
         rating:5,
+        isFavorite:false,
         image:"newrush.svg"
     },
     {
@@ -107,6 +116,7 @@ export default [
         seatingCapacity:6,
         pricePerDay:80.00,
         rating:4,
+        isFavorite:false,
         image:"crv.svg"
     },
     {
@@ -118,6 +128,7 @@ export default [
         seatingCapacity:2,
         pricePerDay:99.00,
         rating:4,
+        isFavorite:true,
         image:"koenigsegg.svg"
     },
     {
@@ -129,6 +140,7 @@ export default [
         seatingCapacity:2,
         pricePerDay:80.00,
         rating:5,
+        isFavorite:false,
         image:"nissangtr.svg"
     },
     {
@@ -140,6 +152,7 @@ export default [
         seatingCapacity:4,
         pricePerDay:96.00,
         rating:5,
+        isFavorite:false,
         image:"rollsroyce.svg"
     },
     {
@@ -151,6 +164,7 @@ export default [
         seatingCapacity:6,
         pricePerDay:72.00,
         rating:4,
+        isFavorite:false,
         image:"newrush.svg"
     },
     {
@@ -162,6 +176,7 @@ export default [
         seatingCapacity:6,
         pricePerDay:80.00,
         rating:4,
+        isFavorite:false,
         image:"crv.svg"
     }
 ]

@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Plus, Search, Filter } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Table from '../../../Components/Dashboard/Common/Table'
-import cars from '../../../cars'
 import VehicleTableRow from '../../../Components/Dashboard/Vehicles/VehicleTableRow'
+import { useVehicle } from '../../../Hooks/useVehicle'
+import { toast } from 'sonner'
 
 export default function Vehicles() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const { getAllVehicles, deleteVehicle } = useVehicle();
+  const { data: vehicles, isLoading, error } = getAllVehicles;
+
   const columns = [
     { key: 'vehicle', label: 'Vehicle' },
     { key: 'type', label: 'Type' },
@@ -14,7 +19,33 @@ export default function Vehicles() {
     { key: 'pricePerDay', label: 'Price/Day' },
     { key: 'status', label: 'Status' },
     { key: 'actions', label: 'Actions' }
-  ]
+  ];
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteVehicle.mutateAsync(id);
+      toast.success('Vehicle deleted successfully');
+    } catch (error) {
+      toast.error('Failed to delete vehicle');
+    }
+  };
+
+  const filteredVehicles = vehicles?.filter(vehicle => 
+    vehicle.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    vehicle.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    vehicle.licensePlate.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
+  const availableVehicles = vehicles?.filter(v => !v.isBooked)?.length || 0;
+  const totalVehicles = vehicles?.length || 0;
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500">
+        Error loading vehicles: {error.message}
+      </div>
+    );
+  }
 
   return (
     <div className='space-y-6'>
@@ -37,15 +68,15 @@ export default function Vehicles() {
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
         <div className='bg-white p-4 rounded-xl shadow-sm'>
           <p className='text-gray-500'>Total Vehicles</p>
-          <p className='text-2xl font-semibold'>{cars.length}</p>
+          <p className='text-2xl font-semibold'>{totalVehicles}</p>
         </div>
         <div className='bg-white p-4 rounded-xl shadow-sm'>
           <p className='text-gray-500'>Available</p>
-          <p className='text-2xl font-semibold'>{cars.length - 5}</p>
+          <p className='text-2xl font-semibold'>{availableVehicles}</p>
         </div>
         <div className='bg-white p-4 rounded-xl shadow-sm'>
-          <p className='text-gray-500'>In Maintenance</p>
-          <p className='text-2xl font-semibold'>2</p>
+          <p className='text-gray-500'>Booked</p>
+          <p className='text-2xl font-semibold'>{totalVehicles - availableVehicles}</p>
         </div>
       </div>
 
@@ -57,6 +88,8 @@ export default function Vehicles() {
             type="text"
             placeholder='Search vehicles...'
             className='w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <button className='flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50'>
@@ -66,13 +99,21 @@ export default function Vehicles() {
       </div>
 
       {/* Vehicles Table */}
-      <Table 
-        columns={columns}
-        data={cars}
-        renderRow={(vehicle, index) => (
-          <VehicleTableRow key={index} vehicle={vehicle} type="vehicle" />
-        )}
-      />
+      {isLoading ? (
+        <div className="text-center py-8">Loading vehicles...</div>
+      ) : (
+        <Table 
+          columns={columns}
+          data={filteredVehicles}
+          renderRow={(vehicle) => (
+            <VehicleTableRow 
+              key={vehicle.id} 
+              vehicle={vehicle} 
+              onDelete={() => handleDelete(vehicle.id)}
+            />
+          )}
+        />
+      )}
     </div>
   )
 }

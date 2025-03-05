@@ -2,6 +2,7 @@ using CarRent.Server.Data;
 using CarRent.Server.Idenity;
 using CarRent.Server.Interfaces;
 using CarRent.Server.Models;
+using CarRent.Server.Repository;
 using CarRent.Server.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -104,9 +105,18 @@ builder.Services.AddAuthorization(options =>
            policy.RequireClaim(IdentityData.AdminUserClaimName, "true"));
 });
 
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
+
+// Ensure upload directory exists
+var uploadPath = Path.Combine(builder.Environment.WebRootPath, "uploads", "vehicles");
+if (!Directory.Exists(uploadPath))
+{
+    Directory.CreateDirectory(uploadPath);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -117,6 +127,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowReactApp");
+
+// Add static file middleware before authentication
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();

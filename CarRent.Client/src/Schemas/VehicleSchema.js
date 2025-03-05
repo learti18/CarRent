@@ -36,12 +36,10 @@ export const VehicleSchema = yup.object({
         .transform((value, originalValue) => originalValue === "" ? null : value)
         .nullable()
         .integer()
-        .positive('Fuel Capacity must be positive')
-        .required('Fuel Capacity is required'),
+        .positive('Fuel Capacity must be positive'),
     fuelType: yup.string().required('Please select fuel type'),
     location: yup.string().required('Please select location'),
-    features: yup.mixed(),
+    features: yup.array().of(yup.string()),
     images: yup.array()
-        .of(yup.string())
-        .min(1, 'At least one image is required'),
+        .min(1, 'At least one image is required')
 }).required();

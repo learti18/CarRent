@@ -1,95 +1,66 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 import React, { useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+export default function Carousel({ vehicle }) {
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const images = vehicle.images
 
-const images = [
-    '/nissangtr2.jpg','/nissangtr3.jpg','/nissangtr4.jpg','/interior.jpg'
-]
-
-export default function Carousel({car}) {
-    const [activeImageIndex,setActiveImageIndex] = useState(0)
-    const isSvg = (imagePath) => imagePath.toLowerCase().endsWith('.svg')
-    
-    const getImageClassName = (imagePath) => {
-        return `w-full h-full ${
-            isSvg(imagePath) 
-            ? 'bg-blue-600 p-20 rounded-xl' 
-            : 'object-cover'
-        }`
-    }
-    const getVisibleThumbnails = () => {
-        if(activeImageIndex === images.length -1){
-            return images.slice(-3)
-        }
-        if(activeImageIndex === 0){
-            return images.slice(0,3)
-        }
-        return images.slice(activeImageIndex -1,activeImageIndex+2)
+    const prevSlide = () => {
+        const isFirstSlide = currentIndex === 0
+        const newIndex = isFirstSlide ? images.length - 1 : currentIndex - 1
+        setCurrentIndex(newIndex)
     }
 
-    function nextImage(){
-        setActiveImageIndex(prevIndex => 
-            prevIndex === images.length - 1 ? 0 : prevIndex + 1
-        )
+    const nextSlide = () => {
+        const isLastSlide = currentIndex === images.length - 1
+        const newIndex = isLastSlide ? 0 : currentIndex + 1
+        setCurrentIndex(newIndex)
     }
-    function prevImage(){
-        setActiveImageIndex(prevIndex => 
-            prevIndex === 0 ? images.length - 1 : prevIndex - 1
+
+    const goToSlide = (slideIndex) => {
+        setCurrentIndex(slideIndex)
+    }
+
+    if (!images || images.length === 0) {
+        return (
+            <div className='md:w-1/2 h-[400px] w-full relative group bg-white rounded-xl flex items-center justify-center'>
+                <img 
+                    src="/placeholder-car.jpg" 
+                    alt="Placeholder" 
+                    className='w-full h-full object-contain rounded-xl'
+                />
+            </div>
         )
     }
 
-  return (
-    <div className='flex flex-col gap-6 md:w-1/2 h-full'>
-        <div className='overflow-hidden aspect-[16/12] relative rounded-xl text-white'>
-            <ChevronLeft 
-                className='absolute left-3 top-0 bottom-0 my-auto p-1 select-none 
-                    text-white bg-white bg-opacity-30 rounded-full size-8 lg:size-10 cursor-pointer z-50
-                    hover:bg-white hover:text-blue-500 hover:shadow-md transition-all duration-200'
-                onClick={prevImage}    
-            />
-            <AnimatePresence mode='wait'>
-                <motion.div
-                    key={activeImageIndex}
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -100 }}
-                    transition={{ duration: 0.3 }}
-                    className='relative h-full w-full flex items-center justify-center'
-                >
-                    <img 
-                    src={images[activeImageIndex]} 
-                    alt="car view"
-                    className={getImageClassName(images[activeImageIndex])}
-                    />
-                </motion.div>
-            </AnimatePresence>
-             <ChevronRight 
-                className='absolute right-3 top-0 bottom-0 my-auto p-1 select-none
-                    text-white bg-white bg-opacity-30 rounded-full size-8 lg:size-10 cursor-pointer z-50
-                    hover:bg-white hover:text-blue-500 hover:shadow-md transition-all duration-200'
-                onClick={nextImage}    
-            />
-
-      </div>
-        <div className='grid grid-cols-3 gap-7'>
-            {getVisibleThumbnails().map((image, index) => (
-                <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setActiveImageIndex(images.indexOf(image))}
-                    className={`aspect-[4/3] rounded-xl bg-blue-600 cursor-pointer overflow-hidden
-                        ${images.indexOf(image) === activeImageIndex ? 'outline outline-gray-400 outline-offset-4' : ''}`}
-                >
-                    <img 
-                        src={image}
-                        alt='' 
-                        className={getImageClassName(image)}
-                    />
-                </motion.div>
-            ))}
+    return (
+        <div className='md:w-1/2 h-[400px] w-full relative group bg-white rounded-xl p-20'>
+            <div
+                style={{ backgroundImage: `url(${images[currentIndex]})` }}
+                className='w-full h-full rounded-xl bg-center bg-contain bg-no-repeat duration-500 flex items-center justify-center'
+            >
+                {/* Left Arrow */}
+                <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+                    <ChevronLeft onClick={prevSlide} size={30} />
+                </div>
+                {/* Right Arrow */}
+                <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+                    <ChevronRight onClick={nextSlide} size={30} />
+                </div>
+            </div>
+            <div className='flex justify-center py-2'>
+                {images.map((slide, slideIndex) => (
+                    <div
+                        key={slideIndex}
+                        onClick={() => goToSlide(slideIndex)}
+                        className={`text-2xl cursor-pointer mx-1 w-3 h-3 rounded-full ${
+                            currentIndex === slideIndex ? 'bg-blue-500' : 'bg-gray-300'
+                        }`}
+                    >
+                    </div>
+                ))}
+            </div>
         </div>
-    </div>
-  )
+    )
 }

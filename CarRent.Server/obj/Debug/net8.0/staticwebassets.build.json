@@ -1,12 +1,20 @@
 {
   "Version": 1,
-  "Hash": "Q//mxU6/QRHYbJZMadXsoSTFjFd99L7Nr4CNsWPrMd4=",
+  "Hash": "5GpULwSrF7sf6MJ/5G8Dt2ntZ2NNVARxbi9OAx97Y0c=",
   "Source": "CarRent.Server",
   "BasePath": "_content/CarRent.Server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "CarRent.Server\\wwwroot",
+      "Source": "CarRent.Server",
+      "ContentRoot": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\",
+      "BasePath": "_content/CarRent.Server",
+      "Pattern": "**"
+    }
+  ],
   "Assets": [],
   "Endpoints": []
 }

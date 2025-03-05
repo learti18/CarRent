@@ -9,7 +9,8 @@ import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PaymentSchema } from '../Schemas/PaymentSchema'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
+import { useVehicle } from '../Hooks/useVehicle'
 
 export default function Payment() {
   const { register, handleSubmit, control, formState:{errors} } = useForm({
@@ -39,7 +40,8 @@ export default function Payment() {
   })
 
   const { state } = useLocation()
-  const { car } = state || {} 
+  const { getVehicleById, isLoading } = useVehicle();
+  const car = getVehicleById(state?.id)
 
   const submitForm = (data) => {
     try {
@@ -55,7 +57,7 @@ export default function Payment() {
     toast.error('Please fill in all required fields correctly')
   }
   
-  if(!car) return <div className='flex justify-center items-center min-h-screen w-full'><LoaderBarsSpinner/></div>
+  if(isLoading) return <div className='flex justify-center items-center min-h-screen w-full'><LoaderBarsSpinner/></div>
 
   return (
     <div className='bg-gray-100'>

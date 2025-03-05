@@ -30,7 +30,7 @@ export default function MobileMenu({isOpen, links, toggleMobileMenu}) {
           </Link>
           {links.map(link => (
             <Link 
-              key={link.name} 
+              key={link.to} 
               to={link.to} 
               className='text-gray-900 py-3 relative group text-md pl-4 w-full hover:text-blue-500 transition-colors duration-200'
             >

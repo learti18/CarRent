@@ -1,37 +1,107 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react';
+import { MoreVertical, Pencil, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-export default function VehicleTableRow({ vehicle }) {
-  const getStatusStyle = (status) => {
-    const styles = {
-      available: 'bg-green-100 text-green-700',
-      rented: 'bg-blue-100 text-blue-700',
-      maintenance: 'bg-yellow-100 text-yellow-700',
+const API_BASE_URL = 'http://localhost:5160';
+
+export default function VehicleTableRow({ vehicle, onDelete }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  const getStatusColor = (isBooked) => {
+    return isBooked ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800';
+  };
+
+  const getStatusText = (isBooked) => {
+    return isBooked ? 'Booked' : 'Available';
+  };
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/placeholder-car.jpg';
+    return `${API_BASE_URL}${imagePath}`;
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
     }
-    return styles[status?.toLowerCase()] || styles.available
-  }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <tr className='hover:bg-gray-50'>
-      <td className='p-3'>
-        <div className='flex items-center gap-3'>
-          <img src={`/${vehicle.image}`} className='w-16 h-16 rounded-lg object-contain'/>
+    <tr className="border-b border-gray-200 hover:bg-gray-50">
+      <td className="py-4 px-6">
+        <div className="flex items-center gap-3">
+          <img
+            src={getImageUrl(vehicle.images[0])}
+            alt={`${vehicle.brand} ${vehicle.model}`}
+            className="w-12 h-12 object-cover rounded-lg"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/placeholder-car.jpg';
+            }}
+          />
           <div>
-            <p className='font-medium'>{vehicle.brand}</p>
+            <p className="font-medium">{vehicle.brand} {vehicle.model}</p>
+            <p className="text-sm text-gray-500">{vehicle.licensePlate}</p>
           </div>
         </div>
       </td>
-      <td className='p-4'>{vehicle.type}</td>
-      <td className='p-4'>{vehicle.seatingCapacity} Persons</td>
-      <td className='p-4'>{vehicle.transmission}</td>
-      <td className='p-4'>${vehicle.pricePerDay}/<span className='text-sm text-gray-500'>day</span></td>
-      <td className='p-4'>
-        <span className={`px-2 py-1 rounded-full text-sm ${getStatusStyle('available')}`}>
-          Available
+      <td className="py-4 px-6">
+        <span className="text-gray-600">{vehicle.bodyType}</span>
+      </td>
+      <td className="py-4 px-6">
+        <span className="text-gray-600">{vehicle.seats} seats</span>
+      </td>
+      <td className="py-4 px-6">
+        <span className="text-gray-600">{vehicle.transmission}</span>
+      </td>
+      <td className="py-4 px-6">
+        <span className="font-medium">${vehicle.price}/day</span>
+      </td>
+      <td className="py-4 px-6">
+        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(vehicle.isBooked)}`}>
+          {getStatusText(vehicle.isBooked)}
         </span>
       </td>
-      <td className='p-4'>
-        <button className='text-blue-600 hover:text-blue-800'>View Details</button>
+      <td className="py-4 px-6">
+        <div className="relative" ref={menuRef}>
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-1.5 rounded-lg hover:bg-gray-100"
+          >
+            <MoreVertical size={20} className="text-gray-500" />
+          </button>
+          
+          {isMenuOpen && (
+            <div className="fixed transform -translate-x-full mt-2 w-48 rounded-lg bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+              <Link
+                to={`edit/${vehicle.id}`}
+                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 gap-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Pencil size={16} />
+                Edit
+              </Link>
+              <button
+                onClick={() => {
+                  onDelete(vehicle.id);
+                  setIsMenuOpen(false);
+                }}
+                className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100 gap-2 w-full"
+              >
+                <Trash2 size={16} />
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
       </td>
     </tr>
-  )
+  );
 }

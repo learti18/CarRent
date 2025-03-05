@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CarRent.Server.Helpers;
 
 namespace CarRent.Server.Data
 {
@@ -11,9 +12,27 @@ namespace CarRent.Server.Data
             : base(options)
         {
         }
-        protected override void OnModelCreating(ModelBuilder builder)
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<VehicleFeature> VehicleFeatures { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Vehicle>()
+                .Property(v => v.Images)
+                .HasConversion(
+                    v => JsonConverterHelper.SerializeToJson(v),
+                    v => JsonConverterHelper.DeserializeFromJson(v)
+                );
+
+            modelBuilder.Entity<Vehicle>()
+                .Property(v => v.Images)
+                .Metadata.SetValueComparer(new Microsoft.EntityFrameworkCore.ChangeTracking.ValueComparer<List<string>>(
+                    (c1, c2) => c1.SequenceEqual(c2),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()
+                ));
 
             List<IdentityRole> roles = new List<IdentityRole>
             {
@@ -31,7 +50,7 @@ namespace CarRent.Server.Data
                 }
             };
 
-            builder.Entity<IdentityRole>().HasData(roles);
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
         }
     }
 }

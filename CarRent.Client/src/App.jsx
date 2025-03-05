@@ -21,30 +21,29 @@ import Reimbursements from './Pages/Dashboard/Reimbursements';
 import AddRental from './Pages/Dashboard/Rentals/AddRental';
 import Vehicles from './Pages/Dashboard/Vehicles/Vehicles';
 import AddVehicle from './Pages/Dashboard/Vehicles/AddVehicle';
-import { Toaster } from 'react-hot-toast'
+import EditVehicle from './Pages/Dashboard/Vehicles/EditVehicle';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AuthProvider } from './Contexts/AuthContext';
 import ProtectedRoute from './Routes/ProtectedRoute';
 import GuestRoute from './Routes/GuestRoute';
 import AdminRoute from './Routes/AdminRoute';
 import Unauthorized from './Pages/Unauthorized';
+import { Toaster } from "sonner"
 
 const queryClient = new QueryClient()
 
 function App() {
-
-  
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Toaster position='bottom-right'/>
+        <Toaster richColors/>
         <BrowserRouter>
           <AuthProvider>
             <ScrollToTop/>
             <Routes>
-              <Route path='/unauthorized' element={<Unauthorized/>} />
               {/* user routes */}
               <Route element={<Layout/>}>
+                <Route path='/unauthorized' element={<Unauthorized/>} />
                 <Route element={<ProtectedRoute/>}>
                   <Route path='about' element={<About/>} />
                   <Route path='contactus' element={<ContactUs/>} />
@@ -67,6 +66,7 @@ function App() {
                   <Route index element={<Dashboard/> }/>
                   <Route path='vehicles' element={<Vehicles/>} />
                   <Route path='vehicles/new' element={<AddVehicle/>} />
+                  <Route path='vehicles/edit/:id' element={<EditVehicle/>} />
                   <Route path='rentals' element={<Rentals/> }/>
                   <Route path='rentals/new' element={<AddRental/>} />
                   <Route path='inbox' element={<Inbox/>}/>
@@ -76,7 +76,6 @@ function App() {
                   <Route path='settings' element={<Settings/>} />
                 </Route>
               </Route>
-
             </Routes>
           </AuthProvider>
         </BrowserRouter>
