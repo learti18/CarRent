@@ -1,98 +1,119 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { useQueryClient } from "@tanstack/react-query"
-import api, { setAuthtoken } from './../Services/Api';
-import { useNavigate } from 'react-router-dom';
+import { AuthReducer, initialState } from './../Utils/AuthReducer';
+import { setAccessToken } from './../Utils/TokenManager';
+import { setupAuthInterceptors } from './../Services/Api';
+import { getCurrentUserName, hasAuthenticatedSession, setCurrentUsername } from '../Utils/UserStore';
+import { STATUS } from '../Utils/AuthStatus';
+import { authenticateWithStoredCredentials, calculateRefreshTime, formatUserData } from '../Services/AuthService';
 
-export const AuthContext = createContext()
+export const AuthContext = createContext({
+    ...initialState,
+    login: () => {},
+    logout: () => {},
+    updateUser: () => {},
+    setAuthenticationStatus: () => {},
+})
 
 export const AuthProvider = ({children}) => {
-    const [token,setToken] = useState(() => localStorage.getItem("token"))
-    const [user,setUser] = useState(null)
-    const [isAdmin,setIsAdmin] = useState(false)
-    const queryClient = useQueryClient()
-    const [isLoading,setIsLoading] = useState(true)
-    const navigate = useNavigate()
-    
-    useEffect(() => {
-        if(token){
-            setAuthtoken(token)
-        }else{
-            setAuthtoken(null)
-            setIsLoading(false)
-        }
-    },[token])
+    const [state,dispatch] = useReducer(AuthReducer,initialState)
+    const isInitialAuthCheckComplete = useRef(false)
 
-    const fetchUser = async () => {
-        if(!token) return null
+    const login = useCallback((user, token,expiresAt) => {
+        setAccessToken(token)
+        dispatch({ type: 'login', payload: { user, token, expiresAt } })
+    }, [])
 
-        try{
-            const { data } = await api.get("/authentication/user")
-            if (data.token) {
-                setToken(data.token)
-                localStorage.setItem("token", data.token)
-            }
-            setUser(data)
-            setIsAdmin(data.roles?.includes("Admin") || false)
-            queryClient.setQueryData(["user"],data)
-            setIsLoading(false)
-            return data
-        }catch(e){
-            console.error("Error fetching user:", e)
-            if (e.response?.status === 401) {
-                handleLogout()
-            }
-            setIsLoading(false)
-            return null;
-        }
-    }
-
-    const handleLogin = async (newToken) => {
-        setToken(newToken)
-        localStorage.setItem("token",newToken)
-        return await fetchUser()
-    }
-
-    const handleLogout = () => {
-        setToken(null)
-        setUser(null)
-        setIsAdmin(false)
-        localStorage.removeItem("token")
-        queryClient.clear()
-        navigate("/sign-in", { replace: true })
-    }
-    
-    useEffect(() => {
-        const initializeAuth = async () => {
-            if(token){
-                await fetchUser()
-            } else {
-                setIsLoading(false)
-            }
-        }
-        initializeAuth()
+    const logout = useCallback(() => {
+        setAccessToken(null)
+        dispatch({ type: 'logout' })
     },[])
 
+    const updateUser = useCallback((user) => {
+        dispatch({ type: 'updateUser', payload: user })
+    },[])
+
+    const setAuthenticationStatus = useCallback((status) => {
+        dispatch({ type: 'status', payload: status })
+    }, [])
+
     useEffect(() => {
-        if (!token) return
+        const handleStorageChange = (event) => {
+            if(event.key === 'auth_status') {
+                const isAuthenticated = event.newValue === 'true'
+                isAuthenticated ? window.location.reload() : logout()
+            }
+        }
 
-        const refreshInterval = setInterval(() => {
-            fetchUser()
-        }, 4 * 60 * 1000)
+        window.addEventListener('storage', handleStorageChange)
+        return () => window.removeEventListener('storage', handleStorageChange)
+    },[logout])
 
-        return () => clearInterval(refreshInterval)
-    }, [token])
+    useEffect(() => {
+        const checkStoredAuth = async () => {
+            if(isInitialAuthCheckComplete.current) return
+            isInitialAuthCheckComplete.current = true
 
-    return (
-        <AuthContext.Provider value={{
-            token,
-            user,
-            login: handleLogin,
-            logout: handleLogout,
-            isLoading,
-            isAdmin,
-            isAuthenticated: !!token && !!user
-        }}>
-            {children}
-        </AuthContext.Provider>
+            setupAuthInterceptors({ token: null, login, logout })
+
+            const storedUserName = getCurrentUserName()
+            const hasSession = hasAuthenticatedSession()
+
+            if(!storedUserName && !hasSession){
+                setAuthenticationStatus(STATUS.IDLE)
+                return
+            }
+
+            setAuthenticationStatus(STATUS.PENDING)
+
+            try {
+                const response = await authenticateWithStoredCredentials(storedUserName)
+                const { data } = response
+
+                if(data.userName){
+                    setCurrentUsername(data.userName)
+                }
+
+                login(formatUserData(data), data.token, data.expiresAt)
+            }catch (error) {
+                console.error("Initial authentication failed", error)
+                setAuthenticationStatus(STATUS.FAILED)
+            }
+        }
+
+        checkStoredAuth()
+    },[login,logout,setAuthenticationStatus])
+
+    useEffect(() => {
+        if(!state.isAuthenticated || !state.expiresAt) return
+
+        const refreshTime = calculateRefreshTime(state.expiresAt)
+
+        const tokenRefreshTimer = setTimeout(async () => {
+            try{
+                const { data } = await refreshAuthToken(state.token)
+                login(formatUserData(data), data.token, data.expiresAt)
+            } catch(error){
+                console.error("Token refresh failed",error)
+                logout()
+            }
+        }, refreshTime)
+
+        return () => clearTimeout(tokenRefreshTimer)
+    },[state.isAuthenticated, state.expiresAt, state.token, login, logout])
+
+    const value = useMemo(
+        () => ({
+            ...state,
+            login,
+            logout,
+            updateUser,
+            setAuthenticationStatus
+        }),
+        [state, login, logout, updateUser, setAuthenticationStatus]
     )
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
+
+export { AuthContext }

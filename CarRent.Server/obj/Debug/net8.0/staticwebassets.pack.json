@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\061e8522-8793-4077-9c53-736555176542.svg",
+      "PackagePath": "staticwebassets\\uploads\\vehicles\\061e8522-8793-4077-9c53-736555176542.svg"
+    },
+    {
+      "Id": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\2c643c88-cb01-4116-9876-ecefbbafbc41.jpg",
+      "PackagePath": "staticwebassets\\uploads\\vehicles\\2c643c88-cb01-4116-9876-ecefbbafbc41.jpg"
+    },
+    {
+      "Id": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\49752556-8b00-45da-8220-519c7e804676.jpg",
+      "PackagePath": "staticwebassets\\uploads\\vehicles\\49752556-8b00-45da-8220-519c7e804676.jpg"
+    },
+    {
+      "Id": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\50be7d03-d932-44be-a507-2e00a12454fa.svg",
+      "PackagePath": "staticwebassets\\uploads\\vehicles\\50be7d03-d932-44be-a507-2e00a12454fa.svg"
+    },
+    {
+      "Id": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\cd3e648d-b458-46eb-a6ba-04f6cbe209fb.jpg",
+      "PackagePath": "staticwebassets\\uploads\\vehicles\\cd3e648d-b458-46eb-a6ba-04f6cbe209fb.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CarRent.Server.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CarRent.Server.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.CarRent.Server.props",
+      "PackagePath": "build\\CarRent.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CarRent.Server.props",
+      "PackagePath": "buildMultiTargeting\\CarRent.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.CarRent.Server.props",
+      "PackagePath": "buildTransitive\\CarRent.Server.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

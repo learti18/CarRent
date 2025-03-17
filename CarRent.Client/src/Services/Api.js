@@ -1,74 +1,86 @@
 import axios from "axios"
+import { getAccessToken, isRefreshInProgress, onTokenRefreshed, resetTokenState, setAccessToken, setRefreshingStatus, subscribeToTokenRefresh } from '../Utils/TokenManager'
+import { getOrGenerateDeviceId } from './../Utils/GenerateDeviceId';
+import { setCurrentUsername } from './../Utils/UserStore';
 
 const API_BASE_URL = "http://localhost:5160/api/";
 
 const api = axios.create({
     baseURL: API_BASE_URL,
-    headers: {
-        "Content-Type": "application/json"
-    }
-});
+    withCredentials: true,
+})
 
-api.interceptors.request.use(request => {
-    const token = localStorage.getItem("token");
-    
-    if (token) {
-        request.headers["Authorization"] = `Bearer ${token}`;
-    }
+let interceptorsInitialized = false
 
-    if (request.data instanceof FormData) {
-        delete request.headers["Content-Type"];
-        request.transformRequest = [];
-        console.log('Sending FormData request');
-    }
+export const setupAuthInterceptors = (auth) => {
+    if(interceptorsInitialized) return;
 
-    console.log('Request:', {
-        url: request.url,
-        method: request.method,
-        hasToken: !!token
-    });
-
-    return request;
-}, error => {
-    console.error('Request interceptor error:', error);
-    return Promise.reject(error);
-});
-
-api.interceptors.response.use(
-    response => {
-        console.log('Response:', {
-            url: response.config.url,
-            status: response.status
-        });
-        return response;
-    },
-    async error => {
-        console.error('Response error:', {
-            url: error.config?.url,
-            status: error.response?.status,
-            data: error.response?.data
-        });
-
-        if (error.response?.status === 401) {
-            console.log('Unauthorized response, clearing token...');
-            localStorage.removeItem("token");
-            
-            if (!window.location.pathname.includes('sign-in')) {
-                window.location.href = "/sign-in";
-            }
+    api.interceptors.request.use(config => {
+        const token = getAccessToken() || auth.token
+        if(token && !config.url.includes('refresh-token')) {
+            config.headers.Authorization = `Bearer ${token}`
         }
-        return Promise.reject(error);
-    }
-);
+        return config
+    }, error => Promise.reject(error))
 
-export const setAuthtoken = (token) => {
-    if (token) {
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        console.log('Auth token set');
-    } else {
-        delete api.defaults.headers.common["Authorization"];
-        console.log('Auth token removed');
-    }
-};
+    api.interceptors.response.use(response => response, async error => {
+        const originalRequest = error.config
+        const shouldAttemptRefresh = 
+            error.response?.status === 401 &&
+            !originalRequest._retry &&
+            (getAccessToken() || auth.token) &&
+            !originalRequest.url.includes('refresh-token')
 
-export default api;
+        if(!shouldAttemptRefresh) {
+            return Promise.reject(error)
+        }
+
+        if(isRefreshInProgress()) {
+            return new Promise(resolve => {
+                subscribeToTokenRefresh(token => {
+                    originalRequest.headers.Authorization = `Bearer ${token}`
+                    resolve(api(originalRequest))
+                })
+            })
+        }
+
+        originalRequest._retry = true
+        setRefreshingStatus(true)
+
+        try{
+            const deviceId = getOrGenerateDeviceId()
+
+            const response = await api.post('/auth/refresh-token',{
+                deviceId
+            })
+
+            const {token, userName: refreshedUserName, email, roles = [], expiresAt  } = response.data
+            
+            setCurrentUsername(refreshedUserName)
+            setAccessToken(token)
+
+            const user = { userName: refreshedUserName, email, roles}
+            auth.login(user, token, expiresAt)
+
+            onTokenRefreshed(token)
+            originalRequest.headers.Authorization = `Bearer ${token}`
+            return api(originalRequest)
+        }
+        catch(error) {
+            console.log('Token refresh failed',error)
+            auth.logout()
+            return Promise.reject(error)
+        } finally {
+            setRefreshingStatus(false)
+        }
+    })
+
+    interceptorsInitialized = true
+}
+
+export const resetInterceptorStatus = () => {
+    interceptorsInitialized = false
+    resetTokenState()
+}
+
+export default api
