@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "C:\\web\\CarRent\\CarRent.Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\repository\\vehiclerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:repository\\vehiclerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\controllers\\vehiclecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:controllers\\vehiclecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\service\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:service\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,27 +35,66 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "VehicleRepository.cs",
-              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Repository\\VehicleRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\VehicleRepository.cs",
-              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Repository\\VehicleRepository.cs",
-              "RelativeToolTip": "Repository\\VehicleRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA3AAAAAAAAAA==",
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAADoAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T15:37:16.35Z",
+              "WhenOpened": "2025-03-17T23:02:57.627Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "VehicleController.cs",
-              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\VehicleController.cs",
-              "RelativeDocumentMoniker": "Controllers\\VehicleController.cs",
-              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\VehicleController.cs",
-              "RelativeToolTip": "Controllers\\VehicleController.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABQAAAARAAAAAAAAAA==",
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Service\\TokenService.cs",
+              "RelativeDocumentMoniker": "Service\\TokenService.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Service\\TokenService.cs",
+              "RelativeToolTip": "Service\\TokenService.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAswHYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T01:24:01.96Z",
+              "WhenOpened": "2025-03-17T22:45:53.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-17T22:37:06.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RefreshToken.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Models\\RefreshToken.cs",
+              "RelativeDocumentMoniker": "Models\\RefreshToken.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Models\\RefreshToken.cs",
+              "RelativeToolTip": "Models\\RefreshToken.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwA8AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-17T22:33:21.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ITokenService.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Interfaces\\ITokenService.cs",
+              "RelativeDocumentMoniker": "Interfaces\\ITokenService.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Interfaces\\ITokenService.cs",
+              "RelativeToolTip": "Interfaces\\ITokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-17T22:32:11.91Z",
               "EditorCaption": ""
             }
           ]

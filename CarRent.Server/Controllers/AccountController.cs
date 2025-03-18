@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using CarRent.Server.Dtos.Account;
+using CarRent.Server.Extensions;
 using CarRent.Server.Interfaces;
 using CarRent.Server.Models;
 using CarRent.Server.Service;
@@ -40,13 +41,23 @@ namespace CarRent.Server.Controllers
 
                 if (!result.Succeeded) return Unauthorized("Username not found and/or password incorrect!");
 
+                var refreshToken = await _tokenService.GenerateRefreshToken(user, loginDto.DeviceId);
+
+                SetRefreshTokenCookie(refreshToken.Token);
+
+                var roles = await _userManager.GetRolesAsync(user);
+                var accessToken = await _tokenService.GenerateAccessToken(user);
+                var expiresAt = DateTime.UtcNow.AddMinutes(15);
+
                 return Ok
                     (
                         new NewUserDto
                         {
                             Username = user.UserName,
                             Email = user.Email,
-                            Token = _tokenService.CreateToken(user)
+                            Token = accessToken,
+                            ExpiresAt = expiresAt,
+                            Roles = roles.ToList()
                         }
                     );
             }
@@ -82,15 +93,20 @@ namespace CarRent.Server.Controllers
 
                     if (roleResult.Succeeded)
                     {
-                        return Ok
-                            (
-                                new NewUserDto
-                                {
-                                    Username = appUser.UserName,
-                                    Email = appUser.Email,
-                                    Token = _tokenService.CreateToken(appUser)
-                                }
-                            );
+                        var refreshToken = await _tokenService.GenerateRefreshToken(appUser, registerDto.DeviceId);
+
+                        SetRefreshTokenCookie(refreshToken.Token);
+
+                        var roles = new List<string> { "User" };
+
+                        return Ok(new NewUserDto
+                        {
+                            Username = appUser.UserName,
+                            Email = appUser.Email,
+                            Token = await _tokenService.GenerateAccessToken(appUser),
+                            Roles = roles,
+                            ExpiresAt = DateTime.UtcNow.AddMinutes(15)
+                        });
                     }
                     else
                     {
@@ -109,48 +125,103 @@ namespace CarRent.Server.Controllers
             }
         }
 
-        [HttpGet("user")]
-        [Authorize]
-        public async Task<IActionResult> GetCurrentUser()
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDto refreshTokenDto)
         {
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var refreshToken = Request.Cookies["refreshToken"];
 
-                if (string.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(refreshToken))
                 {
-                    return Unauthorized("Invalid token!");
+                    return BadRequest("No refresh token found");
                 }
 
-                var user = await _userManager.Users
-                        .FirstOrDefaultAsync(u => u.Id == userId);
+                var userId = await _tokenService.GetUserIdFromRefreshToken(refreshToken);
+
+                var user = await _userManager.FindByIdAsync(userId);
 
                 if (user == null)
                 {
-                    return NotFound("User not found!");
+                    return BadRequest("User not found");
                 }
 
+                var isValid = await _tokenService.ValidateRefreshToken(userId, refreshToken, refreshTokenDto.DeviceId);
+
+                if (!isValid)
+                {
+                    RemoveRefreshTokenCookie();
+                    return BadRequest("Invalid refresh token or expired");
+                }
+
+                var newRefreshToken = await _tokenService.GenerateRefreshToken(user, refreshTokenDto.DeviceId);
+                var newAccessToken = await _tokenService.GenerateAccessToken(user);
                 var roles = await _userManager.GetRolesAsync(user);
+                var expiresAt = DateTime.UtcNow.AddMinutes(15);
 
-                return Ok
-                (
-                    new UserDto
-                    {
-                        Username = user.UserName,
-                        Email = user.Email,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Roles = roles,
-                        Token = _tokenService.CreateToken(user)
-                    }
-                );
+                SetRefreshTokenCookie(newRefreshToken.Token);
+
+                return Ok(new NewUserDto
+                {
+                    Username = user.UserName,
+                    Email = user.Email,
+                    Token = newAccessToken,
+                    ExpiresAt = expiresAt,
+                    Roles = roles.ToList()
+                });
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, e);
             }
-
         }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout([FromBody] LogoutDto logoutDto)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+
+                if(string.IsNullOrEmpty(userId))
+                    return BadRequest("User not found");
+                
+                if(!string.IsNullOrEmpty(logoutDto.DeviceId))
+                {
+                    await _tokenService.RevokeRefreshToken(userId, logoutDto.DeviceId);
+                    RemoveRefreshTokenCookie();
+
+                    return Ok(new { messsage = "Logged out from device successfully" });
+                }
+
+                await _tokenService.RevokeAllRefreshTokens(userId);
+                RemoveRefreshTokenCookie();
+
+                return Ok(new { messsage = "Logged out from all devices successfully" });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+        private void SetRefreshTokenCookie(string refreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7),
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            };
+
+            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+        }
+        private void RemoveRefreshTokenCookie()
+        {
+            Response.Cookies.Delete("refreshToken");
+        }
+
     }
 
 }

@@ -9,5 +9,8 @@ namespace CarRent.Server.Dtos.Account
         
         [Required]        
         public string? Password { get; set; }
+
+        [Required]
+        public string DeviceId { get; set; } = string.Empty;
     }
 }

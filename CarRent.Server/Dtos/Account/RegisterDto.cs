@@ -23,5 +23,8 @@ namespace CarRent.Server.Dtos.Account
         [Required]
         [Phone]
         public string? Phone { get; set; }
+
+        [Required]
+        public string DeviceId { get; set; }
     }
 }
