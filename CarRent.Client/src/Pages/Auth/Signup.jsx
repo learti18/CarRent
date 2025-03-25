@@ -10,8 +10,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { RegisterSchema } from "../../Schemas/RegisterSchema"
 import NumericInput from "../../Components/Inputs/NumericInput"
 import Logo from "../../Components/Logo"
-import useRegister from './../../Hooks/useRegister';
 import { useState } from "react"
+import useRegister from './../../Queries/useRegister';
 
 export default function Signup() {
   const [serverError,setServerError] = useState('')

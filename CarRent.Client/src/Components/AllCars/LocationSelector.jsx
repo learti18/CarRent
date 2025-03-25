@@ -20,7 +20,7 @@ export default function LocationSelector() {
         if (isMobile) {
             return {
                 initial: { opacity: 0, y: isFirst ? -20 : 20 },
-                animate: { opacity: 1, y: 0 },
+                animate: { opacity: 1, y: 0, x: 0 }, // Force x to 0 on mobile
                 exit: { opacity: 0, y: isFirst ? 20 : -20 }
             }
         }
@@ -38,12 +38,13 @@ export default function LocationSelector() {
     return (
     <div className="pb-10 w-full">
         <div className='flex flex-col md:flex-row relative items-center md:items-start gap-7 md:gap-10'>
-            <div className='flex-1 relative z-0'>
+            <div className='flex-1 relative z-0 w-full text-center md:text-left'>
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={isSwitched ? "pickup" : "dropoff"}
                         {...getAnimationProps(true)}
                         transition={{ duration: 0.2 }}
+                        className="w-full flex justify-center md:justify-start"
                     >
                         <PickupDropoffInfo type={isSwitched ? "PickUp":"Drop-Off"}/>
                     </motion.div>
@@ -68,12 +69,13 @@ s                    hover:bg-blue-600 transition-all"
                 </motion.button>
             </div>
 
-            <div className='flex-1 relative z-0'>
+            <div className='flex-1 relative z-0 w-full text-center md:text-left'>
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={isSwitched ? "dropoff" : "pickup"}
                         {...getAnimationProps(false)}
                         transition={{ duration: 0.2 }}
+                        className="w-full flex justify-center md:justify-start"
                     >
                         <PickupDropoffInfo type={isSwitched ? "Drop-Off":"PickUp"}/>
                     </motion.div>

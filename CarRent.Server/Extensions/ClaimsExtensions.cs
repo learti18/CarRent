@@ -10,7 +10,7 @@ namespace CarRent.Server.Extensions
         }
         public static string GetUserId(this ClaimsPrincipal user)
         {
-            return user.Claims.SingleOrDefault(x => x.Type.Equals(ClaimTypes.NameIdentifier))?.Value;
+            return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
     }
 }

@@ -1,8 +1,6 @@
 import HowItWorks from './../Components/Home/HowItWorks';
 import Hero from './../Components/Home/Hero';
 import PopularRentals from './../Components/Home/PopularRentals';
-import Contact from './contact';
-
 
 export default function Home() {
   return (
@@ -10,7 +8,6 @@ export default function Home() {
         <Hero/>
         <HowItWorks />
         <PopularRentals/>
-        <Contact/>
     </div>
   )
 }

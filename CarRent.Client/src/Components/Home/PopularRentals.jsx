@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import CarCard from "../CarCard";
-import { useState } from "react";
-import { usePopularRentals } from "../../Hooks/usePopularRentals";
 import { LoaderBarsSpinner } from "../LoaderBarsSpinner";
+import { useAllVehicles } from "../../Queries/vehicles";
 
 
 export default function PopularRentals() {
-  const { data: popularRentals, isLoading, error } = usePopularRentals();
+  const { data: vehicles, isLoading, error } = useAllVehicles();
 
   if(isLoading){
     return <LoaderBarsSpinner/>
@@ -22,18 +21,10 @@ export default function PopularRentals() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-center gap-6 px-10 md:px-6 my-12">
           
           {
-            popularRentals.slice(0,4).map(car => (
+            vehicles.map(car => (
               <CarCard 
                 key={car.id} 
-                id={car.id}
-                brand={car.brand}
-                type={car.type}
-                fuelCapacity={car.fuelCapacity}
-                transmission={car.transmission}
-                seatingCapacity={car.seatingCapacity}
-                pricePerDay={car.pricePerDay}
-                isFavorite={car.isFavorite}
-                images={car.images}
+                {...car}
               />
             ))
           }

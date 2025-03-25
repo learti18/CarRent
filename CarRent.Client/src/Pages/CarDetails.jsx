@@ -6,14 +6,13 @@ import Carousel from '../Components/Carousel';
 import ReviewSection from '../Components/Reviews/ReviewSection';
 import CarSlider from '../Components/CarSlider';
 import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner';
-import { useVehicle } from '../Hooks/useVehicle';
+import { useVehicleById } from '../Queries/vehicles';
 
 const API_BASE_URL = 'http://localhost:5160';
 
 export default function CarDetails() {
   const { id } = useParams();
-  const { getVehicleById } = useVehicle();
-  const { data: vehicle, isLoading, error } = getVehicleById(id);
+  const { data: vehicle, isLoading, error } = useVehicleById(id);
 
   if (isLoading) {
     return (
@@ -65,7 +64,7 @@ export default function CarDetails() {
       <div className='flex flex-col gap-10 px-6 py-10 max-w-7xl mx-auto'>
         <div className='flex flex-col md:flex-row gap-6'>
           <Carousel vehicle={transformedVehicle}/>
-          <CarInfo vehicle={transformedVehicle}/>
+          <CarInfo vehicle={vehicle}/>
         </div>
         <ReviewSection/>
       </div>

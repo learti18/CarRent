@@ -9,14 +9,15 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { SignInSchema } from "../../Schemas/SignInSchema"
 import Logo from "../../Components/Logo"
-import useLogin from './../../Hooks/useLogin';
+import useLogin from './../../Queries/useLogin';
+import { getCurrentUserName } from "../../Utils/UserStore"
 
 export default function Signin() {
   
   const { register, handleSubmit, formState:{errors} } = useForm({
     resolver: yupResolver(SignInSchema),
     defaultValues:{
-      username:'',
+      username: getCurrentUserName() || '',
       password:'',
     }
   })
@@ -29,7 +30,7 @@ export default function Signin() {
   const formSection = (
     <>
       {/* mobile image */}
-      <div className="relative md:hidden rounded-xl overflow-hidden">
+      <div className="relative md:hidden rounded-xl overflow-hidden p-5 ">
         <div className="absolute top-5 left-5 z-10">
           <div className="px-5 py-2 rounded-xl bg-white/10 backdrop-blur-md shadow-lg 
                         transition-all duration-300 hover:bg-white/20">

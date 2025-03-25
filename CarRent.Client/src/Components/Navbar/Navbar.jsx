@@ -4,11 +4,13 @@ import { Menu, XIcon } from "lucide-react"
 import MobileMenu from './MobileMenu'
 import Logo from '../Logo'
 import { useAuth } from './../../Hooks/useAuth';
+import useLogout from './../../Queries/useLogout';
 
 export default function Navbar() {
 
   const [mobileMenu,setMobileMenu] = useState(false)
-  const { isAuthenticated, logout, isAdmin } = useAuth()
+  const { isAuthenticated, isAdmin } = useAuth()
+  const logoutMutation = useLogout()
 
   function toggleMobileMenu(){
     setMobileMenu(prevstate => !prevstate)
@@ -21,6 +23,10 @@ export default function Navbar() {
     isAdmin ? {name:"Dashboard", to:"/dashboard"} : ''
   ]
 
+  const handleLogout = async () => {
+    await logoutMutation.mutateAsync()
+  }
+
   return (
     <header className='fixed top-0 w-full bg-white border-b z-[100]'>
       <nav className='py-4 px-6 max-w-7xl mx-auto flex flex-row justify-between items-center relative'>
@@ -29,9 +35,9 @@ export default function Navbar() {
         {/* Desktop navbar */}
         <div className='hidden md:flex gap-12'>
           {
-            links.map(link => (
+            links.map((link,index) => (
               <Link
-                key={link.to}
+                key={index}
                 to={link.to}
                 className='text-gray-700 font-medium py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
               >
@@ -46,7 +52,7 @@ export default function Navbar() {
               isAuthenticated ?  
               <button 
                 className='bg-blue-500 text-white py-1 px-6 rounded-md duration-200 transition-colors hover:bg-blue-600'
-                onClick={() => logout()}
+                onClick={handleLogout}
                 >
                 Logout
               </button>

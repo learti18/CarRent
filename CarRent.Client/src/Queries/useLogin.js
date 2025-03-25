@@ -12,11 +12,11 @@ const useLogin = () => {
    const navigate = useNavigate()
 
    return useMutation({
-        mutationFn: async({userName, password}) => {
+        mutationFn: async({username, password}) => {
             setAuthenticationStatus(STATUS.PENDING)
 
             const deviceId = getOrGenerateDeviceId()
-            const response = await api.post("/auth/login", {userName, password, deviceId})
+            const response = await api.post("/auth/login", {username, password, deviceId})
 
             if(!response?.data) {
                 throw new Error("Invalid response from server")

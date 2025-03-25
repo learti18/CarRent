@@ -4,12 +4,14 @@ using CarRent.Server.Interfaces;
 using CarRent.Server.Models;
 using CarRent.Server.Repository;
 using CarRent.Server.Service;
+using CarRent.Server.Services.BackgroundTasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -109,6 +111,9 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+//builder.Services.AddHostedService<RentalStatusUpdater>();
 
 var app = builder.Build();
 

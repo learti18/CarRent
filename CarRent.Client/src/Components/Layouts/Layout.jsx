@@ -11,7 +11,7 @@ export default function Layout() {
       <main className="flex-grow mt-16">
         <Outlet />
       </main>
-      <Footer className="w-full"/>
+      <Footer/>
     </div>
   );
 }

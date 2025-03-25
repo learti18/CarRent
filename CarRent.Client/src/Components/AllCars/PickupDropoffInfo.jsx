@@ -17,7 +17,7 @@ export default function PickupDropoffInfo({type}) {
                 <select className="w-full text-sm text-gray-400 pl-0 border-none focus:ring-0">
                     {
                         LOCATIONS.map(location => (
-                            <option>{location}</option>
+                            <option key={location}>{location}</option>
                         ))
                     }
                 </select>

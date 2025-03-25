@@ -1,10 +1,13 @@
 import { getOrGenerateDeviceId } from "../Utils/GenerateDeviceId"
+import api from './Api';
 
 
 export const authenticateWithStoredCredentials =  async (username = null) => {
-    return await api.post('/auth/refresh-token',{
-        deviceId: getOrGenerateDeviceId()
-    })
+    return await api.post('/auth/refresh-token', {
+        username: username || undefined,
+        deviceId: getOrGenerateDeviceId(),
+        accessToken: null 
+      });
 }
 
 export const refreshAuthToken = async () => {

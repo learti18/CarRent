@@ -5,21 +5,22 @@ using CarRent.Server.Data;
 using CarRent.Server.Mappers;
 using CarRent.Server.Dtos.Vehicles;
 using CarRent.Server.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRent.Server.Controllers
 {
-    [Route("api/vehicle")]
+    [Route("api/vehicles")]
     [ApiController]
-    public class VehicleController : ControllerBase
+    public class VehiclesController : ControllerBase
     {
         private readonly IVehicleRepository _vehicleRepo;
         private readonly IImageService _imageService;
-        private readonly ILogger<VehicleController> _logger;
+        private readonly ILogger<VehiclesController> _logger;
 
-        public VehicleController(
+        public VehiclesController(
             IVehicleRepository vehicleRepo,
             IImageService imageService,
-            ILogger<VehicleController> logger)
+            ILogger<VehiclesController> logger)
         {
             _vehicleRepo = vehicleRepo;
             _imageService = imageService;
@@ -27,6 +28,7 @@ namespace CarRent.Server.Controllers
         }
 
         [HttpGet]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> GetAllVehicles()
         {
             var vehicles = await _vehicleRepo.GetAllAsync();
@@ -45,8 +47,18 @@ namespace CarRent.Server.Controllers
             return Ok(vehicle.ToVehicleDto());
         }
 
+        [HttpGet("available")]
+        public async Task<IActionResult> GetAvailableVehicles(
+            [FromQuery] VehicleQueryDto query)
+        {
+            var vehicles = await _vehicleRepo.GetAvailableVehiclesAsync(query);
+            var vehiclesDto = vehicles.Select(vehicle => vehicle.ToVehicleDto());
+            return Ok(vehiclesDto);
+        }
+
         [HttpPost]
         [Consumes("multipart/form-data")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateVehicle([FromForm] CreateVehicleDto vehicleDto)
         {
             try
@@ -102,6 +114,7 @@ namespace CarRent.Server.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateVehicle([FromRoute] int id, [FromBody] UpdateVehicleDto vehicleDto)
         {
             try
@@ -120,6 +133,7 @@ namespace CarRent.Server.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteVehicle([FromRoute] int id)
         {
             var vehicle = await _vehicleRepo.DeleteAsync(id);

@@ -1,7 +1,8 @@
 import React from 'react'
 import RatingStars from './../RatingStars';
+const API_BASE_URL = 'http://localhost:5160';
 
-export default function RentalSummary({car}) {
+export default function RentalSummary({vehicle}) {
     
   return (
     <div className='h-fit bg-white rounded-lg'>
@@ -17,14 +18,14 @@ export default function RentalSummary({car}) {
                         alt="" 
                         className='absolute inset-0  z-0'/>
                     <img 
-                        src={`/${car.image}`} 
-                        alt={car.name+car.image} 
+                        src={`${API_BASE_URL}/${vehicle?.images[0]}`} 
+                        alt={vehicle?.brand} 
                         className='relative z-10'/>
                 </div>
                 <div className='space-y-4'>
-                    <h1 className='text-3xl font-semibold'>{car.brand}</h1>
+                    <h1 className='text-3xl font-semibold'>{vehicle?.brand}</h1>
                     <div className='flex flex-row gap-2'>
-                        <RatingStars rating={car.rating}/>
+                        <RatingStars rating={4}/>
                         <p className='text-sm text-slate-500'>440+ Reviewer</p>
                     </div>
                 </div>
@@ -34,18 +35,18 @@ export default function RentalSummary({car}) {
         <div className='flex flex-col gap-5 py-8 px-5'>
             <div className='flex flex-row justify-between'>
                 <p className='text-slate-400'>Subtotal</p>
-                <p className='font-semibold'>${car.pricePerDay}</p>
+                <p className='font-semibold'>${vehicle?.price}</p>
             </div>
             <div className='flex flex-row justify-between'>
                 <p className='text-slate-400'>Tax</p>
-                <p className='font-semibold'>${0}</p>
+                <p className='font-semibold'>${15}</p>
             </div>
             <div className='flex flex-row justify-between items-center'>
                 <div>
                     <h1 className='text-2xl font-semibold'>Total Rental Price</h1>
                     <p className='text-slate-400'>Overall price and includes rental discount</p>
                 </div>
-                <h1 className='text-4xl font-semibold'>${car.pricePerDay}.00</h1>
+                <h1 className='text-4xl font-semibold'>${vehicle?.price}</h1>
             </div>
         </div>
     </div>

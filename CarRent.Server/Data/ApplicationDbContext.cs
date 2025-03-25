@@ -14,6 +14,8 @@ namespace CarRent.Server.Data
         }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleFeature> VehicleFeatures { get; set; }
+        public DbSet<Rental> Rentals { get; set; }
+        public DbSet<Payment> Payments { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,6 +36,22 @@ namespace CarRent.Server.Data
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => c.ToList()
                 ));
+            modelBuilder.Entity<Rental>()
+                .Property(r => r.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Payment>()
+              .HasOne(p => p.User)
+              .WithMany() 
+              .HasForeignKey(p => p.UserId)
+              .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Rental>()
+                .HasOne(r => r.User)
+                .WithMany() 
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             List<IdentityRole> roles = new List<IdentityRole>
             {

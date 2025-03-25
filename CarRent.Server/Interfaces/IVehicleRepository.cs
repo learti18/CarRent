@@ -7,6 +7,7 @@ namespace CarRent.Server.Interfaces
     {
         Task<List<Vehicle>> GetAllAsync();
         Task<Vehicle?> GetByIdAsync(int id);
+        Task<List<Vehicle>> GetAvailableVehiclesAsync(VehicleQueryDto query);
         Task<Vehicle> CreateAsync(Vehicle vehicle);
         Task<Vehicle?> UpdateAsync(int id, UpdateVehicleDto vehicleDto);
         Task<Vehicle?> DeleteAsync(int id);

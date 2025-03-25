@@ -4,13 +4,13 @@ import RentalInfo from '../Components/Payment/RentalInfo'
 import PaymentMethod from '../Components/Payment/PaymentMethod'
 import Confirmation from '../Components/Payment/Confirmation'
 import RentalSummary from '../Components/Payment/RentalSummary'
-import { useLocation } from 'react-router-dom'
 import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PaymentSchema } from '../Schemas/PaymentSchema'
 import { toast } from 'sonner'
-import { useVehicle } from '../Hooks/useVehicle'
+import { useParams } from 'react-router-dom'
+import { useVehicleById } from '../Queries/vehicles'
 
 export default function Payment() {
   const { register, handleSubmit, control, formState:{errors} } = useForm({
@@ -39,9 +39,8 @@ export default function Payment() {
     }
   })
 
-  const { state } = useLocation()
-  const { getVehicleById, isLoading } = useVehicle();
-  const car = getVehicleById(state?.id)
+  const { id } = useParams()
+  const { data: vehicle, isLoading, error } = useVehicleById(id)
 
   const submitForm = (data) => {
     try {
@@ -66,7 +65,7 @@ export default function Payment() {
           onSubmit={handleSubmit(submitForm, onError)} 
           className='flex flex-col lg:flex-row-reverse gap-7'
         >
-          <RentalSummary car={car}/>
+          <RentalSummary vehicle={vehicle}/>
           <div className='flex flex-col gap-5'>
             <BillingInfo
               register={register}
@@ -83,7 +82,7 @@ export default function Payment() {
               errors={errors}
             />
             <Confirmation 
-              car={car}
+              car={vehicle}
               register={register}
               errors={errors}
             />

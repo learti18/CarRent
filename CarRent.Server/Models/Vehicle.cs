@@ -16,7 +16,6 @@ namespace CarRent.Server.Models
         public int Seats { get; set; }
         public decimal Price { get; set; }
         public string Location { get; set; } = string.Empty;
-        public bool IsBooked { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         public List<string> Images { get; set; } = new List<string>();

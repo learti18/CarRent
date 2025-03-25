@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { useMutation } from "@tanstack/react-query"
 import { getOrGenerateDeviceId } from "../Utils/GenerateDeviceId"
 import { clearCurrentUsername } from "../Utils/UserStore"
-import { resetInterceptorStatus } from "../Services/Api"
+import api, { resetInterceptorStatus } from "../Services/Api"
 
 const useLogout = () => {
     const { logout } = useAuth()
@@ -27,7 +27,7 @@ const useLogout = () => {
         },
         onSuccess: () => {
             logout()
-            navigate("/login")
+            navigate("/sign-in")
         },
         onError: (error) => {
             console.error("Logout failed: ", error)

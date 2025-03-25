@@ -5,6 +5,8 @@ using CarRent.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using CarRent.Server.Enums;
+using CarRent.Server.Extensions;
 
 namespace CarRent.Server.Repository
 {
@@ -106,6 +108,27 @@ namespace CarRent.Server.Repository
             }
         }
 
+        public async Task<List<Vehicle>> GetAvailableVehiclesAsync(VehicleQueryDto query)
+        {
+            var vehicles =  _context.Vehicles
+                .Include(v => v.Features)
+                .AsQueryable();
+            
+            vehicles = vehicles.Where(v =>
+                    !_context.Rentals.Any(r =>
+                            r.VehicleId == v.Id &&
+                            (query.PickupDate < r.DropOffDateTime && query.DropOffDate > r.PickupDateTime) &&
+                            r.Status != RentalStatus.Cancelled
+                        )
+                    );
+            vehicles = vehicles
+                .ApplyFiltering(query)
+                .ApplySorting(query)
+                .ApplyPagination(query);
+
+            return await vehicles.ToListAsync();
+        }
+
         public async Task<Vehicle?> GetByIdAsync(int id)
         {
             var vehicle = await _context.Vehicles
@@ -141,7 +164,6 @@ namespace CarRent.Server.Repository
             existingVehicle.Seats = vehicleDto.Seats;
             existingVehicle.Price = vehicleDto.Price;
             existingVehicle.Location = vehicleDto.Location;
-            existingVehicle.IsBooked = vehicleDto.IsBooked;
 
             if (vehicleDto.Images != null && vehicleDto.Images.Any())
             {

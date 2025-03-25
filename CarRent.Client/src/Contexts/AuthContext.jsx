@@ -1,11 +1,10 @@
-import React, { createContext, useCallback, useEffect, useReducer, useRef, useState } from 'react'
-import { useQueryClient } from "@tanstack/react-query"
+import React, { createContext, useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { AuthReducer, initialState } from './../Utils/AuthReducer';
 import { setAccessToken } from './../Utils/TokenManager';
 import { setupAuthInterceptors } from './../Services/Api';
 import { getCurrentUserName, hasAuthenticatedSession, setCurrentUsername } from '../Utils/UserStore';
 import { STATUS } from '../Utils/AuthStatus';
-import { authenticateWithStoredCredentials, calculateRefreshTime, formatUserData } from '../Services/AuthService';
+import { authenticateWithStoredCredentials, calculateRefreshTime, formatUserData, refreshAuthToken } from '../Services/AuthService';
 
 export const AuthContext = createContext({
     ...initialState,
@@ -70,8 +69,8 @@ export const AuthProvider = ({children}) => {
                 const response = await authenticateWithStoredCredentials(storedUserName)
                 const { data } = response
 
-                if(data.userName){
-                    setCurrentUsername(data.userName)
+                if(data.username){
+                    setCurrentUsername(data.username)
                 }
 
                 login(formatUserData(data), data.token, data.expiresAt)
@@ -91,7 +90,7 @@ export const AuthProvider = ({children}) => {
 
         const tokenRefreshTimer = setTimeout(async () => {
             try{
-                const { data } = await refreshAuthToken(state.token)
+                const { data } = await refreshAuthToken()
                 login(formatUserData(data), data.token, data.expiresAt)
             } catch(error){
                 console.error("Token refresh failed",error)
@@ -115,5 +114,3 @@ export const AuthProvider = ({children}) => {
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
-
-export { AuthContext }

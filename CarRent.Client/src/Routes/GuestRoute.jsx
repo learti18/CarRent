@@ -1,18 +1,22 @@
 import React from 'react'
 import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner'
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../Hooks/useAuth'
+import { STATUS } from '../Utils/AuthStatus'
 
 export default function GuestRoute() {
-    const { isAuthenticated, isLoading } = useAuth()
+    const { isAuthenticated, status } = useAuth()
+    const location = useLocation()
 
-    if(isLoading){
+    if (status === STATUS.PENDING) {
         return (
-            <div className='flex justify-center items-center h-screen'>
-                <LoaderBarsSpinner/>
-            </div>
+            <LoaderBarsSpinner fullscreen />
         )
     }
 
-    return isAuthenticated ? <Navigate to="/" replace /> : <Outlet/>
+
+    return isAuthenticated ? 
+    <Navigate to={location.state?.from?.pathname || '/'} replace /> 
+    : 
+    <Outlet/>
 }

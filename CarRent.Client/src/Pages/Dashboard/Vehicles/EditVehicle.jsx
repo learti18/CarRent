@@ -11,19 +11,19 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { VehicleSchema } from '../../../Schemas/VehicleSchema';
 import { toast } from 'sonner';
-import { useVehicle } from '../../../Hooks/useVehicle';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LoaderBarsSpinner } from '../../../Components/LoaderBarsSpinner';
+import { useUpdateVehicle, useVehicleById } from '../../../Queries/vehicles';
 
 const API_BASE_URL = 'http://localhost:5160';
 
 export default function EditVehicle() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getVehicleById, updateVehicle } = useVehicle();
-  const { data: vehicle, isLoading: isLoadingVehicle } = getVehicleById(id);
+  const { mutate: updateVehicle } = useUpdateVehicle();
+  const { data: vehicle, isLoading: isLoadingVehicle } = useVehicleById(id);
 
   const { handleSubmit, register, control, reset, formState: { errors } } = useForm({
     resolver: yupResolver(VehicleSchema),

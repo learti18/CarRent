@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using CarRent.Server.Data;
 using CarRent.Server.Dtos.Account;
 using CarRent.Server.Extensions;
 using CarRent.Server.Interfaces;
@@ -11,18 +12,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRent.Server.Controllers
 {
-    [Route("api/authentication")]
+    [Route("api/auth")]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly ApplicationDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService)
+        public AccountController(UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> 
+            signInManager, 
+            ITokenService tokenService,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _context = context;
         }
 
         [HttpPost("login")]
@@ -131,10 +138,12 @@ namespace CarRent.Server.Controllers
             try
             {
                 var refreshToken = Request.Cookies["refreshToken"];
+                var storedToken = await _context.RefreshTokens
+                    .FirstOrDefaultAsync(t => t.Token == refreshToken && t.DeviceId == refreshTokenDto.DeviceId);
 
-                if (string.IsNullOrEmpty(refreshToken))
+                if (storedToken == null || storedToken.ExpiryTime < DateTime.UtcNow)
                 {
-                    return BadRequest("No refresh token found");
+                    return NotFound("No refresh token found");
                 }
 
                 var userId = await _tokenService.GetUserIdFromRefreshToken(refreshToken);
@@ -184,10 +193,10 @@ namespace CarRent.Server.Controllers
             {
                 var userId = User.GetUserId();
 
-                if(string.IsNullOrEmpty(userId))
+                if (string.IsNullOrEmpty(userId))
                     return BadRequest("User not found");
-                
-                if(!string.IsNullOrEmpty(logoutDto.DeviceId))
+
+                if (!string.IsNullOrEmpty(logoutDto.DeviceId))
                 {
                     await _tokenService.RevokeRefreshToken(userId, logoutDto.DeviceId);
                     RemoveRefreshTokenCookie();

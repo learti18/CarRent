@@ -9,9 +9,9 @@ export default function MobileMenu({ isOpen, links, toggleMobileMenu, isAuthenti
     `}>
       <div className="flex flex-col h-full p-8">
         <div className="space-y-6 flex-1">
-          {links.map((link) => (
+          {links.map((link,index) => (
             <Link
-              key={link.to}
+              key={index}
               to={link.to}
               className="block py-2 text-gray-800 text-lg font-medium hover:text-blue-500"
               onClick={toggleMobileMenu}

@@ -11,8 +11,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { VehicleSchema } from '../../../Schemas/VehicleSchema';
 import { toast } from 'sonner';
-import { useVehicle } from '../../../Hooks/useVehicle';
 import { useNavigate } from 'react-router-dom';
+import { useAddVehicle } from '../../../Queries/vehicles';
 
 export default function AddVehicle() {
   const { handleSubmit, register, control, watch, formState:{errors} } = useForm({
@@ -35,7 +35,7 @@ export default function AddVehicle() {
   });
   
   const navigate = useNavigate();
-  const { addVehicle } = useVehicle();
+  const { mutate: addVehicle } = useAddVehicle();
   
   const submitForm = async (data) => {
     try {

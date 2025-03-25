@@ -15,7 +15,6 @@ namespace CarRent.Server.Dtos.Vehicles
         public int Seats { get; set; }
         public decimal Price { get; set; }
         public string Location { get; set; } = string.Empty;
-        public bool IsBooked { get; set; }
         public List<string> Images { get; set; }
         public List<string> Features { get; set; }
     }

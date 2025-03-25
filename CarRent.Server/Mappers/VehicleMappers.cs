@@ -5,9 +5,9 @@ namespace CarRent.Server.Mappers
 {
     public static class VehicleMappers
     {
-        public static VehicleDto ToVehicleDto(this Vehicle vehicleModel)
+        public static VehicleResponseDto ToVehicleDto(this Vehicle vehicleModel)
         {
-            return new VehicleDto
+            return new VehicleResponseDto
             {
                 Id = vehicleModel.Id,
                 Brand = vehicleModel.Brand,
@@ -19,9 +19,9 @@ namespace CarRent.Server.Mappers
                 Transmission = vehicleModel.Transmission,
                 Seats = vehicleModel.Seats,
                 Images = vehicleModel.Images,
+                MainImage = vehicleModel.Images.FirstOrDefault(),
                 Price = vehicleModel.Price,
                 Location = vehicleModel.Location,
-                IsBooked = vehicleModel.IsBooked,
                 Features = vehicleModel.Features.Select(f => f.Name).ToList()
             };
         }
@@ -39,7 +39,6 @@ namespace CarRent.Server.Mappers
                 Seats = createVehicleDto.Seats,
                 Price = createVehicleDto.Price,
                 Location = createVehicleDto.Location,
-                IsBooked = createVehicleDto.IsBooked,
                 Images = new List<string>(),
                 Features = createVehicleDto.Features.Select(f => new VehicleFeature { Name = f }).ToList()
             };

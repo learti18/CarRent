@@ -3,13 +3,13 @@ import { Plus, Search, Filter } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Table from '../../../Components/Dashboard/Common/Table'
 import VehicleTableRow from '../../../Components/Dashboard/Vehicles/VehicleTableRow'
-import { useVehicle } from '../../../Hooks/useVehicle'
 import { toast } from 'sonner'
+import { useAllVehicles, useDeleteVehicle } from '../../../Queries/vehicles'
 
 export default function Vehicles() {
   const [searchQuery, setSearchQuery] = useState('');
-  const { getAllVehicles, deleteVehicle } = useVehicle();
-  const { data: vehicles, isLoading, error } = getAllVehicles;
+  const { mutate: deleteVehicle } = useDeleteVehicle();
+  const { data: vehicles, isLoading, error } = useAllVehicles();
 
   const columns = [
     { key: 'vehicle', label: 'Vehicle' },
