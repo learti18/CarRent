@@ -108,8 +108,8 @@ namespace CarRent.Server.Repository
             }
         }
 
-        public async Task<List<Vehicle>> GetAvailableVehiclesAsync(VehicleQueryDto query)
-        {
+        public async Task<List<Vehicle>> GetAvailableVehiclesAsync(VehicleQueryDto query, string userID)
+        {   
             var vehicles =  _context.Vehicles
                 .Include(v => v.Features)
                 .AsQueryable();
@@ -121,6 +121,7 @@ namespace CarRent.Server.Repository
                             r.Status != RentalStatus.Cancelled
                         )
                     );
+
             vehicles = vehicles
                 .ApplyFiltering(query)
                 .ApplySorting(query)

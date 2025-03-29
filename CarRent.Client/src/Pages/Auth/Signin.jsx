@@ -30,7 +30,7 @@ export default function Signin() {
   const formSection = (
     <>
       {/* mobile image */}
-      <div className="relative md:hidden rounded-xl overflow-hidden p-5 ">
+      <div className="relative md:hidden rounded-xl overflow-hidden ">
         <div className="absolute top-5 left-5 z-10">
           <div className="px-5 py-2 rounded-xl bg-white/10 backdrop-blur-md shadow-lg 
                         transition-all duration-300 hover:bg-white/20">

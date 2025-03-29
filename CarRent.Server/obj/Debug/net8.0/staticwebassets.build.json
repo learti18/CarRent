@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/33um8wgBxvx8dBYNrwJYVKwOh64lejWzymodvYEgj8=",
+  "Hash": "34Gn3ysjbWeCLNeUolXpI/Bpo2jHdE63Hi69YFvyhno=",
   "Source": "CarRent.Server",
   "BasePath": "_content/CarRent.Server",
   "Mode": "Default",
@@ -36,6 +36,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\vehicles\\061e8522-8793-4077-9c53-736555176542.svg"
+    },
+    {
+      "Identity": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\080312e2-5fcb-4058-98d7-f73bf8dafbdc.svg",
+      "SourceId": "CarRent.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\",
+      "BasePath": "_content/CarRent.Server",
+      "RelativePath": "uploads/vehicles/080312e2-5fcb-4058-98d7-f73bf8dafbdc#[.{fingerprint}]?.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "4m65wvykqj",
+      "Integrity": "vMx0p4Ar795KFkEwjTXsNXenYiJCOSETAKxQQvpcExs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\vehicles\\080312e2-5fcb-4058-98d7-f73bf8dafbdc.svg"
     },
     {
       "Identity": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\2c643c88-cb01-4116-9876-ecefbbafbc41.jpg",
@@ -99,6 +120,48 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\vehicles\\50be7d03-d932-44be-a507-2e00a12454fa.svg"
+    },
+    {
+      "Identity": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\9103a42e-becb-4bb1-bf1a-24853819ddec.png",
+      "SourceId": "CarRent.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\",
+      "BasePath": "_content/CarRent.Server",
+      "RelativePath": "uploads/vehicles/9103a42e-becb-4bb1-bf1a-24853819ddec#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ln6zi5dswf",
+      "Integrity": "j51l1/dIQoH7CKnSF0zYomlJMU1xVKOaaOIOVLvnCUI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\vehicles\\9103a42e-becb-4bb1-bf1a-24853819ddec.png"
+    },
+    {
+      "Identity": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\a2819485-b45a-46dc-8336-97037d7653b5.png",
+      "SourceId": "CarRent.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\",
+      "BasePath": "_content/CarRent.Server",
+      "RelativePath": "uploads/vehicles/a2819485-b45a-46dc-8336-97037d7653b5#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "13ayysx41m",
+      "Integrity": "jcncYIZhkoRzFuSfAfcVW1+wtaH/ogr/s0TOtoZb0mE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\vehicles\\a2819485-b45a-46dc-8336-97037d7653b5.png"
     },
     {
       "Identity": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\cd3e648d-b458-46eb-a6ba-04f6cbe209fb.jpg",
@@ -202,6 +265,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-dNP1j6h5zsiM4X44uyHpbChIq3dXMZYNOAux0GxcxOQ="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/vehicles/080312e2-5fcb-4058-98d7-f73bf8dafbdc.4m65wvykqj.svg",
+      "AssetFile": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\080312e2-5fcb-4058-98d7-f73bf8dafbdc.svg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "161906"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/svg+xml"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"vMx0p4Ar795KFkEwjTXsNXenYiJCOSETAKxQQvpcExs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 00:07:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4m65wvykqj"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/vehicles/080312e2-5fcb-4058-98d7-f73bf8dafbdc.svg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-vMx0p4Ar795KFkEwjTXsNXenYiJCOSETAKxQQvpcExs="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/vehicles/080312e2-5fcb-4058-98d7-f73bf8dafbdc.svg",
+      "AssetFile": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\080312e2-5fcb-4058-98d7-f73bf8dafbdc.svg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "161906"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/svg+xml"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"vMx0p4Ar795KFkEwjTXsNXenYiJCOSETAKxQQvpcExs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 00:07:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-vMx0p4Ar795KFkEwjTXsNXenYiJCOSETAKxQQvpcExs="
         }
       ]
     },
@@ -448,6 +593,170 @@
         {
           "Name": "integrity",
           "Value": "sha256-rcS3J2Cp+WrY6lPTPANTWevZJJscoXl0mdwvPyIE0sg="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/vehicles/9103a42e-becb-4bb1-bf1a-24853819ddec.ln6zi5dswf.png",
+      "AssetFile": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\9103a42e-becb-4bb1-bf1a-24853819ddec.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "770723"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"j51l1/dIQoH7CKnSF0zYomlJMU1xVKOaaOIOVLvnCUI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 00:18:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ln6zi5dswf"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/vehicles/9103a42e-becb-4bb1-bf1a-24853819ddec.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-j51l1/dIQoH7CKnSF0zYomlJMU1xVKOaaOIOVLvnCUI="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/vehicles/9103a42e-becb-4bb1-bf1a-24853819ddec.png",
+      "AssetFile": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\9103a42e-becb-4bb1-bf1a-24853819ddec.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "770723"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"j51l1/dIQoH7CKnSF0zYomlJMU1xVKOaaOIOVLvnCUI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 00:18:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-j51l1/dIQoH7CKnSF0zYomlJMU1xVKOaaOIOVLvnCUI="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/vehicles/a2819485-b45a-46dc-8336-97037d7653b5.13ayysx41m.png",
+      "AssetFile": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\a2819485-b45a-46dc-8336-97037d7653b5.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "124578"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jcncYIZhkoRzFuSfAfcVW1+wtaH/ogr/s0TOtoZb0mE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 00:13:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "13ayysx41m"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/vehicles/a2819485-b45a-46dc-8336-97037d7653b5.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-jcncYIZhkoRzFuSfAfcVW1+wtaH/ogr/s0TOtoZb0mE="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/vehicles/a2819485-b45a-46dc-8336-97037d7653b5.png",
+      "AssetFile": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\a2819485-b45a-46dc-8336-97037d7653b5.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "124578"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"jcncYIZhkoRzFuSfAfcVW1+wtaH/ogr/s0TOtoZb0mE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Mar 2025 00:13:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-jcncYIZhkoRzFuSfAfcVW1+wtaH/ogr/s0TOtoZb0mE="
         }
       ]
     },

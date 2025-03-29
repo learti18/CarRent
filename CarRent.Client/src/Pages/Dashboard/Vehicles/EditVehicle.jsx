@@ -25,7 +25,7 @@ export default function EditVehicle() {
   const { mutate: updateVehicle } = useUpdateVehicle();
   const { data: vehicle, isLoading: isLoadingVehicle } = useVehicleById(id);
 
-  const { handleSubmit, register, control, reset, formState: { errors } } = useForm({
+  const { handleSubmit, register, control, reset, formState: { errors }, watch } = useForm({
     resolver: yupResolver(VehicleSchema),
     defaultValues: {
       brand: '',
@@ -118,6 +118,9 @@ export default function EditVehicle() {
     }
   };
 
+  console.log(watch("makeYear"))
+  console.log(watch("location"))
+  
   const onError = (errors) => {
     toast.error('Please fill in all required fields');
     console.log('Form errors:', errors);

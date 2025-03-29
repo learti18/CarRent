@@ -1,27 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuth } from '../Hooks/useAuth'
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner'
+import { STATUS } from '../Utils/AuthStatus'
 
 export default function AdminRoute() {
-    const { isLoading,isAuthenticated, isAdmin } = useAuth()
+    const { isAuthenticated, status } = useAuth()
     
-    if (isLoading) {
+    const location = useLocation()
+
+    const [authChecked, setAuthChecked] = useState(false)
+
+    useEffect(() => {
+        if(status !== STATUS.PENDING){
+            setAuthChecked(true)
+        }
+    }, [status])
+
+    if(status === STATUS.PENDING || !authChecked){
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <LoaderBarsSpinner />
-            </div>
+            <LoaderBarsSpinner fullscreen />
         )
-    
-    }
-    if(!isAuthenticated){
-        return <Navigate to="/sign-in" replace/>
     }
 
-    if(!isAdmin){
-        return <Navigate to="/unauthorized" replace/>     
-    }
 
-    return <Outlet/>
+    return  <Outlet/> 
     
 }

@@ -6,6 +6,7 @@ using CarRent.Server.Mappers;
 using CarRent.Server.Dtos.Vehicles;
 using CarRent.Server.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using CarRent.Server.Extensions;
 
 namespace CarRent.Server.Controllers
 {
@@ -16,15 +17,18 @@ namespace CarRent.Server.Controllers
         private readonly IVehicleRepository _vehicleRepo;
         private readonly IImageService _imageService;
         private readonly ILogger<VehiclesController> _logger;
+        private readonly IFavoriteVehiclesRepository _favoriteRepo;
 
         public VehiclesController(
             IVehicleRepository vehicleRepo,
             IImageService imageService,
-            ILogger<VehiclesController> logger)
+            ILogger<VehiclesController> logger,
+            IFavoriteVehiclesRepository favoriteRepo)
         {
             _vehicleRepo = vehicleRepo;
             _imageService = imageService;
             _logger = logger;
+            _favoriteRepo = favoriteRepo;
         }
 
         [HttpGet]
@@ -48,12 +52,24 @@ namespace CarRent.Server.Controllers
         }
 
         [HttpGet("available")]
+        [Authorize]
         public async Task<IActionResult> GetAvailableVehicles(
             [FromQuery] VehicleQueryDto query)
         {
-            var vehicles = await _vehicleRepo.GetAvailableVehiclesAsync(query);
-            var vehiclesDto = vehicles.Select(vehicle => vehicle.ToVehicleDto());
-            return Ok(vehiclesDto);
+            var userId = User.GetUserId();
+
+            var vehicles = await _vehicleRepo.GetAvailableVehiclesAsync(query,userId);
+
+            var favoriteVehicles = await _favoriteRepo.GetFavoriteVehicleIds(userId);
+
+            var vehicleDtos = vehicles.Select(vehicle =>
+            {
+                var vehicleDto = vehicle.ToVehicleDto();
+                vehicleDto.IsFavorite = favoriteVehicles.Contains(vehicle.Id);
+                return vehicleDto;
+            });
+
+            return Ok(vehicleDtos);
         }
 
         [HttpPost]
@@ -115,7 +131,8 @@ namespace CarRent.Server.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateVehicle([FromRoute] int id, [FromBody] UpdateVehicleDto vehicleDto)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UpdateVehicle([FromRoute] int id, [FromForm] UpdateVehicleDto vehicleDto)
         {
             try
             {

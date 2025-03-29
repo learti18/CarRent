@@ -113,6 +113,7 @@ builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IFavoriteVehiclesRepository, FavoriteVehiclesRepository>();
 //builder.Services.AddHostedService<RentalStatusUpdater>();
 
 var app = builder.Build();

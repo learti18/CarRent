@@ -3,23 +3,24 @@
   "WorkspaceRootPath": "C:\\web\\CarRent\\CarRent.Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\repository\\vehiclerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:repository\\vehiclerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\repository\\reviewrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:repository\\reviewrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\extensions\\vehiclequeryableextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:extensions\\vehiclequeryableextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\controllers\\reviewscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:controllers\\reviewscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\dtos\\vehicles\\vehiclequerydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:dtos\\vehicles\\vehiclequerydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\mappers\\reviewmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:mappers\\reviewmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\web\\Login practice\\AuthenticationTut\\Repository\\StockRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\dtos\\reviews\\reviewresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:dtos\\reviews\\reviewresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\controllers\\vehiclescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:controllers\\vehiclescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\interfaces\\ireviewrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:interfaces\\ireviewrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,71 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "VehicleQueryableExtensions.cs",
-              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Extensions\\VehicleQueryableExtensions.cs",
-              "RelativeDocumentMoniker": "Extensions\\VehicleQueryableExtensions.cs",
-              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Extensions\\VehicleQueryableExtensions.cs",
-              "RelativeToolTip": "Extensions\\VehicleQueryableExtensions.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAQwCoAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T23:44:44.721Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "StockRepository.cs",
-              "DocumentMoniker": "C:\\web\\Login practice\\AuthenticationTut\\Repository\\StockRepository.cs",
-              "RelativeDocumentMoniker": "..\\..\\Login practice\\AuthenticationTut\\Repository\\StockRepository.cs",
-              "ToolTip": "C:\\web\\Login practice\\AuthenticationTut\\Repository\\StockRepository.cs",
-              "RelativeToolTip": "..\\..\\Login practice\\AuthenticationTut\\Repository\\StockRepository.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABkAAAAcAAAAAAAAAA==",
+              "Title": "ReviewResponseDto.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Dtos\\Reviews\\ReviewResponseDto.cs",
+              "RelativeDocumentMoniker": "Dtos\\Reviews\\ReviewResponseDto.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Dtos\\Reviews\\ReviewResponseDto.cs",
+              "RelativeToolTip": "Dtos\\Reviews\\ReviewResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T23:22:32.353Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "VehicleQueryDto.cs",
-              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Dtos\\Vehicles\\VehicleQueryDto.cs",
-              "RelativeDocumentMoniker": "Dtos\\Vehicles\\VehicleQueryDto.cs",
-              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Dtos\\Vehicles\\VehicleQueryDto.cs",
-              "RelativeToolTip": "Dtos\\Vehicles\\VehicleQueryDto.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAwBMAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T23:14:39.279Z",
+              "WhenOpened": "2025-03-29T00:19:25.924Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "VehiclesController.cs",
-              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\VehiclesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\VehiclesController.cs",
-              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\VehiclesController.cs",
-              "RelativeToolTip": "Controllers\\VehiclesController.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAYwDUAAABHAAAAAAAAAA==",
+              "Title": "IReviewRepository.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Interfaces\\IReviewRepository.cs",
+              "RelativeDocumentMoniker": "Interfaces\\IReviewRepository.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Interfaces\\IReviewRepository.cs",
+              "RelativeToolTip": "Interfaces\\IReviewRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T23:06:58.114Z",
+              "WhenOpened": "2025-03-29T00:03:51.246Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "VehicleRepository.cs",
-              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Repository\\VehicleRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\VehicleRepository.cs",
-              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Repository\\VehicleRepository.cs",
-              "RelativeToolTip": "Repository\\VehicleRepository.cs",
-              "ViewState": "AgIAAGsAAAAAAAAAAAAcwIAAAAAwAAAAAAAAAA==",
+              "Title": "ReviewRepository.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Repository\\ReviewRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\ReviewRepository.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Repository\\ReviewRepository.cs",
+              "RelativeToolTip": "Repository\\ReviewRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T23:06:37.482Z",
+              "WhenOpened": "2025-03-29T00:03:26.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReviewMapper.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Mappers\\ReviewMapper.cs",
+              "RelativeDocumentMoniker": "Mappers\\ReviewMapper.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Mappers\\ReviewMapper.cs",
+              "RelativeToolTip": "Mappers\\ReviewMapper.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAcwBYAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-29T00:01:38.676Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ReviewsController.cs",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\ReviewsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ReviewsController.cs",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\ReviewsController.cs",
+              "RelativeToolTip": "Controllers\\ReviewsController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAowE8AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-28T23:51:56.895Z",
               "EditorCaption": ""
             }
           ]

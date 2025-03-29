@@ -28,15 +28,17 @@ namespace CarRent.Server.Extensions
         }
         public static IQueryable<Vehicle> ApplySorting(this IQueryable<Vehicle> vehicles, VehicleQueryDto filters)
         {
-            switch(filters.SortBy.ToLower())
+            if(!string.IsNullOrEmpty(filters.SortBy))
             {
-                case "price":
-                    vehicles = filters.SortOrder.ToLower() == "asc" ?
-                        vehicles.OrderBy(v => v.Price) :
-                        vehicles.OrderByDescending(v => v.Price);
-                    break;
+                switch (filters.SortBy.ToLower())
+                {
+                    case "price":
+                        vehicles = filters.SortOrder.ToLower() == "asc" ?
+                            vehicles.OrderBy(v => v.Price) :
+                            vehicles.OrderByDescending(v => v.Price);
+                        break;
+                }
             }
-
             return vehicles;
         }
         

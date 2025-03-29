@@ -52,7 +52,6 @@ namespace CarRent.Server.Controllers
 
             return Ok(paymentsDto);
         }
-
  
     }
 }

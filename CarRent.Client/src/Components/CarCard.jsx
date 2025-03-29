@@ -27,7 +27,7 @@ export default function CarCard({
 
   return (
     <div 
-        className={`flex flex-col justify-between gap-y-4 bg-white p-6 rounded-xl ${isSlider ? 'min-w-72' : ''}`}>
+        className={`flex flex-col justify-between md:gap-y-4 bg-white p-6 rounded-xl ${isSlider ? 'min-w-72' : ''}`}>
        <div className="flex flex-col mb-4">
             <div className="flex justify-between items-start">
                 <div>
@@ -46,7 +46,7 @@ export default function CarCard({
                 ? 'flex-col space-y-4' 
                 : 'flex-row sm:flex-col sm:justify-between'
         }`}>
-        <div className="flex justify-center mr-5 relative w-full py-8">
+        <div className="flex justify-center relative py-8 mr-auto md:m-auto ">
             <img 
                 src={getImageUrl(images[0])} 
                 alt={`${brand} ${model}`} 

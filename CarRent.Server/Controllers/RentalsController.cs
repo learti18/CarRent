@@ -75,6 +75,11 @@ namespace CarRent.Server.Controllers
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 bool isAvailable = await _rentalRepo.IsVehicleAvailable(createRentalDto.VehicleId,
                                                                 createRentalDto.Pickup.DateTime,
                                                                 createRentalDto.DropOff.DateTime);

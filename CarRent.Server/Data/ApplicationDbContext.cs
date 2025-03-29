@@ -14,8 +14,10 @@ namespace CarRent.Server.Data
         }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleFeature> VehicleFeatures { get; set; }
+        public DbSet<FavoriteVehicle> FavoriteVehicles { get; set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -13,6 +13,7 @@
         public int Seats { get; set; }
         public decimal Price { get; set; }
         public string Location { get; set; } = string.Empty;
+        public bool IsFavorite { get; set; }
         public List<string> Images { get; set; }
         public string MainImage {  get; set; } = string.Empty;
         public List<string> Features { get; set; }

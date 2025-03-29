@@ -12,17 +12,19 @@ export default function YearPicker({ label, register, name, required, error }) {
     const years = Array.from({ length: 34 }, (_, i) => currentYear - i)
 
     // Get the register props
-    const { onChange, value } = register(name)
+    const { onChange, onBlur, name: fieldName, ref } = register(name)
 
-    // Update selected year when form value changes
+    // Use react-hook-form's watch to get the current value directly
     useEffect(() => {
-        if (value) {
-            console.log(`YearPicker ${name} value changed:`, value);
-            // Convert value to number if it's a string
-            const yearValue = typeof value === 'string' ? parseInt(value) : value;
-            setSelectedYear(yearValue);
+        // Get the form value directly from the DOM
+        const formInput = document.querySelector(`input[name="${name}"]`)
+        if (formInput && formInput.value) {
+            const yearValue = parseInt(formInput.value)
+            if (!isNaN(yearValue)) {
+                setSelectedYear(yearValue)
+            }
         }
-    }, [value, name])
+    }, [name])
 
     useEffect(() => {
         if (isOpen && buttonRef.current) {
@@ -49,6 +51,15 @@ export default function YearPicker({ label, register, name, required, error }) {
                 <label className="block font-medium text-black mb-3">{label}</label>
             )}
             <div className="relative">
+                {/* Hidden input to store the actual value for react-hook-form */}
+                <input 
+                    type="hidden"
+                    name={name}
+                    ref={ref}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={selectedYear}
+                />
                 <button
                     type="button" // Important to prevent form submission
                     ref={buttonRef}
