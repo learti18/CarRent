@@ -21,16 +21,20 @@ namespace CarRent.Server.Repository
             return review;
         }
 
-        public Task<List<Review>> GetAllAsync()
+        public async Task<List<Review>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var reviews = await _context.Reviews
+                .Include(r => r.User)
+                .ToListAsync();
+
+            return reviews;
         }
 
         public async Task<Review?> GetByIdAsync(int vehicleId, int reviewId)
         {
             var review = await _context.Reviews
                 .Where(r => r.VehicleId == vehicleId && r.Id == reviewId)
-                .Include(review => review.User.UserName)
+                .Include(r => r.User)
                 .FirstOrDefaultAsync();
 
             if (review == null)
@@ -40,14 +44,29 @@ namespace CarRent.Server.Repository
 
             return review;
         }
+
+        public async Task<Review> GetUserReviewForVehicleAsync(string userId, int vehicleId)
+        {
+            var review = await _context.Reviews
+                .FirstOrDefaultAsync(r => r.VehicleId == vehicleId && r.UserId == userId);
+
+            if (review == null)
+            {
+                return null;
+            }
+
+            return review;
+        }
+
         public async Task<List<Review>> GetVehicleReviewsAsync(int vehicleId)
         {
             var reviews = await _context.Reviews
                 .Where(r => r.VehicleId == vehicleId)
-                .Include(r => r.User.UserName)
+                .Include(r => r.User)
                 .ToListAsync();
 
             return reviews;
         }
+
     }
 }

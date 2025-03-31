@@ -7,22 +7,23 @@ namespace CarRent.Server.Service
     public class ImageService : IImageService
     {
         private readonly IWebHostEnvironment _environment;
-        private readonly string _uploadDirectory = "uploads/vehicles";
 
         public ImageService(IWebHostEnvironment environment)
         {
             _environment = environment;
         }
 
-        public async Task<string> SaveImageAsync(IFormFile imageFile)
+        public async Task<string> SaveImageAsync(IFormFile imageFile, string folder)
         {
             if (imageFile == null || imageFile.Length == 0)
             {
                 throw new ArgumentException("No image file provided");
             }
 
-            // Create the uploads directory if it doesn't exist
-            var uploadsPath = Path.Combine(_environment.WebRootPath, _uploadDirectory);
+            // Create the target folder path
+            var uploadDirectory = $"uploads/{folder}";  // Use the provided folder name or default to 'vehicles'
+            var uploadsPath = Path.Combine(_environment.WebRootPath, uploadDirectory);
+
             if (!Directory.Exists(uploadsPath))
             {
                 Directory.CreateDirectory(uploadsPath);
@@ -39,7 +40,7 @@ namespace CarRent.Server.Service
             }
 
             // Return the relative URL
-            return $"/{_uploadDirectory}/{uniqueFileName}";
+            return $"/{uploadDirectory}/{uniqueFileName}";
         }
 
         public void DeleteImage(string imageUrl)
@@ -63,5 +64,6 @@ namespace CarRent.Server.Service
                 Console.Error.WriteLine($"Error deleting image: {ex.Message}");
             }
         }
+
     }
 }

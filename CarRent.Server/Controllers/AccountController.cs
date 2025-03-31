@@ -19,16 +19,19 @@ namespace CarRent.Server.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly ApplicationDbContext _context;
+        private readonly IImageService _imageService;
 
         public AccountController(UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> 
             signInManager, 
             ITokenService tokenService,
+            IImageService imageService,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _imageService = imageService;
             _context = context;
         }
 
@@ -214,6 +217,38 @@ namespace CarRent.Server.Controllers
                 return StatusCode(500, e);
             }
         }
+
+        [HttpPut("update-avatar")]
+        [Consumes("multipart/form-data")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfileImage([FromForm] CreateProfileDto profileDto)
+        {
+            if(profileDto.ProfileImage == null)
+            {
+                return BadRequest("No file uploaded.");
+            }
+            var userId = User.GetUserId();
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if(user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            var imageUrl = await _imageService.SaveImageAsync(profileDto.ProfileImage, "profile");
+            
+            user.ProfileImageUrl = imageUrl;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest("Failed to update profile image!");
+            }
+
+            return Ok(new { ProfileImageUrl = user.ProfileImageUrl });
+        }
+
         private void SetRefreshTokenCookie(string refreshToken)
         {
             var cookieOptions = new CookieOptions

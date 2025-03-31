@@ -96,7 +96,7 @@ namespace CarRent.Server.Controllers
                         {
                             if (image.Length > 0)
                             {
-                                var imageUrl = await _imageService.SaveImageAsync(image);
+                                var imageUrl = await _imageService.SaveImageAsync(image,"vehicles");
                                 vehicle.Images.Add(imageUrl);
                                 _logger.LogInformation($"Image saved successfully: {imageUrl}");
                             }

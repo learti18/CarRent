@@ -21,16 +21,9 @@ namespace CarRent.Server.Controllers
             _reviewRepo = reviewRepo;
         }
 
-        //[HttpGet]
-        //[Authorize]
-        //public async Task<IActionResult> GetVehicleReviews()
-        //{
-
-        //}
-
-        [HttpPost("{vehicleId}")]
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> PostReview([FromRoute] int vehicleId, [FromBody] CreateReviewDto reviewDto)
+        public async Task<IActionResult> PostReview([FromBody] CreateReviewDto reviewDto)
         {
             if (!ModelState.IsValid)
             {
@@ -39,7 +32,7 @@ namespace CarRent.Server.Controllers
 
             var userId = User.GetUserId();
 
-            var rental = await _rentalRepo.GetByIdAsync(vehicleId);
+            var rental = await _rentalRepo.GetByIdAsync(reviewDto.RentalId);
 
             if (rental == null || userId != rental.UserId)
             {
@@ -50,9 +43,15 @@ namespace CarRent.Server.Controllers
                 return BadRequest("You can only review a vehicle after you have returned it");
             }
 
+            var existingReview = await _reviewRepo.GetUserReviewForVehicleAsync(userId, rental.VehicleId);
+            if(existingReview != null)
+            {
+                return BadRequest("You have already reviewed this vehicle!");
+            }
+            
             var review = reviewDto.ToReview();
             review.UserId = userId;
-            review.VehicleId = vehicleId;
+            review.VehicleId = rental.VehicleId;
 
             await _reviewRepo.CreateAsync(review);
 

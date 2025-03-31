@@ -9,7 +9,5 @@ namespace CarRent.Server.Dtos.Reviews
         public int Rating { get; set; }
         public string Username { get; set; }
         public DateTime DateCreated { get; set; }
-        public ApplicationUser User { get; set; }
-        public Vehicle Vehicle { get; set; }
     }
 }

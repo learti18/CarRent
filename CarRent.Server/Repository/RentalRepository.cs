@@ -27,6 +27,7 @@ namespace CarRent.Server.Repository
             {
                 rental.UpdateStatus();
             }
+            await _context.SaveChangesAsync();
 
             return rentals;
         }
@@ -62,6 +63,7 @@ namespace CarRent.Server.Repository
 
             return rentals;
         }
+
         public async Task<Rental> CreateAsync(Rental rental)
         {
             try
@@ -91,6 +93,18 @@ namespace CarRent.Server.Repository
                 .AnyAsync(r => r.VehicleId == vehicleId &&
                             r.PickupDateTime < dropOffDate &&
                             r.DropOffDateTime > pickupDate);
+        }
+
+        public async Task UpdateRentalStatusesAsync()
+        {
+            var rentals = await _context.Rentals.ToListAsync();
+            
+            foreach(var rental in rentals)
+            {
+                rental.UpdateStatus();
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

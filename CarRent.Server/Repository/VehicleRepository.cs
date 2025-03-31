@@ -171,7 +171,7 @@ namespace CarRent.Server.Repository
                 existingVehicle.Images = new List<string>();
                 foreach (var image in vehicleDto.Images)
                 {
-                    var imageUrl = await _imageService.SaveImageAsync(image);
+                    var imageUrl = await _imageService.SaveImageAsync(image,"vehicles");
                     existingVehicle.Images.Add(imageUrl);
                 }
             }
