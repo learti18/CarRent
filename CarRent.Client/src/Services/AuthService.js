@@ -4,7 +4,6 @@ import api from './Api';
 
 export const authenticateWithStoredCredentials =  async (username = null) => {
     return await api.post('/auth/refresh-token', {
-        username: username || undefined,
         deviceId: getOrGenerateDeviceId(),
         accessToken: null 
       });
@@ -16,7 +15,7 @@ export const refreshAuthToken = async () => {
     })
 }
 
-export const calculateRefreshTime = (expiresAt, buffer = 30000) => {
+export const calculateRefreshTime = (expiresAt, buffer = 3000) => {
     const expiresAtTime = new Date(expiresAt).getTime()
     return Math.max(expiresAtTime - Date.now() - buffer, 0)
 }

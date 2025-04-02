@@ -1,111 +1,248 @@
-import React, { useState } from "react";
-import { Clock } from "lucide-react";
-import { Controller } from "react-hook-form";
-import { format } from "date-fns";
+import React, { useState, useEffect, useRef } from 'react';
+import { Controller } from 'react-hook-form';
+import TimePicker from 'react-time-picker';
+import { Clock, ChevronDown, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import 'react-time-picker/dist/TimePicker.css';
 
 export default function TimePickerInput({ label, name, control, error, className }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedPeriod, setSelectedPeriod] = useState("AM");
-
-  const commonTimeSlots = [
-    "12:00", "12:30", "1:00", "1:30", "2:00", "2:30",
-    "3:00", "3:30", "4:00", "4:30", "5:00", "5:30",
-    "6:00", "6:30", "7:00", "7:30", "8:00", "8:30",
-    "9:00", "9:30", "10:00", "10:30", "11:00", "11:30"
-  ];
-
-  const formatTimeDisplay = (value) => {
-    if (!value) return "";
-    const [hours, minutes] = value.split(":");
-    const hour = parseInt(hours);
-    return format(new Date().setHours(hour, parseInt(minutes)), "HH:mm");
-  };
-
-  const handleTimeSelect = (time, period, onChange) => {
-    const [hours, minutes] = time.split(":");
-    let hour = parseInt(hours);
+  const [showAbove, setShowAbove] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const pickerRef = useRef(null);
+  
+  // Generate time options in 30-minute intervals
+  const timeOptions = [];
+  for (let hour = 0; hour < 24; hour++) {
+    timeOptions.push(`${hour}:00`);
+    timeOptions.push(`${hour}:30`);
+  }
+  
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
     
-    if (period === "PM" && hour !== 12) {
-      hour += 12;
-    } else if (period === "AM" && hour === 12) {
-      hour = 0;
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+  
+  // Prevent body scroll when modal is open on mobile
+  useEffect(() => {
+    if (isOpen && isMobile) {
+      // Save the current scroll position
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.overflowY = 'hidden';
+      
+      return () => {
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.top = '';
+        document.body.style.overflowY = '';
+        // Restore scroll position
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen, isMobile]);
+  
+  // Format time for display
+  const formatTimeDisplay = (time) => {
+    if (!time) return 'Select time';
+    
+    try {
+      const [hour, minute] = time.split(':');
+      const hourNum = parseInt(hour);
+      const ampm = hourNum >= 12 ? 'PM' : 'AM';
+      const hour12 = hourNum % 12 || 12;
+      return `${hour12}:${minute} ${ampm}`;
+    } catch (error) {
+      console.error('Invalid time format:', error);
+      return 'Select time';
+    }
+  };
+  
+  // Handle dropdown position on open
+  useEffect(() => {
+    if (isOpen && pickerRef.current && !isMobile) {
+      const rect = pickerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - rect.bottom;
+      const spaceNeeded = 300; // approximate height of time picker dropdown
+      
+      setShowAbove(spaceBelow < spaceNeeded);
+    }
+  }, [isOpen, isMobile]);
+  
+  // Add click outside listener to close dropdown
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
     }
     
-    const formattedTime = `${hour.toString().padStart(2, "0")}:${minutes}`;
-    onChange(formattedTime);
-    setIsOpen(false);
+    // Only add for desktop - mobile uses full screen modal approach
+    if (isOpen && !isMobile) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    // Clean up
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, isMobile]);
+  
+  // Mobile modal component for time picker
+  const MobileTimePickerModal = ({ field }) => {
+    return createPortal(
+      <div 
+        className="fixed inset-0 bg-white"
+        style={{ zIndex: 9999 }}
+      >
+        <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+          <h2 className="text-lg font-semibold">Select Time</h2>
+          <button 
+            onClick={() => setIsOpen(false)}
+            className="p-1 rounded-full hover:bg-gray-100"
+          >
+            <X size={24} />
+          </button>
+        </div>
+        <div className="flex-1 p-4 overflow-auto">
+          <div className="react-time-picker-custom mb-4 flex justify-center">
+            <TimePicker
+              onChange={(value) => {
+                field.onChange(value);
+              }}
+              value={field.value}
+              format="H:mm"
+              disableClock={true}
+              clearIcon={null}
+              className="react-time-picker-custom"
+            />
+          </div>
+          
+          <div className="mt-3 overflow-auto">
+            {timeOptions.map((time) => (
+              <button
+                key={time}
+                type="button"
+                className={`w-full text-left px-4 py-3 rounded hover:bg-blue-50 ${
+                  field.value === time ? 'bg-blue-100 font-medium' : ''
+                }`}
+                onClick={() => {
+                  field.onChange(time);
+                }}
+              >
+                {formatTimeDisplay(time)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="p-4 border-t border-gray-200">
+          <button
+            type="button"
+            className="w-full bg-blue-600 text-white py-3 rounded-md font-medium"
+            onClick={() => setIsOpen(false)}
+          >
+            Done
+          </button>
+        </div>
+      </div>,
+      document.body
+    );
   };
-
+  
   return (
     <div className="w-full">
-      <label className="block font-medium text-black mb-3">{label}</label>
-      <div className="relative w-full">
+      {label && (
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          {label}
+        </label>
+      )}
+      
+      <div className="relative" ref={pickerRef}>
         <Controller
-          name={name}
           control={control}
-          render={({ field: { onChange, value } }) => (
+          name={name}
+          render={({ field }) => (
             <>
               <div
-                className={`w-full px-5 py-3 pr-10 border-none cursor-pointer ${value ? 'text-black' : 'text-slate-400'} ${className || 'bg-gray-100'} rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 ${
-                  error ? 'border-2 border-red-500' : ''
-                }`}
+                className={`w-full flex items-center justify-between px-2 py-1.5 ${
+                  error ? 'border border-red-500' : 'border-none'
+                } bg-white rounded-md cursor-pointer ${className || ''}`}
                 onClick={() => setIsOpen(!isOpen)}
               >
-                {value ? formatTimeDisplay(value) : "Select time"}
+                <div className="flex items-center">
+                  <Clock className="h-4 w-4 text-gray-500 mr-2" />
+                  <span className="text-gray-800 text-sm font-medium">
+                    {formatTimeDisplay(field.value)}
+                  </span>
+                </div>
+                <ChevronDown
+                  className={`h-4 w-4 text-gray-500 transition-transform ${
+                    isOpen ? 'transform rotate-180' : ''
+                  }`}
+                />
               </div>
-              {isOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:relative md:inset-auto md:bg-transparent">
-                  <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl p-4 md:absolute md:bottom-auto md:top-2 md:w-72 md:rounded-xl md:shadow-xl md:border md:border-gray-200">
-                    {/* AM/PM Toggle */}
-                    <div className="flex justify-center mb-4 bg-gray-100 p-1 rounded-lg">
-                      {["AM", "PM"].map((period) => (
-                        <button
-                          key={period}
-                          type="button"
-                          onClick={() => setSelectedPeriod(period)}
-                          className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors
-                            ${selectedPeriod === period
-                              ? "bg-white text-blue-600 shadow-sm"
-                              : "text-gray-600 hover:bg-gray-200"
-                            }`}
-                        >
-                          {period}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Time Grid */}
-                    <div className="grid grid-cols-3 gap-2 max-h-[300px] overflow-y-auto">
-                      {commonTimeSlots.map((time) => (
-                        <button
-                          key={time}
-                          type="button"
-                          onClick={() => handleTimeSelect(time, selectedPeriod, onChange)}
-                          className="p-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                          {time}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Mobile Close Button */}
-                    <button
-                      type="button"
-                      onClick={() => setIsOpen(false)}
-                      className="mt-4 w-full py-3 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 md:hidden"
-                    >
-                      Close
-                    </button>
+              
+              {isOpen && !isMobile && (
+                <div
+                  className={`absolute z-50 ${
+                    showAbove ? 'bottom-full mb-1' : 'top-full mt-1'
+                  } bg-white shadow-lg rounded-md p-4 time-picker-dropdown`}
+                >
+                  <div className="react-time-picker-custom">
+                    <TimePicker
+                      onChange={(value) => {
+                        field.onChange(value);
+                        setIsOpen(false);
+                      }}
+                      value={field.value}
+                      format="H:mm"
+                      disableClock={true}
+                      clearIcon={null}
+                      className="react-time-picker-custom"
+                    />
+                  </div>
+                  
+                  <div className="mt-3 max-h-40 overflow-y-auto">
+                    {timeOptions.map((time) => (
+                      <button
+                        key={time}
+                        type="button"
+                        className={`w-full text-left px-3 py-2 rounded hover:bg-blue-50 ${
+                          field.value === time ? 'bg-blue-100 font-medium' : ''
+                        }`}
+                        onClick={() => {
+                          field.onChange(time);
+                          setIsOpen(false);
+                        }}
+                      >
+                        {formatTimeDisplay(time)}
+                      </button>
+                    ))}
                   </div>
                 </div>
               )}
+              
+              {/* Mobile time picker modal using portal */}
+              {isOpen && isMobile && <MobileTimePickerModal field={field} />}
             </>
           )}
         />
-        <Clock className="absolute right-6 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5 pointer-events-none" />
       </div>
+      
       {error && (
-        <p className="text-red-500 text-sm mt-1">{error.message}</p>
+        <p className="mt-1 text-sm text-red-600">{error.message}</p>
       )}
     </div>
   );

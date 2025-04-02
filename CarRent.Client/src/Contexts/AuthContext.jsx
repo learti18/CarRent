@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useEffect, useMemo, useReducer, useR
 import { AuthReducer, initialState } from './../Utils/AuthReducer';
 import { setAccessToken } from './../Utils/TokenManager';
 import { setupAuthInterceptors } from './../Services/Api';
-import { getCurrentUserName, hasAuthenticatedSession, setCurrentUsername } from '../Utils/UserStore';
+import { getCurrentUserName, hasAuthenticatedSession, setCurrentUser, setCurrentUsername } from '../Utils/UserStore';
 import { STATUS } from '../Utils/AuthStatus';
 import { authenticateWithStoredCredentials, calculateRefreshTime, formatUserData, refreshAuthToken } from '../Services/AuthService';
 
@@ -72,6 +72,10 @@ export const AuthProvider = ({children}) => {
                 if(data.username){
                     setCurrentUsername(data.username)
                 }
+                if(data){
+                    setCurrentUser(data)
+                }
+
 
                 login(formatUserData(data), data.token, data.expiresAt)
             }catch (error) {

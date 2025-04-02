@@ -3,6 +3,7 @@ using CarRent.Server.Data;
 using CarRent.Server.Dtos.Account;
 using CarRent.Server.Extensions;
 using CarRent.Server.Interfaces;
+using CarRent.Server.Mappers;
 using CarRent.Server.Models;
 using CarRent.Server.Service;
 using Microsoft.AspNetCore.Authorization;
@@ -21,9 +22,9 @@ namespace CarRent.Server.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IImageService _imageService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> 
-            signInManager, 
+        public AccountController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser>
+            signInManager,
             ITokenService tokenService,
             IImageService imageService,
             ApplicationDbContext context)
@@ -65,6 +66,7 @@ namespace CarRent.Server.Controllers
                         {
                             Username = user.UserName,
                             Email = user.Email,
+                            ProfileImageUrl = user.ProfileImageUrl,
                             Token = accessToken,
                             ExpiresAt = expiresAt,
                             Roles = roles.ToList()
@@ -113,6 +115,7 @@ namespace CarRent.Server.Controllers
                         {
                             Username = appUser.UserName,
                             Email = appUser.Email,
+                            ProfileImageUrl = appUser.ProfileImageUrl,
                             Token = await _tokenService.GenerateAccessToken(appUser),
                             Roles = roles,
                             ExpiresAt = DateTime.UtcNow.AddMinutes(15)
@@ -144,7 +147,7 @@ namespace CarRent.Server.Controllers
                 var storedToken = await _context.RefreshTokens
                     .FirstOrDefaultAsync(t => t.Token == refreshToken && t.DeviceId == refreshTokenDto.DeviceId);
 
-                if (storedToken == null || storedToken.ExpiryTime < DateTime.UtcNow)
+                if (storedToken == null)
                 {
                     return NotFound("No refresh token found");
                 }
@@ -177,6 +180,7 @@ namespace CarRent.Server.Controllers
                 {
                     Username = user.UserName,
                     Email = user.Email,
+                    ProfileImageUrl = user.ProfileImageUrl,
                     Token = newAccessToken,
                     ExpiresAt = expiresAt,
                     Roles = roles.ToList()
@@ -223,20 +227,20 @@ namespace CarRent.Server.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateProfileImage([FromForm] CreateProfileDto profileDto)
         {
-            if(profileDto.ProfileImage == null)
+            if (profileDto.ProfileImage == null)
             {
                 return BadRequest("No file uploaded.");
             }
             var userId = User.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
 
-            if(user == null)
+            if (user == null)
             {
                 return BadRequest("User not found");
             }
 
             var imageUrl = await _imageService.SaveImageAsync(profileDto.ProfileImage, "profile");
-            
+
             user.ProfileImageUrl = imageUrl;
 
             var result = await _userManager.UpdateAsync(user);
@@ -249,6 +253,22 @@ namespace CarRent.Server.Controllers
             return Ok(new { ProfileImageUrl = user.ProfileImageUrl });
         }
 
+        [HttpGet("profile")]
+        [Authorize]
+        public async Task<IActionResult> GetUserProfile()
+        {
+            var userId = User.GetUserId();
+            var user = await _userManager.Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(user.ToProfileDto());
+        }
         private void SetRefreshTokenCookie(string refreshToken)
         {
             var cookieOptions = new CookieOptions

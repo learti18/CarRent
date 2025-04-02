@@ -5,6 +5,6 @@ export { default as Home } from './Home';
 export { default as Payment } from './Payment';
 export { default as ContactUs } from './ContactUs';
 export { default as Unauthorized } from './Unauthorized';
-
+export { default as UserProfile } from './UserProfile';
 export * from './Auth';
 export * from './Dashboard';

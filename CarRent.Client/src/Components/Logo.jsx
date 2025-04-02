@@ -14,7 +14,7 @@ export default function Logo({ className, variant = "default" }) {
       to="/" 
       className={`group flex items-center gap-2 transition-all duration-300 ${className}`}
     >
-      <span className={`text-blue-500  text-xl md:text-2xl font-bold tracking-tight ${styles[variant]}`}>
+      <span className={`text-blue-500  text-2xl font-bold tracking-tight ${styles[variant]}`}>
         Elite
         <span className={`text-blue-500 inline-block transition-transform group-hover:scale-110 ${styles[variant]}`}>
           Drive

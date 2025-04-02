@@ -10,7 +10,6 @@ export default function PopularRentals() {
   if(isLoading){
     return <LoaderBarsSpinner/>
   }
-  
 
   return (
     <div className="flex flex-col items-center py-14 max-w-7xl mx-auto">

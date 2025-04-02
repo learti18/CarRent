@@ -1,0 +1,167 @@
+/* Base container */
+.custom-select-container {
+  width: 100%;
+  position: relative;
+  z-index: 50; /* Add z-index to the container */
+}
+
+/* LocationSelector styles */
+@media (min-width: 768px) {
+  .location-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .location-panel {
+    flex: 1;
+    min-width: 0; /* Helps with flexbox sizing */
+  }
+
+  .location-switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+  }
+}
+
+/* Select control */
+.react-select__control,
+.clean-select__control {
+  /* background-color: rgb(243 244 246) !important; */
+  border-radius: 0.5rem !important;
+  border: none !important;
+  padding: 0.25rem 0.25rem !important;
+  box-shadow: none !important;
+  min-height: 45px !important;
+}
+
+.react-select__control--is-focused,
+.clean-select__control--is-focused {
+  box-shadow: 0 0 0 2px rgb(107 114 128) !important;
+}
+
+.react-select__control--menu-is-open .dropdown-chevron,
+.clean-select__control--menu-is-open .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+/* Error state */
+.has-error .react-select__control,
+.has-error .clean-select__control {
+  border: 2px solid rgb(239 68 68) !important;
+}
+
+/* Value container */
+.react-select__value-container,
+.clean-select__value-container {
+  padding: 0.25rem 1rem !important;
+}
+
+/* Input field */
+.react-select__input-container,
+.clean-select__input-container {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Placeholder */
+.react-select__placeholder,
+.clean-select__placeholder {
+  color: rgb(156 163 175) !important;
+}
+
+/* Selected value */
+.react-select__single-value,
+.clean-select__single-value {
+  color: rgb(0 0 0) !important;
+}
+
+/* Options */
+.react-select__option,
+.clean-select__option {
+  padding: 0.5rem 1rem !important;
+  cursor: pointer !important;
+  color: rgb(0 0 0) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.react-select__option--is-selected,
+.clean-select__option--is-selected {
+  background-color: rgb(219 234 254) !important;
+}
+
+.react-select__option--is-focused,
+.clean-select__option--is-focused {
+  background-color: rgba(219, 234, 254, 0.5) !important;
+}
+
+.react-select__option:hover,
+.clean-select__option:hover {
+  background-color: rgba(219, 234, 254, 0.5) !important;
+}
+
+/* Dropdown menu */
+.react-select__menu,
+.clean-select__menu {
+  border-radius: 0.5rem !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  z-index: 9999 !important; /* High z-index to ensure menus appear above other elements */
+  min-width: 100% !important;
+  width: max-content !important;
+  max-width: 300px !important;
+  overflow-x: visible !important;
+}
+
+/* Portal styling for menus */
+div[id^="react-select-"][id$="-listbox"],
+div[id^="clean-select-"][id$="-listbox"] {
+  z-index: 9999 !important;
+  min-width: max-content !important;
+  width: auto !important;
+  overflow-x: visible !important;
+}
+
+.react-select__menu-portal,
+.clean-select__menu-portal {
+  z-index: 9999 !important;
+  overflow: visible !important;
+}
+
+.react-select__menu-list,
+.clean-select__menu-list {
+  padding: 0.25rem 0 !important;
+  max-height: 15rem !important;
+  min-width: 100% !important;
+  overflow-x: visible !important;
+  overflow-y: auto !important;
+  width: auto !important;
+}
+
+/* Hide separator */
+.react-select__indicator-separator,
+.clean-select__indicator-separator {
+  display: none !important;
+}
+
+/* Dropdown indicator */
+.dropdown-indicator {
+  padding-right: 0.75rem;
+}
+
+.dropdown-chevron {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+/* Error message */
+.select-error-message {
+  color: rgb(239 68 68);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

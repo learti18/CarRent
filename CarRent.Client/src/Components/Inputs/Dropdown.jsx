@@ -1,87 +1,186 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Select from "react-select";
 import { ChevronDown } from "lucide-react";
 
-export default function DropDown({ label, options, placeholder, register, name, error, className }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showAbove, setShowAbove] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
-  const dropdownRef = useRef(null);
-  const buttonRef = useRef(null);
-
+export default function DropDown({ 
+  label, 
+  options, 
+  placeholder, 
+  register, 
+  name, 
+  error, 
+  className = "",
+  defaultValue,
+  variant = "default"
+}) {
+  const [selectedOption, setSelectedOption] = useState(() => {
+    if (defaultValue) {
+      return { value: defaultValue, label: defaultValue };
+    }
+    return null;
+  });
   const { onChange, value } = register(name);
+  const dropdownRef = useRef(null);
+  
+  const selectOptions = options.map(option => ({
+    value: option,
+    label: option
+  }));
 
   useEffect(() => {
     if (value) {
-      console.log(`Dropdown ${name} value changed:`, value);
-      setSelectedOption(value);
+      setSelectedOption({ value, label: value });
+    } else if (defaultValue && !value) {
+      // If there's a defaultValue but no value yet, set it
+      setSelectedOption({ value: defaultValue, label: defaultValue });
+      // Also update the form value
+      onChange({ target: { value: defaultValue, name } });
     }
-  }, [value, name]);
+  }, [value, defaultValue, onChange, name]);
 
-  useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const spaceBelow = windowHeight - buttonRect.bottom;
-      const spaceNeeded = 200;
+  const handleChange = (selected) => {
+    setSelectedOption(selected);
+    onChange({ target: { value: selected?.value || '', name } });
+  };
 
-      setShowAbove(spaceBelow < spaceNeeded);
+  const DropdownIndicator = props => {
+    return (
+      <div {...props.innerProps} className="dropdown-indicator">
+        <ChevronDown
+          className={`dropdown-chevron ${error ? 'text-red-500' : variant === 'clean' ? 'text-slate-400' : 'text-slate-500'} ${
+            props.selectProps.menuIsOpen ? "rotate-180" : ""
+          }`}
+        />
+      </div>
+    );
+  };
+
+  const getCustomStyles = () => {
+    if (variant === 'clean') {
+      return {
+        control: (provided, state) => ({
+          ...provided,
+          backgroundColor: '#fff',
+          border: 'none',
+          boxShadow: state.isFocused ? '0 0 0 2px rgb(107 114 128)' : 'none',
+          borderRadius: '0.5rem',
+          padding: '0.125rem 0.125rem',
+          minHeight: '38px',
+          '&:hover': {
+            borderColor: 'none'
+          }
+        }),
+        valueContainer: (provided) => ({
+          ...provided,
+          padding: '0.125rem 0.75rem'
+        }),
+        placeholder: (provided) => ({
+          ...provided,
+          color: '#9ca3af',
+          fontSize: '0.875rem'
+        }),
+        singleValue: (provided) => ({
+          ...provided,
+          color: '#000000',
+          fontSize: '0.875rem'
+        }),
+        menu: (provided) => ({
+          ...provided,
+          zIndex: 9999,
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          borderRadius: '0.5rem',
+          minWidth: '100%',
+          width: 'auto',
+          maxWidth: '300px',
+          overflow: 'visible'
+        }),
+        menuList: (provided) => ({
+          ...provided,
+          padding: '0.25rem 0',
+          maxHeight: '15rem',
+          minWidth: '100%',
+          overflowX: 'visible',
+          overflowY: 'auto',
+          width: 'auto'
+        }),
+        option: (provided, state) => ({
+          ...provided,
+          backgroundColor: state.isSelected 
+            ? '#dbeafe' 
+            : state.isFocused 
+              ? 'rgba(219, 234, 254, 0.5)' 
+              : null,
+          color: '#000000',
+          cursor: 'pointer',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          '&:hover': {
+            backgroundColor: 'rgba(219, 234, 254, 0.5)'
+          }
+        }),
+        indicatorSeparator: () => ({
+          display: 'none'
+        })
+      };
     }
-  }, [isOpen]);
-
-  const handleSelect = (option) => {
-    console.log(`Dropdown ${name} selected:`, option);
-    setSelectedOption(option);
-    onChange({ target: { value: option, name } });
-    setIsOpen(false);
+    
+    return {};
   };
 
   return (
-    <div className="w-full">
+    <div className="custom-select-container relative" ref={dropdownRef} style={{ position: 'relative', zIndex: 50 }}>
       {label && (
         <label className="block font-medium text-black mb-3">{label}</label>
       )}
-      <div className="relative">
-        <button
-          ref={buttonRef}
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-full flex items-center justify-between px-5 py-3 bg-gray-100 rounded-lg 
-            ${selectedOption ? 'text-black':'text-gray-400'} 
-            ${error ? 'border-2 border-red-500' : ''} 
-            focus:outline-none focus:ring-2 
-            ${error ? 'focus:ring-red-200' : 'focus:ring-gray-500'} 
-            focus:border-gray-500`}
-        >
-          <span>{selectedOption || placeholder || "Select an option"}</span>
-          <ChevronDown
-            className={`h-5 w-5 ${error ? 'text-red-500' : 'text-slate-400'} transition-transform duration-200 ${
-              isOpen ? "rotate-180" : ""
-            }`}
+      <div className={`relative ${error ? 'has-error' : ''}`}>
+        {variant === 'clean' ? (
+          <Select
+            value={selectedOption}
+            onChange={handleChange}
+            options={selectOptions}
+            placeholder={placeholder || "Select an option"}
+            components={{ 
+              DropdownIndicator,
+              IndicatorSeparator: () => null 
+            }}
+            styles={getCustomStyles()}
+            className={className}
+            classNamePrefix="clean-select"
+            menuPlacement="auto"
+            isSearchable={false}
+            menuPortalTarget={document.body}
+            menuPosition="fixed"
+            menuShouldBlockScroll={true}
+            menuShouldScrollIntoView={false}
+            blurInputOnSelect={true}
+            closeMenuOnSelect={true}
           />
-        </button>
-        {isOpen && (
-          <ul 
-            ref={dropdownRef}
-            className={`absolute ${
-              showAbove ? 'bottom-full mb-1' : 'top-full mt-1'
-            } z-10 w-full bg-white border border-gray-300 rounded-lg shadow-md max-h-40 overflow-auto`}
-          >
-            {options.map((option, index) => (
-              <li
-                key={index}
-                onClick={() => handleSelect(option)}
-                className={`px-4 py-2 hover:bg-blue-100 cursor-pointer ${
-                  option === selectedOption ? 'bg-blue-50' : ''
-                }`}
-              >
-                {option}
-              </li>
-            ))}
-          </ul>
+        ) : (
+          <Select
+            value={selectedOption}
+            onChange={handleChange}
+            options={selectOptions}
+            placeholder={placeholder || "Select an option"}
+            components={{ 
+              DropdownIndicator,
+              IndicatorSeparator: () => null 
+            }}
+            className={`${className || ''}`}
+            classNamePrefix="react-select"
+            menuPlacement="auto"
+            isSearchable={false}
+            menuPortalTarget={document.body}
+            menuPosition="fixed"
+            menuShouldBlockScroll={true}
+            menuShouldScrollIntoView={false}
+            blurInputOnSelect={true}
+            closeMenuOnSelect={true}
+          />
         )}
       </div>
       {error && (
-        <span className="text-red-500 text-sm mt-1">{error.message}</span>
+        <span className="select-error-message">{error.message}</span>
       )}
     </div>
   );

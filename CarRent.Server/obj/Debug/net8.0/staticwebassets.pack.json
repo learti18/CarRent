@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\profile\\44f2990e-7b43-43d6-85f0-19cb5c63a6c0.jpg",
+      "PackagePath": "staticwebassets\\uploads\\profile\\44f2990e-7b43-43d6-85f0-19cb5c63a6c0.jpg"
+    },
+    {
+      "Id": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\profile\\f397e6e1-e3a9-4562-9e6e-d690b59d205f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\profile\\f397e6e1-e3a9-4562-9e6e-d690b59d205f.jpg"
+    },
+    {
       "Id": "C:\\web\\CarRent\\CarRent.Server\\wwwroot\\uploads\\vehicles\\061e8522-8793-4077-9c53-736555176542.svg",
       "PackagePath": "staticwebassets\\uploads\\vehicles\\061e8522-8793-4077-9c53-736555176542.svg"
     },

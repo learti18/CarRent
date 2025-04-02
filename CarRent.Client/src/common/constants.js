@@ -33,3 +33,5 @@ export const LOCATIONS = [
     "Novobërdë",
     "Hani i Elezit"
   ];
+
+  export const IMGURL = 'http://localhost:5160';

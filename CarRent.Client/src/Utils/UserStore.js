@@ -1,4 +1,5 @@
 let currentUsername = null;
+let currentUser = null;
 
 const AUTH_STATUS_KEY = 'auth_status'
 
@@ -7,6 +8,12 @@ export const setCurrentUsername = (username) => {
     localStorage.setItem(AUTH_STATUS_KEY,'true')
 }
 
+export const setCurrentUser = (user) => {
+    currentUser = user;
+}
+export const getCurrentUser = () => {
+    return currentUser;
+}
 export const getCurrentUserName = () => {
     return currentUsername
 }

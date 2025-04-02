@@ -1,5 +1,29 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/CarRent.Server/uploads/profile/44f2990e-7b43-43d6-85f0-19cb5c63a6c0.fnv5awk3f8.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\profile\44f2990e-7b43-43d6-85f0-19cb5c63a6c0.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"fnv5awk3f8"},{"Name":"integrity","Value":"sha256-e/mfhNTHJ3oHjc2tS\u002Bz3jDw53bbpYOXXTHmNR2IqwEo="},{"Name":"label","Value":"_content/CarRent.Server/uploads/profile/44f2990e-7b43-43d6-85f0-19cb5c63a6c0.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"15242"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022e/mfhNTHJ3oHjc2tS\u002Bz3jDw53bbpYOXXTHmNR2IqwEo=\u0022"},{"Name":"Last-Modified","Value":"Mon, 31 Mar 2025 01:51:28 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/CarRent.Server/uploads/profile/44f2990e-7b43-43d6-85f0-19cb5c63a6c0.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\profile\44f2990e-7b43-43d6-85f0-19cb5c63a6c0.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-e/mfhNTHJ3oHjc2tS\u002Bz3jDw53bbpYOXXTHmNR2IqwEo="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"15242"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022e/mfhNTHJ3oHjc2tS\u002Bz3jDw53bbpYOXXTHmNR2IqwEo=\u0022"},{"Name":"Last-Modified","Value":"Mon, 31 Mar 2025 01:51:28 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/CarRent.Server/uploads/profile/f397e6e1-e3a9-4562-9e6e-d690b59d205f.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\profile\f397e6e1-e3a9-4562-9e6e-d690b59d205f.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-HH1MM0cnw1jNxIdEdP3/RF7slDkDjEq6o6gvnuCgbEo="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"3449905"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022HH1MM0cnw1jNxIdEdP3/RF7slDkDjEq6o6gvnuCgbEo=\u0022"},{"Name":"Last-Modified","Value":"Wed, 02 Apr 2025 20:04:28 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/CarRent.Server/uploads/profile/f397e6e1-e3a9-4562-9e6e-d690b59d205f.wltsqlv1wh.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\profile\f397e6e1-e3a9-4562-9e6e-d690b59d205f.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"wltsqlv1wh"},{"Name":"integrity","Value":"sha256-HH1MM0cnw1jNxIdEdP3/RF7slDkDjEq6o6gvnuCgbEo="},{"Name":"label","Value":"_content/CarRent.Server/uploads/profile/f397e6e1-e3a9-4562-9e6e-d690b59d205f.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"3449905"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022HH1MM0cnw1jNxIdEdP3/RF7slDkDjEq6o6gvnuCgbEo=\u0022"},{"Name":"Last-Modified","Value":"Wed, 02 Apr 2025 20:04:28 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/CarRent.Server/uploads/vehicles/061e8522-8793-4077-9c53-736555176542.svg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\vehicles\061e8522-8793-4077-9c53-736555176542.svg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>

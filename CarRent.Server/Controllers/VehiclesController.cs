@@ -32,7 +32,7 @@ namespace CarRent.Server.Controllers
         }
 
         [HttpGet]
-        [Authorize (Roles = "Admin")]
+        // [Authorize (Roles = "Admin")]
         public async Task<IActionResult> GetAllVehicles()
         {
             var vehicles = await _vehicleRepo.GetAllAsync();
@@ -58,7 +58,7 @@ namespace CarRent.Server.Controllers
         {
             var userId = User.GetUserId();
 
-            var vehicles = await _vehicleRepo.GetAvailableVehiclesAsync(query,userId);
+            var vehicles = await _vehicleRepo.GetAvailableVehiclesAsync(query, userId);
 
             var favoriteVehicles = await _favoriteRepo.GetFavoriteVehicleIds(userId);
 
@@ -96,7 +96,7 @@ namespace CarRent.Server.Controllers
                         {
                             if (image.Length > 0)
                             {
-                                var imageUrl = await _imageService.SaveImageAsync(image,"vehicles");
+                                var imageUrl = await _imageService.SaveImageAsync(image, "vehicles");
                                 vehicle.Images.Add(imageUrl);
                                 _logger.LogInformation($"Image saved successfully: {imageUrl}");
                             }

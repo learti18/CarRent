@@ -1,91 +1,92 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom"
-import { Menu, XIcon } from "lucide-react"
+import { Menu, XIcon, Car, Info, LogIn, LogOut, UserPlus, LayoutDashboard } from "lucide-react"
 import MobileMenu from './MobileMenu'
+import { IMGURL } from '../../common/constants'
 import Logo from '../Logo'
 import { useAuth } from './../../Hooks/useAuth';
 import useLogout from './../../Queries/useLogout';
+import { getCurrentUser } from '../../Utils/UserStore'
 
 export default function Navbar() {
-
-  const [mobileMenu,setMobileMenu] = useState(false)
   const { isAuthenticated, isAdmin } = useAuth()
+  const [dropdownMenu, setDropdownMenu] = useState(false)
   const logoutMutation = useLogout()
 
-  function toggleMobileMenu(){
-    setMobileMenu(prevstate => !prevstate)
-  }
-
   const links = [
-    {name:"Rent now", to:"/cars"},
-    {name:"About", to:"/about"},
-    // {name:"Contact us", to:"/contactus"},
-    isAdmin ? {name:"Dashboard", to:"/dashboard"} : ''
-  ]
+    {name: "Profile", to: "/user-profile", icon: <UserPlus size={16} />},
+    {name: "Rent now", to: "/cars", icon: <Car size={16} />},
+    ...(isAuthenticated 
+      ? [{name: "Logout", to: "#", icon: <LogOut size={16} />, onClick: handleLogout}]
+      : [
+          {name: "Sign in", to: "/sign-in", icon: <LogIn size={16} />},
+          {name: "Sign up", to: "/sign-up", icon: <UserPlus size={16} />}
+        ]
+    ),
+    ...(isAdmin ? [{name: "Dashboard", to: "/dashboard", icon: <LayoutDashboard size={16} />}] : [])
+  ].filter(Boolean)
 
-  const handleLogout = async () => {
-    await logoutMutation.mutateAsync()
-  }
+  function handleLogout() {
+    logoutMutation.mutateAsync()
+    setDropdownMenu(false)
+  } 
 
   return (
     <header className='fixed top-0 w-full bg-white border-b z-[100]'>
-      <nav className='py-4 px-6 max-w-7xl mx-auto flex flex-row justify-between items-center relative'>
+      <nav className='py-2 px-6 max-w-7xl mx-auto flex flex-row justify-between items-center relative'>
         <Logo/>
-        
-        {/* Desktop navbar */}
-        <div className='hidden md:flex gap-12'>
-          {
-            links.map((link,index) => (
-              <Link
-                key={index}
-                to={link.to}
-                className='text-gray-700 font-medium py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
-              >
-                {link.name}
-                <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full'></span>
-              </Link>
-            ))
-          }
-        </div>
-        <div className='space-x-8 hidden md:flex items-center'>
-            { 
-              isAuthenticated ?  
-              <button 
-                className='bg-blue-500 text-white py-1 px-6 rounded-md duration-200 transition-colors hover:bg-blue-600'
-                onClick={handleLogout}
-                >
-                Logout
-              </button>
-              :
-              <div className='flex gap-6'>
-                <Link 
-                  to="/sign-in" 
-                  className='text-gray-900 py-1 relative group text-sm hover:text-blue-500 transition-colors duration-200'
-                >
-                  Sign in
-                  <span className='absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all group-hover:w-full'></span>
-                </Link>
-                <Link 
-                  to="/sign-up" 
-                  className='text-sm px-6 py-1.5 rounded-md bg-blue-500 text-white duration-200 hover:bg-blue-600'
-                >
-                  Sign up
-                </Link>
-              </div>
-            }
-        
+        <div className='ml-auto relative'>
+          <button 
+            className={`relative cursor-pointer flex items-center justify-center p-1 rounded-full
+                       transition-all duration-200 ${dropdownMenu ? 'bg-gray-100' : 'hover:bg-gray-50'}`}
+            onClick={() => setDropdownMenu(!dropdownMenu)}
+            aria-expanded={dropdownMenu}
+            aria-haspopup="true"
+          >
+            <div className="relative">
+              <img 
+                src={getCurrentUser().profileImageUrl ? IMGURL + getCurrentUser().profileImageUrl : "user.png"} 
+                alt="User avatar" 
+                lazy="true"
+                className={`w-12 h-12 rounded-full object-cover transition-all duration-200
+                           border-2 border-gray-200
+                           ${dropdownMenu ? 'shadow-inner' : 'hover:shadow-inner'}`}
+                style={{ boxShadow: dropdownMenu ? 'inset 0 2px 4px rgba(0,0,0,0.1)' : '' }}
+              />
+            </div>
+          </button>
+          
+          {dropdownMenu && (
+            <div 
+              className='flex flex-col absolute right-0 top-16 bg-white shadow-xl rounded-xl overflow-hidden w-52 py-2 border border-gray-100 animate-fadeIn'
+              style={{animationDuration: '150ms'}}
+            >
+              {links.map((link, index) => 
+                link.onClick ? (
+                  <button
+                    key={index}
+                    onClick={link.onClick}
+                    className='flex items-center gap-3 px-4 py-2.5 w-full text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 text-left'
+                  >
+                    <span className={`text-gray-500 ${link.name === "Logout" ? "text-red-500" : ""}`}>{link.icon}</span>
+                    <span className={`font-medium ${link.name === "Logout" ? "text-red-500" : ""}`}>{link.name}</span>
+                  </button>
+                ) : (
+                  <Link
+                    key={index}
+                    to={link.to}
+                    className='flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150'
+                    onClick={() => setDropdownMenu(false)}
+                  >
+                    <span className="text-gray-500">{link.icon}</span>
+                    <span className="font-medium">{link.name}</span>
+                  </Link>
+                )
+              )}
+            </div>
+          )}   
         </div>
       </nav>
-        {/* Mobile menu*/}
-        <button onClick={toggleMobileMenu} className='md:hidden fixed right-5 top-4 z-[60]'>
-          {mobileMenu ? 
-            <XIcon className='transition-all duration-300'/> 
-            : 
-            <Menu className=' transition-all duration-300'/>
-          }
-        </button>
-        <MobileMenu isOpen={mobileMenu} links={links} toggleMobileMenu={toggleMobileMenu}/>
-
     </header>
   )
 }

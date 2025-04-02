@@ -7,7 +7,7 @@ import Layout from './Components/Layouts/Layout';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AuthProvider } from './Contexts/AuthContext';
 import { Toaster } from "sonner"
-import { About, Accounts, AddRental, AddVehicle, AllCars, Calendar, CarDetails, ContactUs, Dashboard, EditVehicle, Home, Inbox, Payment, Reimbursements, Rentals, Settings, Signin, Signup, Unauthorized, Vehicles } from './Pages';
+import { About, Accounts, AddRental, AddVehicle, AllCars, Calendar, CarDetails, ContactUs, Dashboard, EditVehicle, Home, Inbox, Payment, Reimbursements, Rentals, Settings, Signin, Signup, Unauthorized, UserProfile, Vehicles } from './Pages';
 import { ProtectedRoute, AdminRoute, GuestRoute } from './Routes';
 
 const queryClient = new QueryClient()
@@ -22,17 +22,20 @@ function App() {
             <ScrollToTop/>
             <Routes>
               {/* user routes */}
-              <Route element={<Layout/>}>
-                <Route path='/unauthorized' element={<Unauthorized/>} />
-                <Route element={<ProtectedRoute/>}>
+              <Route element={<ProtectedRoute/>}>
+                <Route path='unauthorized' element={<Unauthorized/>} />
+                <Route element={<Layout/>}>
                   <Route path='about' element={<About/>} />
                   <Route path='contactus' element={<ContactUs/>} />
+                  <Route path='user-profile' element={<UserProfile/>} />
                   <Route path='cars' element={<AllCars/>} />
                   <Route path='cars/:id' element={<CarDetails/>} />
                   <Route path='cars/:id/payment' element={<Payment/>} />
-                </Route>        
-                <Route path='/' element={<Home/>}/>       
+                </Route>     
               </Route>
+              <Route path='/' element={<Layout/>}>   
+                  <Route path='/' element={<Home/>}/> 
+              </Route> 
               
               {/* guest routes */}
               <Route element={<GuestRoute />}>

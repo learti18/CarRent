@@ -66,7 +66,7 @@ export default function CarDetails() {
           <Carousel vehicle={transformedVehicle}/>
           <CarInfo vehicle={vehicle}/>
         </div>
-        <ReviewSection/>
+        <ReviewSection vehicleId={id}/>
       </div>
       <div className='lg:mx-auto max-w-7xl px-6'>
         <CarSlider title='Similar Vehicles'/>

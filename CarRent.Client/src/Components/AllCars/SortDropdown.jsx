@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 export default function SortDropdown({ onSort }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState('Default');
+  const dropdownRef = useRef(null);
 
   const sortOptions = [
     { label: 'Default', value: 'default' },
@@ -17,8 +18,22 @@ export default function SortDropdown({ onSort }) {
     onSort(option.value);
   };
 
+  // Close on click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg hover:bg-gray-50 transition-colors duration-200"
@@ -27,7 +42,7 @@ export default function SortDropdown({ onSort }) {
         <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      <div className={`absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10 overflow-hidden transition-all duration-200 ease-in-out origin-top ${
+      <div className={`absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-200 ease-in-out origin-top z-50 ${
         isOpen 
           ? 'opacity-100 transform scale-100 translate-y-0' 
           : 'opacity-0 transform scale-95 -translate-y-2 pointer-events-none'

@@ -1,106 +1,202 @@
-import React, { useState } from "react";
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
-import { Controller } from "react-hook-form";
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday } from "date-fns";
+import React, { useState, useEffect, useRef } from 'react';
+import { Controller } from 'react-hook-form';
+import ReactDatePicker from 'react-datepicker';
+import { format } from 'date-fns';
+import { Calendar, ChevronDown, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function DatePickerInput({ label, name, control, error, className }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [showAbove, setShowAbove] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const pickerRef = useRef(null);
   
-  const daysInMonth = eachDayOfInterval({
-    start: startOfMonth(currentMonth),
-    end: endOfMonth(currentMonth)
-  });
-
-  const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
-  const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
-
-  const formatSelectedDate = (date) => {
-    if (!date) return "";
-    return format(new Date(date), "dd/MM/yyyy");
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+  
+  // Prevent body scroll when modal is open on mobile
+  useEffect(() => {
+    if (isOpen && isMobile) {
+      // Save the current scroll position
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.overflowY = 'hidden';
+      
+      return () => {
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.top = '';
+        document.body.style.overflowY = '';
+        // Restore scroll position
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen, isMobile]);
+  
+  // Handle dropdown position on open
+  useEffect(() => {
+    if (isOpen && pickerRef.current && !isMobile) {
+      const rect = pickerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - rect.bottom;
+      const spaceNeeded = 320; // approximate height of calendar
+      
+      setShowAbove(spaceBelow < spaceNeeded);
+    }
+  }, [isOpen, isMobile]);
+  
+  // Add click outside listener to close dropdown
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    
+    // Only add for desktop - mobile uses full screen modal approach
+    if (isOpen && !isMobile) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    // Clean up
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, isMobile]);
+  
+  // Format date value to string when needed
+  const formatDate = (date) => {
+    if (!date) return '';
+    try {
+      return format(new Date(date), 'yyyy-MM-dd');
+    } catch (error) {
+      console.error('Invalid date format:', error);
+      return '';
+    }
   };
-
+  
+  // Mobile modal for date picker
+  const MobileDatePickerModal = ({ field }) => {
+    return createPortal(
+      <div 
+        className="fixed inset-0 bg-white" 
+        style={{ zIndex: 9999 }}
+      >
+        <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+          <h2 className="text-lg font-semibold">Select Date</h2>
+          <button 
+            onClick={() => setIsOpen(false)}
+            className="p-1 rounded-full hover:bg-gray-100"
+          >
+            <X size={24} />
+          </button>
+        </div>
+        <div className="flex-1 p-4 overflow-auto flex flex-col items-center">
+          <ReactDatePicker
+            selected={field.value ? new Date(field.value) : null}
+            onChange={(date) => {
+              field.onChange(formatDate(date));
+              setIsOpen(false);
+            }}
+            inline
+            dateFormat="yyyy-MM-dd"
+            calendarClassName="rdp w-full"
+            minDate={new Date()}
+          />
+        </div>
+        <div className="p-4 border-t border-gray-200">
+          <button
+            type="button"
+            className="w-full bg-blue-600 text-white py-3 rounded-md font-medium"
+            onClick={() => setIsOpen(false)}
+          >
+            Done
+          </button>
+        </div>
+      </div>,
+      document.body
+    );
+  };
+  
   return (
     <div className="w-full">
-      <label className="block font-medium text-black mb-3">{label}</label>
-      <div className="relative w-full">
+      {label && (
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          {label}
+        </label>
+      )}
+      
+      <div className="relative" ref={pickerRef}>
         <Controller
-          name={name}
           control={control}
-          render={({ field: { onChange, value } }) => (
+          name={name}
+          render={({ field }) => (
             <>
               <div
-                className={`w-full px-5 py-3 pr-10 border-none cursor-pointer ${value ? 'text-black' : 'text-slate-400'} ${className || 'bg-gray-100'} rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 ${
-                  error ? 'border-2 border-red-500' : ''
-                }`}
+                className={`w-full flex items-center justify-between px-2 py-1.5 ${
+                  error ? 'border border-red-500' : 'border-none'
+                } bg-white rounded-md cursor-pointer ${className || ''}`}
                 onClick={() => setIsOpen(!isOpen)}
               >
-                {value ? formatSelectedDate(value) : "Select date"}
+                <div className="flex items-center">
+                  <Calendar className="h-4 w-4 text-gray-500 mr-2" />
+                  <span className="text-gray-800 text-sm font-medium">
+                    {field.value
+                      ? format(new Date(field.value), 'MMM dd, yyyy')
+                      : 'Select date'}
+                  </span>
+                </div>
+                <ChevronDown
+                  className={`h-4 w-4 text-gray-500 transition-transform ${
+                    isOpen ? 'transform rotate-180' : ''
+                  }`}
+                />
               </div>
-              {isOpen && (
-                <div className="absolute z-50 mt-2 p-4 bg-white rounded-lg shadow-xl border border-gray-200 w-[300px]">
-                  {/* Calendar Header */}
-                  <div className="flex items-center justify-between mb-4">
-                    <button
-                      onClick={prevMonth}
-                      className="p-1 hover:bg-gray-100 rounded-full"
-                      type="button"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                    </button>
-                    <h2 className="font-semibold text-gray-900">
-                      {format(currentMonth, "MMMM yyyy")}
-                    </h2>
-                    <button
-                      onClick={nextMonth}
-                      className="p-1 hover:bg-gray-100 rounded-full"
-                      type="button"
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </button>
-                  </div>
-                  {/* Calendar Grid */}
-                  <div className="grid grid-cols-7 gap-1">
-                    {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
-                      <div
-                        key={day}
-                        className="text-center text-sm font-medium text-gray-500"
-                      >
-                        {day}
-                      </div>
-                    ))}
-                    {daysInMonth.map((day, idx) => (
-                      <button
-                        key={day.toString()}
-                        type="button"
-                        onClick={() => {
-                          // Format the date before setting it in the form
-                          const formattedDate = format(day, "yyyy-MM-dd");
-                          onChange(formattedDate);
-                          setIsOpen(false);
-                        }}
-                        className={`text-sm p-2 rounded-full hover:bg-gray-100 ${
-                          value && isSameDay(new Date(value), day)
-                            ? "bg-blue-600 text-white hover:bg-blue-700"
-                            : ""
-                        } ${
-                          !isSameMonth(day, currentMonth)
-                            ? "text-gray-300"
-                            : "text-gray-900"
-                        }`}
-                      >
-                        {format(day, "d")}
-                      </button>
-                    ))}
-                  </div>
+              
+              {isOpen && !isMobile && (
+                <div
+                  className={`absolute z-50 mt-1 bg-white shadow-lg rounded-md p-4 date-picker-dropdown ${
+                    showAbove ? 'bottom-full mb-1' : 'top-full'
+                  }`}
+                >
+                  <ReactDatePicker
+                    selected={field.value ? new Date(field.value) : null}
+                    onChange={(date) => {
+                      field.onChange(formatDate(date));
+                      setIsOpen(false);
+                    }}
+                    inline
+                    dateFormat="yyyy-MM-dd"
+                    calendarClassName="rdp"
+                    minDate={new Date()}
+                  />
                 </div>
               )}
+              
+              {/* Mobile date picker modal using portal */}
+              {isOpen && isMobile && <MobileDatePickerModal field={field} />}
             </>
           )}
         />
-        <CalendarIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none h-5 w-5" />
       </div>
-      {error && <span className="text-sm text-red-500">{error.message}</span>}
+      
+      {error && (
+        <p className="mt-1 text-sm text-red-600">{error.message}</p>
+      )}
     </div>
   );
 }

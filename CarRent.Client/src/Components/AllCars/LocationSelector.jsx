@@ -1,11 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { ArrowUpDown } from 'lucide-react'
 import PickupDropoffInfo from './PickUpDropOffInfo'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export default function LocationSelector() {
+export default function LocationSelector({ onDataChange }) {
     const [isSwitched, setIsSwitched] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
+    const [pickupData, setPickupData] = useState({
+        location: 'New York',
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().getHours() + ':00'
+    })
+    const [dropoffData, setDropoffData] = useState({
+        location: 'New York',
+        date: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0],
+        time: new Date().getHours() + ':00'
+    })
 
     useEffect(() => {
         const mediaQuery = window.matchMedia('(max-width: 768px)')
@@ -15,6 +25,19 @@ export default function LocationSelector() {
         mediaQuery.addEventListener('change', handler)
         return () => mediaQuery.removeEventListener('change', handler)
     }, [])
+
+    // Memoize data change notification to prevent infinite loops
+    const notifyDataChange = useCallback(() => {
+        if (onDataChange) {
+            onDataChange('pickup', pickupData);
+            onDataChange('dropoff', dropoffData);
+        }
+    }, [onDataChange, pickupData, dropoffData]);
+
+    // Notify parent of data changes
+    useEffect(() => {
+        notifyDataChange();
+    }, [notifyDataChange]);
 
     const getAnimationProps = (isFirst) => {
         if (isMobile) {
@@ -35,6 +58,27 @@ export default function LocationSelector() {
         setIsSwitched(prevState => !prevState)
     }
 
+    // Handle data changes from child components
+    const handlePickupDataChange = useCallback((data) => {
+        setPickupData(prev => {
+            // Only update if there's an actual change to prevent infinite loops
+            if (JSON.stringify(prev) === JSON.stringify(data)) {
+                return prev;
+            }
+            return data;
+        });
+    }, []);
+
+    const handleDropoffDataChange = useCallback((data) => {
+        setDropoffData(prev => {
+            // Only update if there's an actual change to prevent infinite loops
+            if (JSON.stringify(prev) === JSON.stringify(data)) {
+                return prev;
+            }
+            return data;
+        });
+    }, []);
+
     return (
     <div className="pb-10 w-full">
         <div className='flex flex-col md:flex-row relative items-center md:items-start gap-7 md:gap-10'>
@@ -46,19 +90,23 @@ export default function LocationSelector() {
                         transition={{ duration: 0.2 }}
                         className="w-full flex justify-center md:justify-start"
                     >
-                        <PickupDropoffInfo type={isSwitched ? "PickUp":"Drop-Off"}/>
+                        <PickupDropoffInfo 
+                            type={isSwitched ? "PickUp":"Drop-Off"}
+                            defaultValues={isSwitched ? pickupData : dropoffData}
+                            onDataChange={isSwitched ? handlePickupDataChange : handleDropoffDataChange}
+                        />
                     </motion.div>
                 </AnimatePresence>
             </div>
 
-            <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30'>
+            <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10'>
                 <motion.button 
                     onClick={toggleSwitch}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-14 h-14 flex items-center justify-center bg-blue-500 rounded-md 
                     shadow-[0_0_15px_rgba(37,99,235,0.5)] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] 
-s                    hover:bg-blue-600 transition-all"
+                    hover:bg-blue-600 transition-all"
                 >
                     <motion.div
                         animate={{ rotate: isSwitched ? 180 : 0 }}
@@ -77,7 +125,11 @@ s                    hover:bg-blue-600 transition-all"
                         transition={{ duration: 0.2 }}
                         className="w-full flex justify-center md:justify-start"
                     >
-                        <PickupDropoffInfo type={isSwitched ? "Drop-Off":"PickUp"}/>
+                        <PickupDropoffInfo 
+                            type={isSwitched ? "Drop-Off":"PickUp"}
+                            defaultValues={isSwitched ? dropoffData : pickupData}
+                            onDataChange={isSwitched ? handleDropoffDataChange : handlePickupDataChange}
+                        />
                     </motion.div>
                 </AnimatePresence>
             </div>

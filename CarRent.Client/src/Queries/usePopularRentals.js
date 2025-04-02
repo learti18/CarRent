@@ -5,7 +5,7 @@ export const usePopularRentals = () => {
   return useQuery({
     queryKey: ['popularRentals'],
     queryFn: async () => {
-      const { data } = await api.get('/vehicle');
+      const { data } = await api.get('/vehicles');
 
       return data.slice(0, 3);
     }

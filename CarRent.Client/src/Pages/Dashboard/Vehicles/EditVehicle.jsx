@@ -221,6 +221,7 @@ export default function EditVehicle() {
                 options={BODY_TYPES}
                 error={errors.bodyType}
                 register={register}
+                defaultValue={vehicle?.bodyType}
               />
               <DropDown
                 label='Transmission'
@@ -228,6 +229,7 @@ export default function EditVehicle() {
                 options={TRANSMISSIONS}
                 error={errors.transmission}
                 register={register}
+                defaultValue={vehicle?.transmission}
               />
                <DefaultInput
                 label='Fuel Capacity'
@@ -243,6 +245,7 @@ export default function EditVehicle() {
                 options={FUEL_TYPES}
                 error={errors.fuelType}
                 register={register}
+                defaultValue={vehicle?.fuelType}
               />
               <DropDown
                 label='Nr. Of Seats'
@@ -250,6 +253,7 @@ export default function EditVehicle() {
                 options={SEAT_OPTIONS}
                 error={errors.seatingCapacity}
                 register={register}
+                defaultValue={vehicle?.seats}
               />
             </div>
           </div>
@@ -272,6 +276,7 @@ export default function EditVehicle() {
                 options={LOCATIONS}
                 error={errors.location}
                 register={register}
+                defaultValue={vehicle?.location}
               />
             </div>
           </div>
