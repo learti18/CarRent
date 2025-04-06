@@ -1,47 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import Select from "react-select";
 import { ChevronDown } from "lucide-react";
+import { Controller } from "react-hook-form";
 
 export default function DropDown({ 
   label, 
   options, 
   placeholder, 
-  register, 
+  control,
   name, 
   error, 
   className = "",
   defaultValue,
-  variant = "default"
+  variant = "default",
+  disabled = false
 }) {
-  const [selectedOption, setSelectedOption] = useState(() => {
-    if (defaultValue) {
-      return { value: defaultValue, label: defaultValue };
-    }
-    return null;
-  });
-  const { onChange, value } = register(name);
-  const dropdownRef = useRef(null);
-  
   const selectOptions = options.map(option => ({
     value: option,
     label: option
   }));
-
-  useEffect(() => {
-    if (value) {
-      setSelectedOption({ value, label: value });
-    } else if (defaultValue && !value) {
-      // If there's a defaultValue but no value yet, set it
-      setSelectedOption({ value: defaultValue, label: defaultValue });
-      // Also update the form value
-      onChange({ target: { value: defaultValue, name } });
-    }
-  }, [value, defaultValue, onChange, name]);
-
-  const handleChange = (selected) => {
-    setSelectedOption(selected);
-    onChange({ target: { value: selected?.value || '', name } });
-  };
+  const dropdownRef = useRef(null);
 
   const DropdownIndicator = props => {
     return (
@@ -49,7 +27,7 @@ export default function DropDown({
         <ChevronDown
           className={`dropdown-chevron ${error ? 'text-red-500' : variant === 'clean' ? 'text-slate-400' : 'text-slate-500'} ${
             props.selectProps.menuIsOpen ? "rotate-180" : ""
-          }`}
+          } ${disabled ? 'opacity-50' : ''}`}
         />
       </div>
     );
@@ -60,12 +38,14 @@ export default function DropDown({
       return {
         control: (provided, state) => ({
           ...provided,
-          backgroundColor: '#fff',
+          backgroundColor: disabled ? '#e5e7eb' : '#fff', // Using neutral-200 equivalent
           border: 'none',
-          boxShadow: state.isFocused ? '0 0 0 2px rgb(107 114 128)' : 'none',
+          boxShadow: state.isFocused && !disabled ? '0 0 0 2px rgb(107 114 128)' : 'none',
           borderRadius: '0.5rem',
           padding: '0.125rem 0.125rem',
           minHeight: '38px',
+          opacity: disabled ? 0.8 : 1,
+          cursor: disabled ? 'not-allowed' : 'default',
           '&:hover': {
             borderColor: 'none'
           }
@@ -76,12 +56,12 @@ export default function DropDown({
         }),
         placeholder: (provided) => ({
           ...provided,
-          color: '#9ca3af',
+          color: disabled ? '#9ca3af' : '#9ca3af',
           fontSize: '0.875rem'
         }),
         singleValue: (provided) => ({
           ...provided,
-          color: '#000000',
+          color: disabled ? '#6b7280' : '#000000',
           fontSize: '0.875rem'
         }),
         menu: (provided) => ({
@@ -125,59 +105,95 @@ export default function DropDown({
       };
     }
     
-    return {};
+    // Default styles with disabled overrides
+    return {
+      control: (provided, state) => ({
+        ...provided,
+        backgroundColor: disabled ? '#e5e7eb' : '#fff', // Using neutral-200 equivalent
+        borderColor: disabled ? '#e5e7eb' : state.isFocused ? '#60a5fa' : '#e5e7eb',
+        boxShadow: state.isFocused && !disabled ? '0 0 0 1px #60a5fa' : 'none',
+        opacity: disabled ? 0.8 : 1,
+        cursor: disabled ? 'not-allowed' : 'default',
+        '&:hover': {
+          borderColor: disabled ? '#e5e7eb' : '#60a5fa',
+        }
+      }),
+      singleValue: (provided) => ({
+        ...provided,
+        color: disabled ? '#6b7280' : '#000000',
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        color: '#9ca3af',
+      }),
+      indicatorSeparator: () => ({
+        display: 'none'
+      })
+    };
   };
 
   return (
-    <div className="custom-select-container relative" ref={dropdownRef} style={{ position: 'relative', zIndex: 50 }}>
+    <div className="custom-select-container relative" style={{ position: 'relative', zIndex: 50 }}>
       {label && (
-        <label className="block font-medium text-black mb-3">{label}</label>
+        <label className={`block font-medium mb-3 ${disabled ? 'text-gray-500' : 'text-black'}`}>{label}</label>
       )}
       <div className={`relative ${error ? 'has-error' : ''}`}>
-        {variant === 'clean' ? (
-          <Select
-            value={selectedOption}
-            onChange={handleChange}
-            options={selectOptions}
-            placeholder={placeholder || "Select an option"}
-            components={{ 
-              DropdownIndicator,
-              IndicatorSeparator: () => null 
-            }}
-            styles={getCustomStyles()}
-            className={className}
-            classNamePrefix="clean-select"
-            menuPlacement="auto"
-            isSearchable={false}
-            menuPortalTarget={document.body}
-            menuPosition="fixed"
-            menuShouldBlockScroll={true}
-            menuShouldScrollIntoView={false}
-            blurInputOnSelect={true}
-            closeMenuOnSelect={true}
-          />
-        ) : (
-          <Select
-            value={selectedOption}
-            onChange={handleChange}
-            options={selectOptions}
-            placeholder={placeholder || "Select an option"}
-            components={{ 
-              DropdownIndicator,
-              IndicatorSeparator: () => null 
-            }}
-            className={`${className || ''}`}
-            classNamePrefix="react-select"
-            menuPlacement="auto"
-            isSearchable={false}
-            menuPortalTarget={document.body}
-            menuPosition="fixed"
-            menuShouldBlockScroll={true}
-            menuShouldScrollIntoView={false}
-            blurInputOnSelect={true}
-            closeMenuOnSelect={true}
-          />
-        )}
+        <Controller
+          name={name}
+          control={control}
+          defaultValue={defaultValue}
+          render={({ field }) => (
+            variant === 'clean' ? (
+              <Select
+                {...field}
+                value={field.value ? { value: field.value, label: field.value } : null}
+                onChange={(option) => field.onChange(option ? option.value : '')}
+                options={selectOptions}
+                placeholder={placeholder || "Select an option"}
+                components={{ 
+                  DropdownIndicator,
+                  IndicatorSeparator: () => null 
+                }}
+                styles={getCustomStyles()}
+                className={`${className} ${disabled ? 'disabled-select' : ''}`}
+                classNamePrefix="clean-select"
+                menuPlacement="auto"
+                isSearchable={false}
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
+                menuShouldBlockScroll={true}
+                menuShouldScrollIntoView={false}
+                blurInputOnSelect={true}
+                closeMenuOnSelect={true}
+                isDisabled={disabled}
+              />
+            ) : (
+              <Select
+                {...field}
+                value={field.value ? { value: field.value, label: field.value } : null}
+                onChange={(option) => field.onChange(option ? option.value : '')}
+                options={selectOptions}
+                placeholder={placeholder || "Select an option"}
+                components={{ 
+                  DropdownIndicator,
+                  IndicatorSeparator: () => null 
+                }}
+                styles={getCustomStyles()}
+                className={`${className || ''} ${disabled ? 'disabled-select' : ''}`}
+                classNamePrefix="react-select"
+                menuPlacement="auto"
+                isSearchable={false}
+                menuPortalTarget={document.body}
+                menuPosition="fixed"
+                menuShouldBlockScroll={true}
+                menuShouldScrollIntoView={false}
+                blurInputOnSelect={true}
+                closeMenuOnSelect={true}
+                isDisabled={disabled}
+              />
+            )
+          )}
+        />
       </div>
       {error && (
         <span className="select-error-message">{error.message}</span>

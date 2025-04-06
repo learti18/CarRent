@@ -4,39 +4,26 @@ import CarCard from '../Components/CarCard'
 import FilteringSidebar from '../Components/FilteringSidebar'
 import FilterSortBar from '../Components/AllCars/FilterSortBar'
 import LocationSelector from '../Components/AllCars/LocationSelector'
-import { useAllVehicles } from '../Queries/vehicles'
+import { useAllVehicles, useAvailableVehicles } from '../Queries/vehicles'
 import SkeletonCard from '../Components/cards/SkeletonCard'
 import { useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
+import { useRentalContext } from '../Hooks/useRentalContext'
 
 export default function AllCars() {
   const [isExpanded, setExpanded] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
-  const [locationData, setLocationData] = useState({
-    pickup: {
-      location: 'New York',
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().getHours() + ':00'
-    },
-    dropoff: {
-      location: 'New York',
-      date: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0],
-      time: (new Date().getHours()+2) + ':00'
-    }
-  })
+  const { locationData, setLocationData } = useRentalContext();
   
-
-  // Use the location data for fetching vehicles
-  const { data: vehicles, isLoading, refetch } = useAllVehicles() 
+  const { data: vehicles, isLoading, refetch } = useAvailableVehicles(locationData) 
   const { register } = useForm()
   
-  // Handle location data updates from LocationSelector
   const handleLocationDataChange = useCallback((type, data) => {
     setLocationData(prev => {
-      // Check if data has actually changed to prevent unnecessary updates
+
       const currentData = prev[type.toLowerCase()];
       if (JSON.stringify(currentData) === JSON.stringify(data)) {
-        return prev; // Return previous state if no change
+        return prev; 
       }
       return {
         ...prev,
@@ -48,26 +35,25 @@ export default function AllCars() {
   // Search for vehicles based on location data - memoized to prevent unnecessary calls
   const searchVehicles = useCallback(() => {
     // Here you would call your API with the location data
-    console.log('Searching vehicles with criteria:', locationData);
+    // console.log('Searching vehicles with criteria:', locationData);
     setSearchParams({
-      pickupLocation: locationData.pickup.location,
+      pickupLocation: locationData.pickup.city,
       pickupDate: locationData.pickup.date,
-      dropoffLocation: locationData.dropoff.location,
+      dropoffLocation: locationData.dropoff.city,
       dropoffDate: locationData.dropoff.date
     })
 
-    // For now, just refetch with existing params
-    refetch({
-      pickupLocation: locationData.pickup.location,
-      pickupDate: locationData.pickup.date,
-      pickupTime: locationData.pickup.time,
-      dropoffLocation: locationData.dropoff.location,
-      dropoffDate: locationData.dropoff.date,
-      dropoffTime: locationData.dropoff.time
-    });
+    // // // For now, just refetch with existing params
+    // refetch({
+    //   pickupLocation: locationData.pickup.location,
+    //   pickupDate: locationData.pickup.date,
+    //   pickupTime: locationData.pickup.time,
+    //   dropoffLocation: locationData.dropoff.location,
+    //   dropoffDate: locationData.dropoff.date,
+    //   dropoffTime: locationData.dropoff.time
+    // });
   }, [locationData, refetch]);
   
-  // Refetch vehicles when location data changes, with debounce
   useEffect(() => {
     const timer = setTimeout(() => {
       searchVehicles();

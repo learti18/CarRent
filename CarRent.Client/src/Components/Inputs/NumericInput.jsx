@@ -23,7 +23,7 @@ export default function NumericInput({
     const digits = value.replace(/\D/g, '');
 
     // Format based on input name
-    if (name === 'cardNumber') {
+    if (name === 'payment.cardNumber') {
       // Format card number with spaces
       const parts = digits.slice(0, 16).match(/.{1,4}/g) || [];
       value = parts.join(' ');
@@ -40,7 +40,7 @@ export default function NumericInput({
         const cursorPos = Math.max(0, selectionStart - 1);
         setTimeout(() => input.setSelectionRange(cursorPos, cursorPos), 0);
       }
-    } else if (name === 'expiration') {
+    } else if (name === 'payment.expiration') {
       // Format expiration date (MM/YY)
       const month = digits.slice(0, 2);
       const year = digits.slice(2, 4);

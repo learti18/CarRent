@@ -5,7 +5,7 @@ import TimePickerInput from '../Inputs/TimePickerInput'
 import DropDown from '../Inputs/Dropdown'
 import { LOCATIONS } from '../../common/constants'
 
-export default function RentalInfo({register, control, errors}) {
+export default function RentalInfo({control, errors,locationData}) {
   return (
     <div>
         <div className='bg-white rounded-lg py-8 px-5'>
@@ -21,21 +21,27 @@ export default function RentalInfo({register, control, errors}) {
                   <DropDown
                     options={LOCATIONS}
                     label='Location'
+                    placeholder='Select your city'
                     name='pickup.city'
-                    register={register}
-                    error={errors?.pickup?.city}                 
+                    control={control}
+                    error={errors?.pickup?.city}
+                    disabled                 
                   />
                   <DatePickerInput
                     label='Date'
                     name='pickup.date'
                     control={control}
                     error={errors?.pickup?.date}
+                    className='px-4 py-3 mt-4 bg-neutral-200'
+                    disabled
                   />
                   <TimePickerInput
                     label='Time'
                     name='pickup.time'
                     control={control}
                     error={errors?.pickup?.time}
+                    className='px-4 py-3 mt-4 bg-neutral-200'
+                    disabled
                   />
                 </div>
               </div>
@@ -47,20 +53,25 @@ export default function RentalInfo({register, control, errors}) {
                     options={LOCATIONS}
                     placeholder='Select your city'
                     name='dropoff.city'
-                    register={register}
-                    error={errors?.dropoff?.city}                 
+                    control={control}
+                    error={errors?.dropoff?.city}
+                    disabled                 
                   />
                   <DatePickerInput
                     label='Date'
                     name='dropoff.date'
                     control={control}
                     error={errors?.dropoff?.date}
+                    className='px-4 py-3 mt-4 bg-neutral-200'
+                    disabled
                   />
                   <TimePickerInput
                     label='Time'
                     name='dropoff.time'
                     control={control}
                     error={errors?.dropoff?.time}
+                    className='px-4 py-3 mt-4 bg-neutral-200'
+                    disabled
                   />
                 </div>
               </div>

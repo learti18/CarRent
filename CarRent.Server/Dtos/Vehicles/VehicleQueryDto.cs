@@ -3,9 +3,11 @@
     public class VehicleQueryDto
     {
         //required filters
-        public DateTime PickupDate { get; set; }
-        public DateTime DropOffDate { get; set; }
-        
+        public DateOnly PickupDate { get; set; }
+        public TimeOnly PickupTime { get; set; }
+        public DateOnly DropOffDate { get; set; }
+        public TimeOnly DropOffTime { get; set; }
+
         //optional filters
         public string? BodyType { get; set; }
         public int? Capacity { get; set; }

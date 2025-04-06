@@ -2,7 +2,7 @@
 .custom-select-container {
   width: 100%;
   position: relative;
-  z-index: 50; /* Add z-index to the container */
+  z-index: 100; /* Add z-index to the container */
 }
 
 /* LocationSelector styles */

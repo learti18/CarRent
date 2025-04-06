@@ -58,12 +58,12 @@ namespace CarRent.Server.Controllers
                 if (rentalModel == null)
                     return NotFound();
 
-                if(rentalModel.UserId != userId && !User.IsInRole("Admin"))
+                if (rentalModel.UserId != userId && !User.IsInRole("Admin"))
                     return Unauthorized("You dont have access to this rental!");
 
                 return Ok(rentalModel.ToRentalDto());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -75,14 +75,14 @@ namespace CarRent.Server.Controllers
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
 
                 bool isAvailable = await _rentalRepo.IsVehicleAvailable(createRentalDto.VehicleId,
-                                                                createRentalDto.Pickup.DateTime,
-                                                                createRentalDto.DropOff.DateTime);
+                                                                createRentalDto.Pickup.Date,
+                                                                createRentalDto.DropOff.Date);
 
                 if (!isAvailable)
                     return BadRequest("Vehicle is not available for the selected dates");
@@ -93,11 +93,11 @@ namespace CarRent.Server.Controllers
                 var dailyRate = vehicle.Price;
 
 
-                decimal amount = RentalCostCalculator.CalculateAmount(dailyRate, createRentalDto.Pickup.DateTime, createRentalDto.DropOff.DateTime);
+                decimal amount = RentalCostCalculator.CalculateAmount(dailyRate, createRentalDto.Pickup.Date, createRentalDto.DropOff.Date);
 
                 var paymentModel = createRentalDto.Payment.ToPaymentModel();
 
-                await _paymentRepo.CreateAsync(paymentModel,amount,userId);
+                await _paymentRepo.CreateAsync(paymentModel, amount, userId);
 
                 var rentalModel = createRentalDto.ToRentalModel();
                 rentalModel.PaymentId = paymentModel.Id;
@@ -122,7 +122,7 @@ namespace CarRent.Server.Controllers
             var userId = User.GetUserId();
             var rental = await _rentalRepo.GetByIdAsync(id);
 
-            if(rental == null)
+            if (rental == null)
                 return NotFound("Rental not found!");
 
             if (rental.UserId != userId)

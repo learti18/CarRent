@@ -2,17 +2,18 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { ArrowUpDown } from 'lucide-react'
 import PickupDropoffInfo from './PickUpDropOffInfo'
 import { motion, AnimatePresence } from 'framer-motion'
+import { LOCATIONS } from '../../common/constants'
 
 export default function LocationSelector({ onDataChange }) {
     const [isSwitched, setIsSwitched] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
     const [pickupData, setPickupData] = useState({
-        location: 'New York',
+        location: LOCATIONS[0],
         date: new Date().toISOString().split('T')[0],
         time: new Date().getHours() + ':00'
     })
     const [dropoffData, setDropoffData] = useState({
-        location: 'New York',
+        location: LOCATIONS[0],
         date: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0],
         time: new Date().getHours() + ':00'
     })
@@ -81,7 +82,7 @@ export default function LocationSelector({ onDataChange }) {
 
     return (
     <div className="pb-10 w-full">
-        <div className='flex flex-col md:flex-row relative items-center md:items-start gap-7 md:gap-10'>
+        <div className='flex flex-col md:flex-row-reverse relative items-center md:items-start gap-7 md:gap-10'>
             <div className='flex-1 relative z-0 w-full text-center md:text-left'>
                 <AnimatePresence mode="wait">
                     <motion.div

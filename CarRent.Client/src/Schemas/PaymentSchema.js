@@ -19,20 +19,22 @@ export const PaymentSchema = yup.object({
             .matches(/^\d{4}-\d{2}-\d{2}$/, 'Invalid date format'),
         time: yup.string().required('Drop-off time is required')
     }),
-    cardNumber: yup.string()
-        .required('Card number is required')
-        .test('len', 'Card number must be 16 digits', val => val?.replace(/\D/g, '').length === 16),
-    expiration: yup.string()
-        .required('Expiration date is required')
-        .test('format', 'Invalid expiration date (MM/YY)', val => {
-            if (!val) return false;
-            const digits = val.replace(/\D/g, '');
-            if (digits.length !== 4) return false;
-            const month = parseInt(digits.slice(0, 2));
-            return month >= 1 && month <= 12;
-        }),
-    cardHolder: yup.string().required('Card holder name is required'),
-    cvc: yup.string()
-        .required('CVC is required')
-        .matches(/^\d{3,4}$/, 'CVC must be 3 or 4 digits'),
+    payment: yup.object({
+        cardNumber: yup.string()
+            .required('Card number is required')
+            .test('len', 'Card number must be 16 digits', val => val?.replace(/\D/g, '').length === 16),
+        expiration: yup.string()
+            .required('Expiration date is required')
+            .test('format', 'Invalid expiration date (MM/YY)', val => {
+                if (!val) return false;
+                const digits = val.replace(/\D/g, '');
+                if (digits.length !== 4) return false;
+                const month = parseInt(digits.slice(0, 2));
+                return month >= 1 && month <= 12;
+            }),
+        cardHolder: yup.string().required('Card holder name is required'),
+        cvc: yup.string()
+            .required('CVC is required')
+            .matches(/^\d{3,4}$/, 'CVC must be 3 or 4 digits'),
+    }),
 }).required();

@@ -11,8 +11,11 @@ import { PaymentSchema } from '../Schemas/PaymentSchema'
 import { toast } from 'sonner'
 import { useParams } from 'react-router-dom'
 import { useVehicleById } from '../Queries/vehicles'
+import { useRentalContext } from '../Hooks/useRentalContext'
+import { useAddRental } from '../Queries/Rentals'
 
 export default function Payment() {
+  const { locationData } = useRentalContext();
   const { register, handleSubmit, control, formState:{errors} } = useForm({
     resolver: yupResolver(PaymentSchema),
     defaultValues:{
@@ -20,20 +23,22 @@ export default function Payment() {
       phone:'',
       address:'',
       city:'',
-      pickup: {
-        city:'',
-        date:'',
-        time:''
+      payment:{
+        cardNumber:'',
+        expiration:'',
+        cardHolder:'',
+        cvc:'',
       },
-      dropoff: {
-        city:'',
-        date:'',
-        time:''
+      pickup:{
+        city: locationData.pickup.city || '',
+        date: locationData.pickup.date || '',
+        time: locationData.pickup.time || ''
       },
-      cardNumber:'',
-      expiration:'',
-      cardHolder:'',
-      cvc:'',
+      dropoff:{
+        city: locationData.dropoff.city || '',
+        date: locationData.dropoff.date || '',
+        time: locationData.dropoff.time || ''
+      },
       // newsletter:false,
       // termsConditions:false
     }
@@ -41,18 +46,16 @@ export default function Payment() {
 
   const { id } = useParams()
   const { data: vehicle, isLoading, error } = useVehicleById(id)
+  const addRentalMutation = useAddRental()
 
-  const submitForm = (data) => {
-    try {
-      console.log('Data: ',data)
-      toast.success('Payment successful!')
-    } catch(error) {
-      toast.error('Payment failed')
-    }
+  const submitForm = async (data) => {
+    const response = await addRentalMutation.mutateAsync({
+      ...data,
+      vehicleId: vehicle.id,
+    })
   }
 
   const onError = (errors) => {
-    console.log('Form errors:', errors)
     toast.error('Please fill in all required fields correctly')
   }
   
@@ -65,7 +68,10 @@ export default function Payment() {
           onSubmit={handleSubmit(submitForm, onError)} 
           className='flex flex-col lg:flex-row-reverse gap-7'
         >
-          <RentalSummary vehicle={vehicle}/>
+          <RentalSummary 
+            vehicle={vehicle}
+            rentalData={locationData}  
+          />
           <div className='flex flex-col gap-5'>
             <BillingInfo
               register={register}
@@ -75,6 +81,7 @@ export default function Payment() {
               register={register}
               control={control}
               errors={errors}
+              defaultValues={locationData}
             />
             <PaymentMethod
               register={register}

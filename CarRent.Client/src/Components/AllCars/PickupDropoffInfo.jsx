@@ -14,6 +14,9 @@ export default function PickupDropoffInfo({ type, defaultValues, onDataChange })
         }
     });
 
+    // Watch pickup date to use as min date for dropoff
+    const pickupDate = watch('date');
+
     // Only trigger data change callback when form values actually change
     const formData = watch();
     
@@ -58,7 +61,7 @@ export default function PickupDropoffInfo({ type, defaultValues, onDataChange })
                         label=""
                         options={LOCATIONS}
                         placeholder="Select your location"
-                        register={register}
+                        control={control}
                         name="location"
                         defaultValue={defaultValues?.location || LOCATIONS[0]}
                         className="bg-white"
@@ -72,6 +75,7 @@ export default function PickupDropoffInfo({ type, defaultValues, onDataChange })
                         name="date"
                         control={control}
                         className="bg-white"
+                        minDate={type === "Drop-Off" ? pickupDate : undefined}
                     />
                 </div>
                 <div className='w-full'>
@@ -93,7 +97,7 @@ export default function PickupDropoffInfo({ type, defaultValues, onDataChange })
                         label=""
                         options={LOCATIONS}
                         placeholder="Select your location"
-                        register={register}
+                        control={control}
                         name="location"
                         defaultValue={defaultValues?.location || LOCATIONS[0]}
                         className="bg-white"
@@ -107,6 +111,7 @@ export default function PickupDropoffInfo({ type, defaultValues, onDataChange })
                         name="date"
                         control={control}
                         className="bg-white"
+                        minDate={type === "Drop-Off" ? pickupDate : undefined}
                     />
                 </div>
                 <div>

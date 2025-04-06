@@ -2,9 +2,9 @@
 {
     public static class RentalCostCalculator
     {
-        public static decimal CalculateAmount(decimal dailyRate, DateTime pickupDate, DateTime dropOffDate)
+        public static decimal CalculateAmount(decimal dailyRate, DateOnly pickupDate, DateOnly dropOffDate)
         {
-            var totalDays = (dropOffDate.Date - pickupDate.Date).Days;
+            var totalDays = (dropOffDate.Day - pickupDate.Day) + 1;
             if (totalDays <= 0) totalDays = 1;
 
             return dailyRate * totalDays;

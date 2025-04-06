@@ -27,41 +27,41 @@ export default function PaymentMethod({register, errors}) {
                 <NumericInput
                   className='bg-white'
                   id='cardNumber'
-                  name='cardNumber'
+                  name='payment.cardNumber'
                   label='Card Number'
                   placeholder='0000 0000 0000 0000'
                   maxLength={19}
                   register={register}
-                  error={errors.cardNumber}
+                  error={errors?.payment?.cardNumber}
                 />
                 <NumericInput
                   className='bg-white'
                   id='expiration'
-                  name='expiration'
+                  name='payment.expiration'
                   label='Expiration Date'
                   placeholder='MM/YY'
                   maxLength={5}
                   register={register}
-                  error={errors.expiration}
+                  error={errors?.payment?.expiration}
                 />
                 <DefaultInput 
                   className='bg-white'
                   id='cardholder'
                   label='Card Holder'
                   placeholder='Card holder'
-                  name='cardHolder'
+                  name='payment.cardHolder'
                   register={register}
-                  error={errors.cardHolder}
+                  error={errors?.payment?.cardHolder}
                 />
                 <NumericInput 
                   className='bg-white'
                   id='cvc'
                   label='CVC'
-                  name='cvc'
+                  name='payment.cvc'
                   placeholder='CVC'
                   maxLength={4}
                   register={register}
-                  error={errors.cvc}
+                  error={errors?.payment?.cvc}
                 />
               </div>
             </div>

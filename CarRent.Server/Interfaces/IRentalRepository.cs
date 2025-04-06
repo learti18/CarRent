@@ -12,6 +12,6 @@ namespace CarRent.Server.Interfaces
         Task<Rental> CreateAsync(Rental rental);
         Task<Rental?> CancelRentalAsync(Rental rental);
         Task UpdateRentalStatusesAsync();
-        Task<bool> IsVehicleAvailable(int vehicleId, DateTime pickupDate, DateTime dropOffDate);
+        Task<bool> IsVehicleAvailable(int vehicleId, DateOnly pickupDate, DateOnly dropOffDate);
     }
 }

@@ -5,7 +5,7 @@ import { Clock, ChevronDown, X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import 'react-time-picker/dist/TimePicker.css';
 
-export default function TimePickerInput({ label, name, control, error, className }) {
+export default function TimePickerInput({ label, name, control, error, className, disabled }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showAbove, setShowAbove] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -127,6 +127,7 @@ export default function TimePickerInput({ label, name, control, error, className
               disableClock={true}
               clearIcon={null}
               className="react-time-picker-custom"
+              disabled={disabled}
             />
           </div>
           
@@ -141,6 +142,7 @@ export default function TimePickerInput({ label, name, control, error, className
                 onClick={() => {
                   field.onChange(time);
                 }}
+                disabled={disabled}
               >
                 {formatTimeDisplay(time)}
               </button>
@@ -176,10 +178,10 @@ export default function TimePickerInput({ label, name, control, error, className
           render={({ field }) => (
             <>
               <div
-                className={`w-full flex items-center justify-between px-2 py-1.5 ${
+                className={`w-full flex items-center justify-between ${
                   error ? 'border border-red-500' : 'border-none'
-                } bg-white rounded-md cursor-pointer ${className || ''}`}
-                onClick={() => setIsOpen(!isOpen)}
+                } bg-white rounded-md ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'} ${className || 'px-2 py-1.5'}`}
+                onClick={() => !disabled && setIsOpen(!isOpen)}
               >
                 <div className="flex items-center">
                   <Clock className="h-4 w-4 text-gray-500 mr-2" />
@@ -187,11 +189,13 @@ export default function TimePickerInput({ label, name, control, error, className
                     {formatTimeDisplay(field.value)}
                   </span>
                 </div>
-                <ChevronDown
-                  className={`h-4 w-4 text-gray-500 transition-transform ${
-                    isOpen ? 'transform rotate-180' : ''
-                  }`}
-                />
+                  {!disabled && (
+                    <ChevronDown
+                      className={`h-4 w-4 text-gray-500 transition-transform ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  )}
               </div>
               
               {isOpen && !isMobile && (
@@ -211,6 +215,7 @@ export default function TimePickerInput({ label, name, control, error, className
                       disableClock={true}
                       clearIcon={null}
                       className="react-time-picker-custom"
+                      disabled={disabled}
                     />
                   </div>
                   
@@ -226,6 +231,7 @@ export default function TimePickerInput({ label, name, control, error, className
                           field.onChange(time);
                           setIsOpen(false);
                         }}
+                        disabled={disabled}
                       >
                         {formatTimeDisplay(time)}
                       </button>

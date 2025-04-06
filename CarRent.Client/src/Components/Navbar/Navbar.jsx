@@ -14,7 +14,7 @@ export default function Navbar() {
   const logoutMutation = useLogout()
 
   const links = [
-    {name: "Profile", to: "/user-profile", icon: <UserPlus size={16} />},
+    {name: "Profile", to: "/profile", icon: <UserPlus size={16} />},
     {name: "Rent now", to: "/cars", icon: <Car size={16} />},
     ...(isAuthenticated 
       ? [{name: "Logout", to: "#", icon: <LogOut size={16} />, onClick: handleLogout}]
@@ -45,7 +45,7 @@ export default function Navbar() {
           >
             <div className="relative">
               <img 
-                src={getCurrentUser().profileImageUrl ? IMGURL + getCurrentUser().profileImageUrl : "user.png"} 
+                src={getCurrentUser()?.profileImageUrl ? IMGURL + getCurrentUser().profileImageUrl : "user.png"} 
                 alt="User avatar" 
                 lazy="true"
                 className={`w-12 h-12 rounded-full object-cover transition-all duration-200

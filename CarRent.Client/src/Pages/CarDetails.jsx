@@ -7,12 +7,17 @@ import ReviewSection from '../Components/Reviews/ReviewSection';
 import CarSlider from '../Components/CarSlider';
 import { LoaderBarsSpinner } from '../Components/LoaderBarsSpinner';
 import { useVehicleById } from '../Queries/vehicles';
+import { useRentalContext } from '../Hooks/useRentalContext';
+import { memo } from 'react';
 
 const API_BASE_URL = 'http://localhost:5160';
 
-export default function CarDetails() {
+function CarDetails() {
   const { id } = useParams();
   const { data: vehicle, isLoading, error } = useVehicleById(id);
+  const { locationData } = useRentalContext();
+
+  console.log('Rental data', locationData);
 
   if (isLoading) {
     return (
@@ -74,3 +79,5 @@ export default function CarDetails() {
     </div>
   );
 }
+
+export default memo(CarDetails);

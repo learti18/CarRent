@@ -38,21 +38,21 @@ export default function ReviewSection({vehicleId}) {
     
   return (
     <div className='p-7 rounded-xl bg-white w-full'>
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-4 border-b pb-4'>
             <h1 className='text-xl font-semibold'>Reviews</h1>
             <span className='text-white rounded-md bg-blue-600 px-4 py-1'>13</span>
         </div>
-        <div className='pt-8 space-y-7'>
+        <div className='pt-4 space-y-7'>
             {
                 reviews.map(review => (
                     <ReviewCard
-                        key={review.description}
+                        key={review.id}
                         avatar={review.userAvatar}
-                        userName={review.userName}
+                        userName={review.username}
                         userTitle={review.userTitle}
-                        description={review.description}
+                        description={review.comment}
                         rating={review.rating}
-                        createdAt={review.createdAt}
+                        createdAt={review.dateCreated}
                     />
                 ))
             }

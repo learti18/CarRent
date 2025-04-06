@@ -22,6 +22,9 @@ export const clearCurrentUsername = () => {
     currentUsername = null
     localStorage.removeItem(AUTH_STATUS_KEY)
 }
+export const clearCurrentUser = () => {
+    currentUser = null
+}
 
 export const hasAuthenticatedSession = () => {
     return localStorage.getItem(AUTH_STATUS_KEY) === 'true'

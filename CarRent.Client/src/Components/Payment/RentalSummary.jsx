@@ -2,7 +2,9 @@ import React from 'react'
 import RatingStars from './../RatingStars';
 const API_BASE_URL = 'http://localhost:5160';
 
-export default function RentalSummary({vehicle}) {
+export default function RentalSummary({vehicle,rentalData}) {
+    const days = Math.ceil((new Date(rentalData?.dropoff?.date) - new Date(rentalData?.pickup?.date)) / (1000 * 60 * 60 * 24));
+    const totalPrice = vehicle?.price * days + 15; 
     
   return (
     <div className='h-fit bg-white rounded-lg'>
@@ -46,7 +48,7 @@ export default function RentalSummary({vehicle}) {
                     <h1 className='text-2xl font-semibold'>Total Rental Price</h1>
                     <p className='text-slate-400'>Overall price and includes rental discount</p>
                 </div>
-                <h1 className='text-4xl font-semibold'>${vehicle?.price}</h1>
+                <h1 className='text-4xl font-semibold'>${totalPrice}</h1>
             </div>
         </div>
     </div>

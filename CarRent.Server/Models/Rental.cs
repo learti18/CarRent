@@ -14,10 +14,12 @@ namespace CarRent.Server.Models
 
         //pickup drop off info
         public string PickupCity { get; set; } = string.Empty;
-        public DateTime PickupDateTime { get; set; }
+        public DateOnly PickupDate { get; set; }
+        public TimeOnly PickupTime { get; set; }
 
         public string DropOffCity { get; set; } = string.Empty;
-        public DateTime DropOffDateTime { get; set; }
+        public DateOnly DropOffDate { get; set; }
+        public TimeOnly DropOffTime { get; set; }
 
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
@@ -40,19 +42,18 @@ namespace CarRent.Server.Models
             if (Status == RentalStatus.Cancelled)
                 return;
 
-            if(today < PickupDateTime)
+            if (today < PickupDate.ToDateTime(PickupTime))
             {
                 Status = RentalStatus.Upcoming;
             }
-            else if(today >= PickupDateTime && today <= DropOffDateTime)
+            else if (today >= PickupDate.ToDateTime(PickupTime) && today <= DropOffDate.ToDateTime(DropOffTime))
             {
                 Status = RentalStatus.Active;
             }
-            else if(today > DropOffDateTime)
+            else if (today > DropOffDate.ToDateTime(DropOffTime))
             {
                 Status = RentalStatus.Completed;
             }
-
         }
     }
 }

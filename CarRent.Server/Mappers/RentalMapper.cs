@@ -16,9 +16,11 @@ namespace CarRent.Server.Mappers
                 Address = rentalDto.Address,
                 City = rentalDto.City,
                 PickupCity = rentalDto.Pickup.City,
-                PickupDateTime = rentalDto.Pickup.DateTime,
+                PickupDate = rentalDto.Pickup.Date,
+                PickupTime = rentalDto.Pickup.Time,
                 DropOffCity = rentalDto.DropOff.City,
-                DropOffDateTime = rentalDto.DropOff.DateTime,
+                DropOffDate = rentalDto.DropOff.Date,
+                DropOffTime = rentalDto.DropOff.Time,
                 VehicleId = rentalDto.VehicleId,
                 PaymentId = rentalDto.Payment.Id,
                 Status = RentalStatus.Upcoming,
@@ -36,12 +38,14 @@ namespace CarRent.Server.Mappers
                 Pickup = new PickupDropOffDto
                 {
                     City = rental.PickupCity,
-                    DateTime = rental.PickupDateTime
+                    Date = rental.PickupDate,
+                    Time = rental.PickupTime
                 },
                 DropOff = new PickupDropOffDto
                 {
                     City = rental.DropOffCity,
-                    DateTime = rental.DropOffDateTime
+                    Date = rental.DropOffDate,
+                    Time = rental.DropOffTime
                 },
                 Vehicle = new RentalVehicleDto
                 {

@@ -23,7 +23,7 @@ namespace CarRent.Server.Repository
                     .Include(r => r.User)
                     .ToListAsync();
 
-            foreach(var rental in rentals)
+            foreach (var rental in rentals)
             {
                 rental.UpdateStatus();
             }
@@ -40,7 +40,7 @@ namespace CarRent.Server.Repository
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            if(rental == null)
+            if (rental == null)
             {
                 return null;
             }
@@ -87,19 +87,20 @@ namespace CarRent.Server.Repository
             return rental;
         }
 
-        public async Task<bool> IsVehicleAvailable(int vehicleId, DateTime pickupDate, DateTime dropOffDate)
+        public async Task<bool> IsVehicleAvailable(int vehicleId, DateOnly pickupDate, DateOnly dropOffDate)
         {
-            return  !await _context.Rentals
+
+            return !await _context.Rentals
                 .AnyAsync(r => r.VehicleId == vehicleId &&
-                            r.PickupDateTime < dropOffDate &&
-                            r.DropOffDateTime > pickupDate);
+                            r.PickupDate < dropOffDate &&
+                            r.PickupDate > pickupDate);
         }
 
         public async Task UpdateRentalStatusesAsync()
         {
             var rentals = await _context.Rentals.ToListAsync();
-            
-            foreach(var rental in rentals)
+
+            foreach (var rental in rentals)
             {
                 rental.UpdateStatus();
             }

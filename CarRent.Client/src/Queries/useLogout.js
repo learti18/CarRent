@@ -4,7 +4,7 @@ import { useAuth } from "../Hooks/useAuth"
 import { useNavigate } from "react-router-dom"
 import { useMutation } from "@tanstack/react-query"
 import { getOrGenerateDeviceId } from "../Utils/GenerateDeviceId"
-import { clearCurrentUsername } from "../Utils/UserStore"
+import { clearCurrentUser, clearCurrentUsername } from "../Utils/UserStore"
 import api, { resetInterceptorStatus } from "../Services/Api"
 
 const useLogout = () => {
@@ -18,7 +18,7 @@ const useLogout = () => {
             try{
                 await api.post("/auth/logout", { deviceId })
                 clearCurrentUsername()
-
+                clearCurrentUser()
                 resetInterceptorStatus()
             }catch (error) {
                 console.error("Logout failed", error)

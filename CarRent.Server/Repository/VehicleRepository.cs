@@ -109,15 +109,15 @@ namespace CarRent.Server.Repository
         }
 
         public async Task<List<Vehicle>> GetAvailableVehiclesAsync(VehicleQueryDto query, string userID)
-        {   
-            var vehicles =  _context.Vehicles
+        {
+            var vehicles = _context.Vehicles
                 .Include(v => v.Features)
                 .AsQueryable();
-            
+
             vehicles = vehicles.Where(v =>
                     !_context.Rentals.Any(r =>
                             r.VehicleId == v.Id &&
-                            (query.PickupDate < r.DropOffDateTime && query.DropOffDate > r.PickupDateTime) &&
+                            (query.PickupDate < r.DropOffDate && query.DropOffDate > r.PickupDate) &&
                             r.Status != RentalStatus.Cancelled
                         )
                     );
@@ -171,7 +171,7 @@ namespace CarRent.Server.Repository
                 existingVehicle.Images = new List<string>();
                 foreach (var image in vehicleDto.Images)
                 {
-                    var imageUrl = await _imageService.SaveImageAsync(image,"vehicles");
+                    var imageUrl = await _imageService.SaveImageAsync(image, "vehicles");
                     existingVehicle.Images.Add(imageUrl);
                 }
             }

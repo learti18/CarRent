@@ -6,7 +6,7 @@ import { Calendar, ChevronDown, X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 
-export default function DatePickerInput({ label, name, control, error, className }) {
+export default function DatePickerInput({ label, name, control, error, className, disabled }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showAbove, setShowAbove] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -116,6 +116,7 @@ export default function DatePickerInput({ label, name, control, error, className
             dateFormat="yyyy-MM-dd"
             calendarClassName="rdp w-full"
             minDate={new Date()}
+            disabled={disabled}
           />
         </div>
         <div className="p-4 border-t border-gray-200">
@@ -147,10 +148,10 @@ export default function DatePickerInput({ label, name, control, error, className
           render={({ field }) => (
             <>
               <div
-                className={`w-full flex items-center justify-between px-2 py-1.5 ${
+                className={`w-full flex items-center justify-between ${
                   error ? 'border border-red-500' : 'border-none'
-                } bg-white rounded-md cursor-pointer ${className || ''}`}
-                onClick={() => setIsOpen(!isOpen)}
+                }  rounded-md ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'} ${className || ''}`}
+                onClick={() => !disabled && setIsOpen(!isOpen)}
               >
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 text-gray-500 mr-2" />
@@ -160,11 +161,13 @@ export default function DatePickerInput({ label, name, control, error, className
                       : 'Select date'}
                   </span>
                 </div>
-                <ChevronDown
-                  className={`h-4 w-4 text-gray-500 transition-transform ${
-                    isOpen ? 'transform rotate-180' : ''
-                  }`}
-                />
+                {!disabled && (
+                  <ChevronDown
+                    className={`h-4 w-4 text-gray-500 transition-transform ${
+                      isOpen ? 'transform rotate-180' : ''
+                    }`}
+                  />
+                )}
               </div>
               
               {isOpen && !isMobile && (
@@ -183,6 +186,7 @@ export default function DatePickerInput({ label, name, control, error, className
                     dateFormat="yyyy-MM-dd"
                     calendarClassName="rdp"
                     minDate={new Date()}
+                    disabled={disabled}
                   />
                 </div>
               )}
