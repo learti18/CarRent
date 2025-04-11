@@ -1,52 +1,65 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Controller } from 'react-hook-form';
-import ReactDatePicker from 'react-datepicker';
-import { format } from 'date-fns';
-import { Calendar, ChevronDown, X } from 'lucide-react';
-import { createPortal } from 'react-dom';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState, useEffect, useRef } from "react";
+import { Controller } from "react-hook-form";
+import ReactDatePicker from "react-datepicker";
+import { format } from "date-fns";
+import { Calendar, ChevronDown, X } from "lucide-react";
+import { createPortal } from "react-dom";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function DatePickerInput({ label, name, control, error, className, disabled }) {
+export default function DatePickerInput({
+  label,
+  name,
+  control,
+  error,
+  className,
+  disabled,
+  minDate,
+  maxDate,
+  onChange,
+  popperClassName,
+  popperPlacement,
+  popperModifiers,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [showAbove, setShowAbove] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const pickerRef = useRef(null);
-  
+
   // Check if device is mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 640);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
+    window.addEventListener("resize", checkMobile);
+
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
-  
+
   // Prevent body scroll when modal is open on mobile
   useEffect(() => {
     if (isOpen && isMobile) {
       // Save the current scroll position
       const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
       document.body.style.top = `-${scrollY}px`;
-      document.body.style.overflowY = 'hidden';
-      
+      document.body.style.overflowY = "hidden";
+
       return () => {
-        document.body.style.position = '';
-        document.body.style.width = '';
-        document.body.style.top = '';
-        document.body.style.overflowY = '';
+        document.body.style.position = "";
+        document.body.style.width = "";
+        document.body.style.top = "";
+        document.body.style.overflowY = "";
         // Restore scroll position
         window.scrollTo(0, scrollY);
       };
     }
   }, [isOpen, isMobile]);
-  
+
   // Handle dropdown position on open
   useEffect(() => {
     if (isOpen && pickerRef.current && !isMobile) {
@@ -54,11 +67,11 @@ export default function DatePickerInput({ label, name, control, error, className
       const windowHeight = window.innerHeight;
       const spaceBelow = windowHeight - rect.bottom;
       const spaceNeeded = 320; // approximate height of calendar
-      
+
       setShowAbove(spaceBelow < spaceNeeded);
     }
   }, [isOpen, isMobile]);
-  
+
   // Add click outside listener to close dropdown
   useEffect(() => {
     function handleClickOutside(event) {
@@ -66,39 +79,36 @@ export default function DatePickerInput({ label, name, control, error, className
         setIsOpen(false);
       }
     }
-    
+
     // Only add for desktop - mobile uses full screen modal approach
     if (isOpen && !isMobile) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
-    
+
     // Clean up
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, isMobile]);
-  
+
   // Format date value to string when needed
   const formatDate = (date) => {
-    if (!date) return '';
+    if (!date) return "";
     try {
-      return format(new Date(date), 'yyyy-MM-dd');
+      return format(new Date(date), "yyyy-MM-dd");
     } catch (error) {
-      console.error('Invalid date format:', error);
-      return '';
+      console.error("Invalid date format:", error);
+      return "";
     }
   };
-  
+
   // Mobile modal for date picker
   const MobileDatePickerModal = ({ field }) => {
     return createPortal(
-      <div 
-        className="fixed inset-0 bg-white" 
-        style={{ zIndex: 9999 }}
-      >
+      <div className="fixed inset-0 bg-white" style={{ zIndex: 9999 }}>
         <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-lg font-semibold">Select Date</h2>
-          <button 
+          <button
             onClick={() => setIsOpen(false)}
             className="p-1 rounded-full hover:bg-gray-100"
           >
@@ -132,7 +142,7 @@ export default function DatePickerInput({ label, name, control, error, className
       document.body
     );
   };
-  
+
   return (
     <div className="w-full">
       {label && (
@@ -140,7 +150,7 @@ export default function DatePickerInput({ label, name, control, error, className
           {label}
         </label>
       )}
-      
+
       <div className="relative" ref={pickerRef}>
         <Controller
           control={control}
@@ -149,58 +159,70 @@ export default function DatePickerInput({ label, name, control, error, className
             <>
               <div
                 className={`w-full flex items-center justify-between ${
-                  error ? 'border border-red-500' : 'border-none'
-                }  rounded-md ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'} ${className || ''}`}
+                  error ? "border border-red-500" : "border-none"
+                }  rounded-md ${
+                  disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
+                } ${className || ""}`}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
               >
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 text-gray-500 mr-2" />
                   <span className="text-gray-800 text-sm font-medium">
                     {field.value
-                      ? format(new Date(field.value), 'MMM dd, yyyy')
-                      : 'Select date'}
+                      ? format(new Date(field.value), "MMM dd, yyyy")
+                      : "Select date"}
                   </span>
                 </div>
                 {!disabled && (
                   <ChevronDown
                     className={`h-4 w-4 text-gray-500 transition-transform ${
-                      isOpen ? 'transform rotate-180' : ''
+                      isOpen ? "transform rotate-180" : ""
                     }`}
                   />
                 )}
               </div>
-              
+
               {isOpen && !isMobile && (
                 <div
                   className={`absolute z-50 mt-1 bg-white shadow-lg rounded-md p-4 date-picker-dropdown ${
-                    showAbove ? 'bottom-full mb-1' : 'top-full'
+                    showAbove ? "bottom-full mb-1" : "top-full"
                   }`}
                 >
                   <ReactDatePicker
                     selected={field.value ? new Date(field.value) : null}
                     onChange={(date) => {
-                      field.onChange(formatDate(date));
+                      // Allow custom validation callback
+                      if (onChange && !onChange(date)) {
+                        return;
+                      }
+
+                      const formattedDate = date
+                        ? date.toISOString().split("T")[0]
+                        : "";
+                      field.onChange(formattedDate);
                       setIsOpen(false);
                     }}
                     inline
                     dateFormat="yyyy-MM-dd"
                     calendarClassName="rdp"
-                    minDate={new Date()}
+                    minDate={minDate ? new Date(minDate) : undefined}
+                    maxDate={maxDate ? new Date(maxDate) : undefined}
                     disabled={disabled}
+                    popperClassName={popperClassName}
+                    popperPlacement={popperPlacement}
+                    popperModifiers={popperModifiers}
                   />
                 </div>
               )}
-              
+
               {/* Mobile date picker modal using portal */}
               {isOpen && isMobile && <MobileDatePickerModal field={field} />}
             </>
           )}
         />
       </div>
-      
-      {error && (
-        <p className="mt-1 text-sm text-red-600">{error.message}</p>
-      )}
+
+      {error && <p className="mt-1 text-sm text-red-600">{error.message}</p>}
     </div>
   );
 }
