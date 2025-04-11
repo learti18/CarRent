@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { ArrowUpDown } from "lucide-react";
-import PickupDropoffInfo from "./PickUpDropOffInfo";
 import { motion, AnimatePresence } from "framer-motion";
 import { LOCATIONS } from "../../common/constants";
+import PickupDropoffInfo from "./PickupDropoffInfo";
 
 export default function LocationSelector({ onDataChange }) {
   const [isSwitched, setIsSwitched] = useState(false);
