@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CarRent.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a32b5b21767c54b62a22b0597d9a4cce35c2247a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+759c75bd150f43f23cf3f667bcf6ca86192a41dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("CarRent.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CarRent.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

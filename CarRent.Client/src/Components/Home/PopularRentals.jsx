@@ -20,8 +20,8 @@ export default function PopularRentals() {
           Most popular cars rental deals
         </h1>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-10 md:px-6 my-12">
-        {vehicles.slice(0, 4).map((car) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-10 md:px-6 my-12">
+        {vehicles?.slice(0, 4).map((car) => (
           <CarCard key={car.id} {...car} />
         ))}
       </div>

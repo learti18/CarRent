@@ -68,5 +68,9 @@ namespace CarRent.Server.Repository
             return reviews;
         }
 
+        public async Task<bool> HasUserReviewedRental(string userId, int rentalId)
+        {
+            return await _context.Reviews.AnyAsync(r => r.UserId == userId && r.RentalId == rentalId);
+        }
     }
 }

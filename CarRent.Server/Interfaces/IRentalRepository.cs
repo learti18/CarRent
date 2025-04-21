@@ -8,7 +8,6 @@ namespace CarRent.Server.Interfaces
         Task<List<Rental>> GetAllAsync();
         Task<Rental?> GetByIdAsync(int id);
         Task<List<Rental>> GetUserRentalsAsync(string userId);
-        //Task<Rental?> GetUserRentalAsync(string userId, int vehicleId);
         Task<Rental> CreateAsync(Rental rental);
         Task<Rental?> CancelRentalAsync(Rental rental);
         Task UpdateRentalStatusesAsync();

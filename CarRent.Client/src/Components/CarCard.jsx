@@ -59,6 +59,7 @@ export default function CarCard({
               e.target.onerror = null;
               e.target.src = "/placeholder-car.jpg";
             }}
+            loading="lazy"
           />
           <div className="absolute w-full h-24 bottom-0 top-0 mt-auto bg-gradient-to-t from-white"></div>
         </div>

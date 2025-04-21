@@ -24,6 +24,10 @@ export const formatUserData = (data) => {
     return {
         userName: data.userName,
         email: data.email,
-        roles: data.roles || []
+        roles: data.roles || [],
+        profileImageUrl: data.profileImageUrl || data.profileImage || null,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phoneNumber
     }
 }

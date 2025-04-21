@@ -12,6 +12,7 @@ namespace CarRent.Server.Dtos.Rental
         public PickupDropOffDto Pickup { get; set; }
         public PickupDropOffDto DropOff { get; set; }
 
+        public string RentalId { get; set; }
         public int VehicleId { get; set; }
 
         public PaymentDto Payment { get; set; }

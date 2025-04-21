@@ -5,7 +5,8 @@ import api from '../Services/Api';
 import { toast } from 'sonner';
 import { STATUS } from '../Utils/AuthStatus';
 import { getOrGenerateDeviceId } from '../Utils/GenerateDeviceId';
-import { setCurrentUsername } from '../Utils/UserStore';
+import { setCurrentUsername, setCurrentUser } from '../Utils/UserStore';
+import { formatUserData } from '../Services/AuthService';
 
 const useLogin = () => {
    const { login, setAuthenticationStatus } = useAuth()
@@ -24,14 +25,16 @@ const useLogin = () => {
 
             return response.data
         },
-        onSuccess: ({userName, email, token, expiresAt, roles }) => {
-            if(!token || !expiresAt){
+        onSuccess: (data) => {
+            if(!data.token || !data.expiresAt){
                 throw new Error("Missing token or expiration time")
             }
 
-            setCurrentUsername(userName)
+            setCurrentUsername(data.userName)
+            setCurrentUser(data)
 
-            login({ userName, email, roles: roles || [] }, token, expiresAt)
+            const formattedUser = formatUserData(data)
+            login(formattedUser, data.token, data.expiresAt)
             setAuthenticationStatus(STATUS.SUCCEEDED)
             navigate('/')
         },

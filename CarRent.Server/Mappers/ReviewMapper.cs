@@ -11,7 +11,8 @@ namespace CarRent.Server.Mappers
             {
                 Comment = reviewDto.Comment,
                 Rating = reviewDto.Rating,
-                DateCreated = reviewDto.DateCreated
+                DateCreated = reviewDto.DateCreated,
+                RentalId = reviewDto.RentalId
             };
         }
 
@@ -23,7 +24,8 @@ namespace CarRent.Server.Mappers
                 Username = review.User.UserName,
                 Comment = review.Comment,
                 Rating = review.Rating,
-                DateCreated = review.DateCreated
+                DateCreated = review.DateCreated,
+                RentalId = review.RentalId
             };
         }
 

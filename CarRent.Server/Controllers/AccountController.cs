@@ -1,11 +1,9 @@
-﻿using System.Security.Claims;
-using CarRent.Server.Data;
+﻿using CarRent.Server.Data;
 using CarRent.Server.Dtos.Account;
 using CarRent.Server.Extensions;
 using CarRent.Server.Interfaces;
 using CarRent.Server.Mappers;
 using CarRent.Server.Models;
-using CarRent.Server.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

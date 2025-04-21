@@ -18,11 +18,16 @@ namespace CarRent.Server.Controllers
         private readonly IRentalRepository _rentalRepo;
         private readonly IVehicleRepository _vehicleRepo;
         private readonly IPaymentRepository _paymentRepo;
-        public RentalsController(IRentalRepository rentalRepo, IVehicleRepository vehicleRepo, IPaymentRepository paymentRepo)
+        private readonly IReviewRepository _reviewRepo;
+        public RentalsController(IRentalRepository rentalRepo,
+            IVehicleRepository vehicleRepo,
+            IPaymentRepository paymentRepo,
+            IReviewRepository reviewRepo)
         {
             _rentalRepo = rentalRepo;
             _vehicleRepo = vehicleRepo;
             _paymentRepo = paymentRepo;
+            _reviewRepo = reviewRepo;
         }
 
         [HttpGet]
@@ -42,6 +47,22 @@ namespace CarRent.Server.Controllers
             }
 
             var rentalsDto = rentals.Select(r => r.ToRentalDto());
+
+            return Ok(rentalsDto);
+        }
+        [HttpGet("user")]
+        [Authorize]
+        public async Task<IActionResult> GetUserRentals()
+        {
+            var userId = User.GetUserId();
+            var rentals = await _rentalRepo.GetUserRentalsAsync(userId);
+
+            var rentalsDto = rentals.Select(r => r.ToRentalDto());
+
+            foreach (var rental in rentalsDto)
+            {
+                rental.hasReview = await _reviewRepo.HasUserReviewedRental(userId, rental.Id);
+            }
 
             return Ok(rentalsDto);
         }

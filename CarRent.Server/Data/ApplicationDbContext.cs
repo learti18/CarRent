@@ -24,6 +24,24 @@ namespace CarRent.Server.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Rental)
+                .WithMany()
+                .HasForeignKey(r => r.RentalId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Vehicle)
+                .WithMany()
+                .HasForeignKey(r => r.VehicleId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<Vehicle>()
                 .Property(v => v.Images)
                 .HasConversion(
@@ -44,13 +62,13 @@ namespace CarRent.Server.Data
 
             modelBuilder.Entity<Payment>()
               .HasOne(p => p.User)
-              .WithMany() 
+              .WithMany()
               .HasForeignKey(p => p.UserId)
               .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Rental>()
                 .HasOne(r => r.User)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 

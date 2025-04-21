@@ -13,6 +13,7 @@ namespace CarRent.Server.Dtos.Rental
         public string City { get; set; }
 
         public string UserId { get; set; }
+        public bool hasReview { get; set; }
 
         public PickupDropOffDto Pickup { get; set; }
         public PickupDropOffDto DropOff { get; set; }

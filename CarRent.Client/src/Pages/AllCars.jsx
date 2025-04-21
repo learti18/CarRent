@@ -85,7 +85,7 @@ export default function AllCars() {
               />
             </div>
             <div className="flex-1 px-5 md:px-6 py-5 sm:py-8 overflow-hidden">
-              <div className="mb-8">
+              <div className="mb-6">
                 <LocationSelector onDataChange={handleLocationDataChange} />
               </div>
               <FilterSortBar
