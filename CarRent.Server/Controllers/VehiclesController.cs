@@ -48,7 +48,12 @@ namespace CarRent.Server.Controllers
             {
                 return NotFound("Vehicle not found!");
             }
-            return Ok(vehicle.ToVehicleDto());
+            var userId = User.GetUserId();
+            var isFavorite = await _favoriteRepo.IsFavorite(userId, id);
+            var vehicleDto = vehicle.ToVehicleDto();
+            vehicleDto.IsFavorite = isFavorite;
+
+            return Ok(vehicleDto);
         }
 
         [HttpGet("available")]

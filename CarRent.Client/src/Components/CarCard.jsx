@@ -15,7 +15,7 @@ export default function CarCard({
   seats,
   price,
   images,
-  isBooked,
+  isFavorite,
   variant = "default",
 }) {
   const isSlider = variant === "slider";
@@ -37,6 +37,9 @@ export default function CarCard({
               {brand} {model}
             </h2>
             <p className="font-medium text-sm text-gray-400">{bodyType}</p>
+          </div>
+          <div className="flex items-center">
+            <FavoriteButton id={id} isFavorite={isFavorite} />
           </div>
         </div>
       </div>

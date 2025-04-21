@@ -31,11 +31,11 @@ namespace CarRent.Server.Controllers
         //    return Ok();
         //}
 
-        [HttpPost("{vehicleId}")]
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddToFavorites([FromRoute] int vehicleId, CreateFavoriteDto favoriteDto)
+        public async Task<IActionResult> AddToFavorites(CreateFavoriteDto favoriteDto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -45,9 +45,9 @@ namespace CarRent.Server.Controllers
             var favoriteVehicle = new FavoriteVehicle
             {
                 UserId = userId,
-                VehicleId = vehicleId,
-                PickupDate = favoriteDto.PickupDate,
-                DropOffDate = favoriteDto.DropOffDate
+                VehicleId = favoriteDto.VehicleId,
+                // PickupDate = favoriteDto.PickupDate,
+                // DropOffDate = favoriteDto.DropOffDate
             };
 
             await _favoriteRepo.AddAsync(favoriteVehicle);
@@ -60,7 +60,7 @@ namespace CarRent.Server.Controllers
         public async Task<IActionResult> RemoveFromFavorites([FromRoute] int vehicleId)
         {
             var userId = User.GetUserId();
-            var favoriteVehicle = await _favoriteRepo.GetByIdAsync(userId,vehicleId);
+            var favoriteVehicle = await _favoriteRepo.GetByIdAsync(userId, vehicleId);
 
             if (favoriteVehicle == null)
             {
@@ -68,7 +68,7 @@ namespace CarRent.Server.Controllers
             }
 
             await _favoriteRepo.RemoveAsync(favoriteVehicle);
-           
+
             return Ok("Vehicle removed from favorites");
         }
 

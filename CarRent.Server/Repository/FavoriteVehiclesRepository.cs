@@ -37,6 +37,12 @@ namespace CarRent.Server.Repository
                 .ToListAsync();
         }
 
+        public Task<bool> IsFavorite(string userId, int vehicleId)
+        {
+            return _context.FavoriteVehicles
+                .AnyAsync(fv => fv.UserId == userId && fv.VehicleId == vehicleId);
+        }
+
         public async Task<FavoriteVehicle> RemoveAsync(FavoriteVehicle favoriteVehicle)
         {
             _context.FavoriteVehicles.Remove(favoriteVehicle);
