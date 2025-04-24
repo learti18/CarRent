@@ -5,7 +5,7 @@ using CarRent.Server.Models;
 using CarRent.Server.Repository;
 using CarRent.Server.Service;
 using CarRent.Server.Services.BackgroundTasks;
-using dotenv.net;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +14,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+DotNetEnv.Env.Load();
 
 builder.Configuration.AddEnvironmentVariables();
 

@@ -30,13 +30,6 @@ export const VehicleSchema = yup.object({
         .min(1, 'Seating capacity must be at least 1')
         .max(8, 'Seating capacity cannot exceed 8')
         .required('Please select nr. of seats'),
-    fuelCapacity: yup
-        .number()
-        .typeError('Fuel capacity must be a number')
-        .transform((value, originalValue) => originalValue === "" ? null : value)
-        .nullable()
-        .integer()
-        .positive('Fuel Capacity must be positive'),
     fuelType: yup.string().required('Please select fuel type'),
     location: yup.string().required('Please select location'),
     features: yup.array().of(yup.string()),

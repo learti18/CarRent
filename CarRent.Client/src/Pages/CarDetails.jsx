@@ -45,22 +45,11 @@ function CarDetails() {
     );
   }
 
-  const transformedVehicle = {
-    ...vehicle,
-    images: vehicle.images
-      .map((img) => {
-        if (!img) return "";
-        if (img.startsWith("http")) return img;
-        return `${API_BASE_URL}${img}`;
-      })
-      .filter(Boolean),
-  };
-
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col gap-10 px-6 py-10 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6">
-          <Carousel vehicle={transformedVehicle} />
+          <Carousel vehicle={vehicle} />
           <CarInfo vehicle={vehicle} />
         </div>
         <ReviewSection vehicleId={id} />

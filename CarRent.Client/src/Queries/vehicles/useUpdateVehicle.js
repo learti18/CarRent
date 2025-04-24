@@ -7,7 +7,7 @@ export const useUpdateVehicle = () => {
     
     return useMutation({
         mutationFn: async ({ id, updateData }) => {
-            const { data } = await api.put(`/vehicle/s${id}`, updateData);
+            const { data } = await api.put(`/vehicle/${id}`, updateData);
             return data;
         },
         onSuccess: (data) => {

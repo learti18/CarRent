@@ -178,3 +178,7 @@ C:\web\CarRent\CarRent.Server\obj\Debug\net8.0\CarRent.Server.pdb
 C:\web\CarRent\CarRent.Server\obj\Debug\net8.0\CarRent.Server.genruntimeconfig.cache
 C:\web\CarRent\CarRent.Server\obj\Debug\net8.0\ref\CarRent.Server.dll
 C:\web\CarRent\CarRent.Server\bin\Debug\net8.0\dotenv.net.dll
+C:\web\CarRent\CarRent.Server\bin\Debug\net8.0\CloudinaryDotNet.dll
+C:\web\CarRent\CarRent.Server\bin\Debug\net8.0\DotNetEnv.dll
+C:\web\CarRent\CarRent.Server\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\web\CarRent\CarRent.Server\bin\Debug\net8.0\Sprache.dll

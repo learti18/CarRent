@@ -36,7 +36,9 @@ const useLogin = () => {
             const formattedUser = formatUserData(data)
             login(formattedUser, data.token, data.expiresAt)
             setAuthenticationStatus(STATUS.SUCCEEDED)
-            navigate('/')
+
+            formattedUser.roles[0] === "Admin" ? navigate('/dashboard') : navigate('/')
+            toast.success("Login successful!")
         },
         onError: (error) => {
             console.error("Login failed: ",error)

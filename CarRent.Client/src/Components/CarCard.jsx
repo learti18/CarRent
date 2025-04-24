@@ -14,15 +14,11 @@ export default function CarCard({
   transmission,
   seats,
   price,
-  images,
+  mainImage,
   isFavorite,
   variant = "default",
 }) {
   const isSlider = variant === "slider";
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "/placeholder-car.jpg";
-    return `${API_BASE_URL}${imagePath}`;
-  };
 
   return (
     <div
@@ -52,13 +48,9 @@ export default function CarCard({
       >
         <div className="flex justify-center relative py-8 mr-auto md:m-auto ">
           <img
-            src={getImageUrl(images[0])}
+            src={mainImage ? mainImage : "/car4.svg"}
             alt={`${brand} ${model}`}
             className="max-h-24 object-contain pr-4 md:pr-0"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/placeholder-car.jpg";
-            }}
             loading="lazy"
           />
           <div className="absolute w-full h-24 bottom-0 top-0 mt-auto bg-gradient-to-t from-white"></div>

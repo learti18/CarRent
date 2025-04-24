@@ -90,8 +90,7 @@
               "RelativeToolTip": "Mappers\\UserMapper.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:33:37.109Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T15:33:37.109Z"
             },
             {
               "$type": "Document",
@@ -103,8 +102,7 @@
               "RelativeToolTip": "Extensions\\ClaimsExtensions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:32:21.355Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T15:32:21.355Z"
             },
             {
               "$type": "Document",
@@ -116,8 +114,7 @@
               "RelativeToolTip": "Service\\TokenService.cs",
               "ViewState": "AgIAAGkAAAAAAAAAAAAmwHYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:27:31.326Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T15:27:31.326Z"
             },
             {
               "$type": "Document",
@@ -129,8 +126,7 @@
               "RelativeToolTip": "Models\\RefreshToken.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAgwBgAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:25:56.03Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T15:25:56.03Z"
             },
             {
               "$type": "Document",
@@ -142,8 +138,7 @@
               "RelativeToolTip": "Interfaces\\ITokenService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:25:28.53Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T15:25:28.53Z"
             },
             {
               "$type": "Document",
@@ -155,8 +150,7 @@
               "RelativeToolTip": "Controllers\\AccountController.cs",
               "ViewState": "AgIAAAoBAAAAAAAAAAAuwN4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T15:24:02.706Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T15:24:02.706Z"
             },
             {
               "$type": "Document",
@@ -168,8 +162,7 @@
               "RelativeToolTip": "..\\..\\Login practice\\AuthenticationTut\\Program.cs",
               "ViewState": "AgIAAD8AAAAAAAAAAAAAAEgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T14:47:38.461Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T14:47:38.461Z"
             },
             {
               "$type": "Document",
@@ -181,8 +174,7 @@
               "RelativeToolTip": ".env",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAADwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-04-07T14:42:56.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T14:42:56.456Z"
             },
             {
               "$type": "Document",
@@ -194,8 +186,7 @@
               "RelativeToolTip": "Dtos\\Account\\UserProfileDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T14:42:16.681Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T14:42:16.681Z"
             },
             {
               "$type": "Document",
@@ -207,8 +198,7 @@
               "RelativeToolTip": "Dtos\\Account\\RegisterDto.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAowBsAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T14:40:47.063Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T14:40:47.063Z"
             },
             {
               "$type": "Document",
@@ -220,8 +210,7 @@
               "RelativeToolTip": "Dtos\\Account\\RefreshTokenDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T14:40:20.83Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T14:40:20.83Z"
             },
             {
               "$type": "Document",
@@ -233,8 +222,7 @@
               "RelativeToolTip": "Dtos\\Account\\NewUserDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T14:39:56.714Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T14:39:56.714Z"
             },
             {
               "$type": "Document",
@@ -246,8 +234,7 @@
               "RelativeToolTip": "Dtos\\Account\\LogoutDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T14:39:40.189Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-07T14:39:40.189Z"
             }
           ]
         }

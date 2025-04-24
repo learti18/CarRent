@@ -1,68 +1,48 @@
 ﻿using CarRent.Server.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace CarRent.Server.Service
 {
     public class ImageService : IImageService
     {
-        private readonly IWebHostEnvironment _environment;
+        private readonly Cloudinary _cloudinary;
 
-        public ImageService(IWebHostEnvironment environment)
+        public ImageService()
         {
-            _environment = environment;
+            var account = new Account(
+                "dzdv6ub55",
+    "379955789991324",
+    "CciVJv-3M-pM82s1qyVFBL5Y7e4"
+            );
+
+            _cloudinary = new Cloudinary(account);
         }
 
         public async Task<string> SaveImageAsync(IFormFile imageFile, string folder)
         {
-            if (imageFile == null || imageFile.Length == 0)
+            if(imageFile == null || imageFile.Length == 0)
+                throw new ArgumentException("Image file cannot be null or empty.");
+
+            using var stream = imageFile.OpenReadStream();
+            var uploadParams = new ImageUploadParams
             {
-                throw new ArgumentException("No image file provided");
-            }
+                File = new FileDescription(imageFile.FileName, stream),
+                Folder = folder,
+                UseFilename = true,
+                UniqueFilename = true,
+                Overwrite = false
+            };
 
-            // Create the target folder path
-            var uploadDirectory = $"uploads/{folder}";  // Use the provided folder name or default to 'vehicles'
-            var uploadsPath = Path.Combine(_environment.WebRootPath, uploadDirectory);
-
-            if (!Directory.Exists(uploadsPath))
-            {
-                Directory.CreateDirectory(uploadsPath);
-            }
-
-            // Generate a unique filename
-            var uniqueFileName = $"{Guid.NewGuid()}{Path.GetExtension(imageFile.FileName)}";
-            var filePath = Path.Combine(uploadsPath, uniqueFileName);
-
-            // Save the file
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(stream);
-            }
-
-            // Return the relative URL
-            return $"/{uploadDirectory}/{uniqueFileName}";
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            return uploadResult.SecureUrl.AbsoluteUri;
         }
 
         public void DeleteImage(string imageUrl)
         {
-            if (string.IsNullOrEmpty(imageUrl))
-            {
-                return;
-            }
-
-            try
-            {
-                var imagePath = Path.Combine(_environment.WebRootPath, imageUrl.TrimStart('/'));
-                if (File.Exists(imagePath))
-                {
-                    File.Delete(imagePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the error but don't throw
-                Console.Error.WriteLine($"Error deleting image: {ex.Message}");
-            }
+          
         }
 
     }
