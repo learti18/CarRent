@@ -10,7 +10,6 @@ import { Toaster } from "sonner";
 import {
   About,
   Accounts,
-  AddRental,
   AddVehicle,
   AllCars,
   Calendar,
@@ -19,10 +18,10 @@ import {
   Dashboard,
   EditVehicle,
   Home,
-  Inbox,
   Payment,
   Reimbursements,
   Rentals,
+  Reviews,
   Settings,
   Signin,
   Signup,
@@ -76,8 +75,7 @@ function App() {
                     <Route path="vehicles/new" element={<AddVehicle />} />
                     <Route path="vehicles/edit/:id" element={<EditVehicle />} />
                     <Route path="rentals" element={<Rentals />} />
-                    <Route path="rentals/new" element={<AddRental />} />
-                    <Route path="inbox" element={<Inbox />} />
+                    <Route path="reviews" element={<Reviews />} />
                     <Route path="accounts" element={<Accounts />} />
                     <Route path="calendar" element={<Calendar />} />
                     <Route path="reimbursements" element={<Reimbursements />} />

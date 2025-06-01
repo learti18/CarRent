@@ -1,5 +1,4 @@
 import React from "react";
-import { IMGURL } from "../../../common/constants";
 import { formatDate } from "./../../../Utils/FormatDate";
 
 export default function RentalTableRow({ rental, onViewDetails }) {
@@ -51,8 +50,8 @@ export default function RentalTableRow({ rental, onViewDetails }) {
       <td className="p-4">${amount.toFixed(2)}</td>
       <td className="p-4">
         <button
-          className="text-blue-600 hover:text-blue-800"
-          onClick={() => onViewDetails && onViewDetails(id)}
+          className="px-3 py-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
+          onClick={() => onViewDetails && onViewDetails(rental)}
         >
           View Details
         </button>

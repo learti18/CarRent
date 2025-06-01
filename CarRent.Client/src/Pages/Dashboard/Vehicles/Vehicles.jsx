@@ -97,10 +97,6 @@ export default function Vehicles() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50">
-          <Filter size={20} />
-          Filters
-        </button>
       </div>
 
       {/* Vehicles Table */}

@@ -3,6 +3,7 @@ using CarRent.Server.Enums;
 using CarRent.Server.Extensions;
 using CarRent.Server.Interfaces;
 using CarRent.Server.Mappers;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,11 +45,11 @@ namespace CarRent.Server.Controllers
             }
 
             var existingReview = await _reviewRepo.GetUserReviewForVehicleAsync(userId, rental.VehicleId);
-            if(existingReview != null)
+            if (existingReview != null)
             {
                 return BadRequest("You have already reviewed this vehicle!");
             }
-            
+
             var review = reviewDto.ToReview();
             review.UserId = userId;
             review.VehicleId = rental.VehicleId;
@@ -67,12 +68,21 @@ namespace CarRent.Server.Controllers
 
             return Ok(reviewsDto);
         }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllReviews()
+        {
+            var reviews = await _reviewRepo.GetAllAsync();
+            var reviewsDto = reviews.Select(r => r.ToReviewDto());
+
+            return Ok(reviewsDto);
+        }
 
         [HttpGet("{vehicleId}/{reviewId}")]
         [Authorize]
         public async Task<IActionResult> GetReviewById([FromRoute] int vehicleId, [FromRoute] int reviewId)
         {
-            var review = await _reviewRepo.GetByIdAsync(reviewId,vehicleId);
+            var review = await _reviewRepo.GetByIdAsync(reviewId, vehicleId);
 
             if (review == null)
             {

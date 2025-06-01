@@ -1,9 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FavoriteButton from "../Buttons/FavoriteButton";
 import RatingStars from "../RatingStars";
+import { useSearchForm } from "../../Contexts/SearchFormContext";
 
 export default function CarInfo({ vehicle }) {
+  const { handleLocationChange } = useSearchForm();
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col justify-between gap-4 w-full lg:w-1/2 p-4 md:p-6 bg-white rounded-xl shadow-sm">
       <div className="space-y-2">

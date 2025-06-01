@@ -2,27 +2,31 @@ import React, { useState } from "react";
 import {
   LayoutDashboard,
   Car,
-  Inbox,
   Calendar,
   Receipt,
-  Settings,
   UserCircle,
   ChevronLeft,
-  ClipboardCheck,
   KeyRound,
-  Home,
+  Star,
+  LogOut,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import useLogout from "./../../Queries/useLogout";
 
 export default function Sidebar() {
   const [isToggledSidebar, setIsToggledSidebar] = useState(true);
   const location = useLocation();
+  const logoutMutation = useLogout();
 
   const isActive = (path) => {
     return location.pathname === path;
   };
 
   const toggleSidebar = () => setIsToggledSidebar((prevState) => !prevState);
+
+  function handleLogout() {
+    logoutMutation.mutateAsync();
+  }
 
   const links = [
     {
@@ -32,27 +36,18 @@ export default function Sidebar() {
     },
     { name: "Vehicles", to: "/dashboard/vehicles", icon: <Car size={22} /> },
     { name: "Rentals", to: "/dashboard/rentals", icon: <KeyRound size={22} /> },
-    { name: "Inbox", to: "/dashboard/inbox", icon: <Inbox size={22} /> },
+    { name: "Reviews", to: "/dashboard/reviews", icon: <Star size={22} /> },
+    ,
     {
-      name: "Calendar",
-      to: "/dashboard/calendar",
-      icon: <Calendar size={22} />,
-    },
-    {
-      name: "Reimbursements",
+      name: "Payments",
       to: "/dashboard/reimbursements",
       icon: <Receipt size={20} />,
     },
-    {
-      name: "Accounts",
-      to: "/dashboard/accounts",
-      icon: <UserCircle size={22} />,
-    },
-    {
-      name: "Settings",
-      to: "/dashboard/settings",
-      icon: <Settings size={22} />,
-    },
+    // {
+    //   name: "Accounts",
+    //   to: "/dashboard/accounts",
+    //   icon: <UserCircle size={22} />,
+    // },
   ];
 
   return (
@@ -122,6 +117,21 @@ export default function Sidebar() {
                 )}
               </Link>
             ))}
+
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg duration-100 transition-colors
+                          w-full text-left text-red-500 hover:bg-red-50 
+                          ${isToggledSidebar ? "" : "justify-center"}`}
+            >
+              <span className="flex-shrink-0">
+                <LogOut size={22} />
+              </span>
+              {isToggledSidebar && (
+                <span className="truncate font-medium">Logout</span>
+              )}
+            </button>
           </div>
         </div>
       </div>

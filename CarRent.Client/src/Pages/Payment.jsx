@@ -11,11 +11,12 @@ import { PaymentSchema } from "../Schemas/PaymentSchema";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 import { useVehicleById } from "../Queries/vehicles";
-import { useRentalContext } from "../Hooks/useRentalContext";
+import { useSearchForm } from "../Contexts/SearchFormContext";
 import { useAddRental } from "../Queries/Rentals";
 
 export default function Payment() {
-  const { locationData } = useRentalContext();
+  const { getRentalLocationData } = useSearchForm();
+  const locationData = getRentalLocationData();
   const {
     register,
     handleSubmit,
@@ -54,7 +55,7 @@ export default function Payment() {
   const addRentalMutation = useAddRental();
 
   const submitForm = async (data) => {
-    const response = await addRentalMutation.mutateAsync({
+    await addRentalMutation.mutateAsync({
       ...data,
       vehicleId: vehicle.id,
     });
@@ -85,7 +86,7 @@ export default function Payment() {
               register={register}
               control={control}
               errors={errors}
-              defaultValues={locationData}
+              locationData={locationData}
             />
             <PaymentMethod
               register={register}

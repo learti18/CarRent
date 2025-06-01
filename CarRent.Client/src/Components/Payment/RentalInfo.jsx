@@ -23,10 +23,10 @@ export default function RentalInfo({ control, errors, locationData }) {
                 label="Location"
                 placeholder="Select your city"
                 name="pickup.city"
-                className="bg-gray-100 px-4 py-3 mt-4 text-slate-400"
+                className="bg-gray-100 px-4 py-3 mt-4 text-gray-800"
                 control={control}
                 error={errors?.pickup?.city}
-                disabled
+                defaultValue={locationData?.pickup?.city}
               />
               <DatePickerInput
                 label="Date"
@@ -34,7 +34,7 @@ export default function RentalInfo({ control, errors, locationData }) {
                 control={control}
                 error={errors?.pickup?.date}
                 className="px-4 py-4 mt-5 bg-neutral-100 text-slate-400"
-                disabled
+                defaultValue={locationData?.pickup?.date}
               />
               <TimePickerInput
                 label="Time"
@@ -42,7 +42,7 @@ export default function RentalInfo({ control, errors, locationData }) {
                 control={control}
                 error={errors?.pickup?.time}
                 className="px-4 py-4 mt-4 bg-neutral-100 text-slate-400"
-                disabled
+                defaultValue={locationData?.pickup?.time}
               />
             </div>
           </div>
@@ -54,10 +54,10 @@ export default function RentalInfo({ control, errors, locationData }) {
                 options={LOCATIONS}
                 placeholder="Select your city"
                 name="dropoff.city"
-                className="px-4 py-3 mt-4 bg-neutral-100 text-slate-400"
+                className="px-4 py-3 mt-4 bg-neutral-100 text-gray-800 "
                 control={control}
                 error={errors?.dropoff?.city}
-                disabled
+                defaultValue={locationData?.dropoff?.city}
               />
               <DatePickerInput
                 label="Date"
@@ -65,7 +65,7 @@ export default function RentalInfo({ control, errors, locationData }) {
                 control={control}
                 error={errors?.dropoff?.date}
                 className="px-4 py-4 mt-5 bg-neutral-100 text-slate-400"
-                disabled
+                defaultValue={locationData?.dropoff?.date}
               />
               <TimePickerInput
                 label="Time"
@@ -73,7 +73,7 @@ export default function RentalInfo({ control, errors, locationData }) {
                 control={control}
                 error={errors?.dropoff?.time}
                 className="px-4 py-3.5 mt-4 bg-neutral-100 text-slate-400"
-                disabled
+                defaultValue={locationData?.dropoff?.time}
               />
             </div>
           </div>

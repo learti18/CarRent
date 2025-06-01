@@ -1,4 +1,10 @@
-import { createContext, useContext, useCallback, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useCallback,
+  useState,
+  useEffect,
+} from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { LOCATIONS } from "../common/constants";
 import { useSearchParams } from "react-router-dom";
@@ -20,7 +26,7 @@ const defaultValues = {
   },
   filters: [],
   priceRange: { min: 20, max: 300 },
-  sortOption: "default"
+  sortOption: "default",
 };
 
 export const SearchFormContext = createContext({});
@@ -30,7 +36,7 @@ export function SearchFormProvider({ children }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [queryParams, setQueryParams] = useState({
     pageNumber: 1,
-    pageSize: 10
+    pageSize: 10,
   });
 
   // Get form values
@@ -44,75 +50,75 @@ export function SearchFormProvider({ children }) {
   const buildQueryParams = useCallback(() => {
     const params = {
       pageNumber: 1,
-      pageSize: 10
+      pageSize: 10,
     };
-    
+
     // Handle body types
     if (Array.isArray(filters)) {
       // Find body types in the array
-      const bodyTypes = filters.filter(item => 
+      const bodyTypes = filters.filter((item) =>
         ["sport", "suv", "mpv", "sedan", "coupe", "hatchback"].includes(item)
       );
-      
+
       // Map to backend-expected values
       if (bodyTypes.length === 1) {
         const typeMap = {
-          "sport": "Sports Car",
-          "suv": "SUV",
-          "mpv": "Van", 
-          "sedan": "Sedan",
-          "coupe": "Coupe",
-          "hatchback": "Hatchback"
+          sport: "Sports Car",
+          suv: "SUV",
+          mpv: "Van",
+          sedan: "Sedan",
+          coupe: "Coupe",
+          hatchback: "Hatchback",
         };
         params.bodyType = typeMap[bodyTypes[0]];
       }
-      
+
       // Handle capacity
       if (filters.includes("2person")) params.capacity = 2;
       if (filters.includes("4person")) params.capacity = 4;
       if (filters.includes("6person")) params.capacity = 6;
       if (filters.includes("8person")) params.capacity = 8;
     }
-    
+
     // Handle price range
     if (priceRange) {
       params.minPrice = Number(priceRange.min);
       params.maxPrice = Number(priceRange.max);
-      
+
       // Only include if different from default
       if (params.minPrice === 20 && params.maxPrice === 300) {
         delete params.minPrice;
         delete params.maxPrice;
       }
     }
-    
+
     // Handle dates
     if (rental?.pickup?.date) {
       params.pickupDate = rental.pickup.date;
     }
-    
+
     if (rental?.dropoff?.date) {
       params.dropoffDate = rental.dropoff.date;
     }
-    
+
     // Handle time
     if (rental?.pickup?.time) {
       params.pickupTime = rental.pickup.time;
     }
-    
+
     if (rental?.dropoff?.time) {
       params.dropoffTime = rental.dropoff.time;
     }
-    
+
     // Handle location
     if (rental?.pickup?.location) {
-      if (typeof rental.pickup.location === 'string') {
+      if (typeof rental.pickup.location === "string") {
         params.location = rental.pickup.location;
       } else if (rental.pickup.location?.name) {
         params.location = rental.pickup.location.name;
       }
     }
-    
+
     // Handle sorting
     if (sortOption === "price_asc") {
       params.sortBy = "price";
@@ -121,108 +127,156 @@ export function SearchFormProvider({ children }) {
       params.sortBy = "price";
       params.sortOrder = "desc";
     }
-    
+
     return params;
   }, [filters, rental, priceRange, sortOption]);
-  
+
   // Update query params when form state changes
   useEffect(() => {
     const newParams = buildQueryParams();
     if (JSON.stringify(newParams) !== JSON.stringify(queryParams)) {
       setQueryParams(newParams);
-      
+
       // Update URL params
       const urlParams = new URLSearchParams();
       Object.entries(newParams).forEach(([key, value]) => {
-        if (value !== undefined && value !== null && value !== '') {
+        if (value !== undefined && value !== null && value !== "") {
           urlParams.set(key, String(value));
         }
       });
-      
+
       setSearchParams(urlParams, { replace: true });
     }
-  }, [filters, rental, priceRange, sortOption, buildQueryParams, queryParams, setSearchParams]);
-  
+  }, [
+    filters,
+    rental,
+    priceRange,
+    sortOption,
+    buildQueryParams,
+    queryParams,
+    setSearchParams,
+  ]);
+
   // Load values from URL on initial load
   useEffect(() => {
-    const urlFilters = searchParams.get('filters');
-    const priceMin = searchParams.get('priceMin');
-    const priceMax = searchParams.get('priceMax');
-    const pickupDate = searchParams.get('pickupDate');
-    const dropoffDate = searchParams.get('dropoffDate');
-    
+    const urlFilters = searchParams.get("filters");
+    const priceMin = searchParams.get("priceMin");
+    const priceMax = searchParams.get("priceMax");
+    const pickupDate = searchParams.get("pickupDate");
+    const dropoffDate = searchParams.get("dropoffDate");
+
     // Set filters
     if (urlFilters) {
-      const filterArray = urlFilters.split(',');
-      setValue('filters', filterArray);
+      const filterArray = urlFilters.split(",");
+      setValue("filters", filterArray);
     }
-    
+
     // Set price range from URL if available
     if (priceMin || priceMax) {
-      setValue('priceRange', {
+      setValue("priceRange", {
         min: Number(priceMin) || 20,
-        max: Number(priceMax) || 300
+        max: Number(priceMax) || 300,
       });
     }
-    
+
     // Set dates
     if (pickupDate) {
-      setValue('rental.pickup.date', pickupDate);
+      setValue("rental.pickup.date", pickupDate);
     }
-    
+
     if (dropoffDate) {
-      setValue('rental.dropoff.date', dropoffDate);
+      setValue("rental.dropoff.date", dropoffDate);
     }
-    
+
     // Ensure price range is set
     const currentValues = getValues();
     if (!currentValues.priceRange) {
-      setValue('priceRange', { min: 20, max: 300 });
+      setValue("priceRange", { min: 20, max: 300 });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  
+
   // Handle location data changes
-  const handleLocationChange = useCallback((type, data) => {
-    // Apply the changes to the form
-    setValue(`rental.${type}`, data, {
-      shouldDirty: true,
-      shouldTouch: true,
-      shouldValidate: true
-    });
-    
-    // Force immediate update of queryParams for date changes
-    if (data.date) {
-      // Manually build new query params to force an update
-      const newParams = buildQueryParams();
-      
-      // Only update if there's an actual change
-      if (JSON.stringify(newParams) !== JSON.stringify(queryParams)) {
-        setQueryParams(newParams);
-        
-        // Update URL params immediately for date changes
-        const urlParams = new URLSearchParams();
-        Object.entries(newParams).forEach(([key, value]) => {
-          if (value !== undefined && value !== null && value !== '') {
-            urlParams.set(key, String(value));
-          }
-        });
-        
-        setSearchParams(urlParams, { replace: true });
+  const handleLocationChange = useCallback(
+    (type, data) => {
+      // Apply the changes to the form
+      setValue(`rental.${type}`, data, {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
+
+      // Force immediate update of queryParams for date changes
+      if (data.date) {
+        // Manually build new query params to force an update
+        const newParams = buildQueryParams();
+
+        // Only update if there's an actual change
+        if (JSON.stringify(newParams) !== JSON.stringify(queryParams)) {
+          setQueryParams(newParams);
+
+          // Update URL params immediately for date changes
+          const urlParams = new URLSearchParams();
+          Object.entries(newParams).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== "") {
+              urlParams.set(key, String(value));
+            }
+          });
+
+          setSearchParams(urlParams, { replace: true });
+        }
       }
-    }
-  }, [setValue, getValues, buildQueryParams, queryParams, setQueryParams, setSearchParams]);
-  
+    },
+    [
+      setValue,
+      getValues,
+      buildQueryParams,
+      queryParams,
+      setQueryParams,
+      setSearchParams,
+    ]
+  );
+
   // Handle sort option changes
-  const handleSortChange = useCallback((option) => {
-    setValue('sortOption', option);
-  }, [setValue]);
-  
+  const handleSortChange = useCallback(
+    (option) => {
+      setValue("sortOption", option);
+    },
+    [setValue]
+  );
+
+  // Create an additional method to get formatted location data for Payment page
+  const getRentalLocationData = useCallback(() => {
+    return {
+      pickup: {
+        city:
+          rental?.pickup?.location?.name ||
+          rental?.pickup?.location ||
+          LOCATIONS[0],
+        date: rental?.pickup?.date || new Date().toISOString().split("T")[0],
+        time: rental?.pickup?.time || new Date().getHours() + ":00",
+      },
+      dropoff: {
+        city:
+          rental?.dropoff?.location?.name ||
+          rental?.dropoff?.location ||
+          LOCATIONS[0],
+        date:
+          rental?.dropoff?.date ||
+          new Date(new Date().setDate(new Date().getDate() + 2))
+            .toISOString()
+            .split("T")[0],
+        time: rental?.dropoff?.time || new Date().getHours() + ":00",
+      },
+    };
+  }, [rental]);
+
   // Provide context value
   const contextValue = {
     ...methods,
     handleLocationChange,
     handleSortChange,
-    queryParams
+    queryParams,
+    getRentalLocationData,
   };
 
   return (
