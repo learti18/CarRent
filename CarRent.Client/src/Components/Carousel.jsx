@@ -3,24 +3,27 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Carousel({ vehicle }) {
-  // Add fallback for when vehicle or vehicle.images is undefined
   const images = vehicle?.images || [];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  // Safely check if the image is an SVG
   const isSvg = (imagePath) => {
     if (!imagePath || typeof imagePath !== "string") return false;
     return imagePath.endsWith(".svg") || imagePath.endsWith(".png");
   };
 
-  const getImageClassName = (imagePath) => {
-    return `w-full h-full object-contain ${
-      isSvg(imagePath) ? "bg-blue-600 p-20 rounded-xl" : "object-cover"
+  const getImageClassName = (imagePath, isThumbnail = false, index = 0) => {
+    if (isThumbnail) {
+      if (index === 0 && isSvg(imagePath)) {
+        return "w-full h-full object-contain bg-blue-600 p-4";
+      }
+      return "w-full h-full object-cover";
+    }
+    return `w-full h-full ${
+      isSvg(imagePath) ? "bg-blue-600 p-20 object-contain" : "object-cover"
     }`;
   };
 
   const getVisibleThumbnails = () => {
-    // Guard against empty images array
     if (!images || images.length === 0) return [];
 
     if (activeImageIndex === images.length - 1) {
@@ -33,7 +36,6 @@ export default function Carousel({ vehicle }) {
   };
 
   function nextImage() {
-    // Guard against empty images array
     if (!images || images.length === 0) return;
 
     setActiveImageIndex((prevIndex) =>
@@ -42,7 +44,6 @@ export default function Carousel({ vehicle }) {
   }
 
   function prevImage() {
-    // Guard against empty images array
     if (!images || images.length === 0) return;
 
     setActiveImageIndex((prevIndex) =>
@@ -50,7 +51,6 @@ export default function Carousel({ vehicle }) {
     );
   }
 
-  // Guard against missing vehicle data
   if (!vehicle || !images || images.length === 0) {
     return (
       <div className="flex flex-col gap-6 md:w-1/2 h-full items-center justify-center bg-gray-100 rounded-xl p-8">
@@ -60,7 +60,7 @@ export default function Carousel({ vehicle }) {
   }
 
   return (
-    <div className="flex flex-col gap-6 md:w-1/2 h-full">
+    <div className="flex flex-col gap-6 lg:w-1/2 h-full">
       <div className="overflow-hidden aspect-[16/12] relative rounded-xl text-white">
         <ChevronLeft
           className="absolute left-3 top-0 bottom-0 my-auto p-1 select-none 
@@ -109,7 +109,7 @@ export default function Carousel({ vehicle }) {
               <img
                 src={image}
                 alt={`Thumbnail ${index}`}
-                className={getImageClassName(image)}
+                className={getImageClassName(image, true, index)}
               />
             )}
           </motion.div>

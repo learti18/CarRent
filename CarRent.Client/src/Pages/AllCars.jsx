@@ -1,73 +1,26 @@
-import React, { useState, useEffect, useCallback } from "react";
-import cars from "../cars";
+import React, { useState } from "react";
 import CarCard from "../Components/CarCard";
 import FilteringSidebar from "../Components/FilteringSidebar";
 import FilterSortBar from "../Components/AllCars/FilterSortBar";
 import LocationSelector from "../Components/AllCars/LocationSelector";
-import { useAllVehicles, useAvailableVehicles } from "../Queries/vehicles";
 import SkeletonCard from "../Components/cards/SkeletonCard";
-import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
-import { useRentalContext } from "../Hooks/useRentalContext";
+import { useSearchForm } from "../Contexts/SearchFormContext";
+import { useAvailableVehicles } from "../Queries/vehicles/useAvailableVehicles";
 
 export default function AllCars() {
   const [isExpanded, setExpanded] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { locationData, setLocationData } = useRentalContext();
-
+  const [showDebug, setShowDebug] = useState(false);
+  const { queryParams } = useSearchForm();
   const {
     data: vehicles,
     isLoading,
-    refetch,
-  } = useAvailableVehicles(locationData);
-  const { register } = useForm();
+    error,
+  } = useAvailableVehicles(queryParams);
 
-  const handleLocationDataChange = useCallback((type, data) => {
-    setLocationData((prev) => {
-      const currentData = prev[type.toLowerCase()];
-      if (JSON.stringify(currentData) === JSON.stringify(data)) {
-        return prev;
-      }
-      return {
-        ...prev,
-        [type.toLowerCase()]: data,
-      };
-    });
-  }, []);
-
-  // Search for vehicles based on location data - memoized to prevent unnecessary calls
-  const searchVehicles = useCallback(() => {
-    // Here you would call your API with the location data
-    // console.log('Searching vehicles with criteria:', locationData);
-    setSearchParams({
-      pickupLocation: locationData.pickup.city,
-      pickupDate: locationData.pickup.date,
-      dropoffLocation: locationData.dropoff.city,
-      dropoffDate: locationData.dropoff.date,
-    });
-
-    // // // For now, just refetch with existing params
-    // refetch({
-    //   pickupLocation: locationData.pickup.location,
-    //   pickupDate: locationData.pickup.date,
-    //   pickupTime: locationData.pickup.time,
-    //   dropoffLocation: locationData.dropoff.location,
-    //   dropoffDate: locationData.dropoff.date,
-    //   dropoffTime: locationData.dropoff.time
-    // });
-  }, [locationData, refetch]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      searchVehicles();
-    }, 500); // 500ms debounce
-
-    return () => clearTimeout(timer);
-  }, [searchVehicles]);
-
-  function toggleExpanded() {
-    setExpanded((prevState) => !prevState);
-  }
+  // Toggle sidebar expansion for mobile
+  const toggleExpanded = () => {
+    setExpanded((prev) => !prev);
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -86,12 +39,22 @@ export default function AllCars() {
             </div>
             <div className="flex-1 px-5 md:px-6 py-5 sm:py-8 overflow-hidden">
               <div className="mb-6">
-                <LocationSelector onDataChange={handleLocationDataChange} />
+                <LocationSelector />
               </div>
-              <FilterSortBar
-                register={register}
-                toggleExpanded={toggleExpanded}
-              />
+              <div className="flex justify-between items-center">
+                <FilterSortBar toggleExpanded={toggleExpanded} />
+              </div>
+
+              {/* Loading state and error handling */}
+              {error && (
+                <div className="bg-red-50 p-4 rounded-md mb-4">
+                  <p className="text-red-700">
+                    Error loading vehicles: {error.message}
+                  </p>
+                </div>
+              )}
+
+              {/* Vehicle grid with loading state */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 auto-rows-fr mt-5">
                 {isLoading
                   ? Array(9)
@@ -101,6 +64,18 @@ export default function AllCars() {
                       ))
                   : vehicles?.map((car) => <CarCard key={car.id} {...car} />)}
               </div>
+
+              {/* Empty state */}
+              {!isLoading && (!vehicles || vehicles.length === 0) && (
+                <div className="text-center py-16">
+                  <h3 className="text-xl font-medium text-gray-700">
+                    No cars match your filters
+                  </h3>
+                  <p className="text-gray-500 mt-2">
+                    Try adjusting your filters or search criteria
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

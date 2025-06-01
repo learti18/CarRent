@@ -28,13 +28,13 @@ namespace CarRent.Server.Data
                 .HasOne(r => r.Rental)
                 .WithMany()
                 .HasForeignKey(r => r.RentalId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.Vehicle)
                 .WithMany()
                 .HasForeignKey(r => r.VehicleId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.User)

@@ -1,8 +1,11 @@
 import React from 'react'
-import { SlidersHorizontal, ArrowUpDown } from 'lucide-react'
+import { SlidersHorizontal } from 'lucide-react'
 import SortDropdown from './SortDropdown'
+import { useSearchForm } from '../../Contexts/SearchFormContext'
 
-export default function FilterSortBar({ toggleExpanded, onSort }) {
+export default function FilterSortBar({ toggleExpanded }) {
+  const { handleSortChange } = useSearchForm();
+  
   return (
     <div className="flex justify-between items-center mb-6">
       <button
@@ -12,7 +15,7 @@ export default function FilterSortBar({ toggleExpanded, onSort }) {
         <SlidersHorizontal className="w-5 h-5" />
         <span>Filters</span>
       </button>
-      <SortDropdown onSort={onSort} />
+      <SortDropdown onSort={handleSortChange} />
     </div>
   )
 }

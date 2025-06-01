@@ -1,11 +1,10 @@
+import React, { memo } from "react";
 import { Fuel, LifeBuoy, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import FavoriteButton from "./Buttons/FavoriteButton";
 
-const API_BASE_URL = "http://localhost:5160";
-
-export default function CarCard({
+function CarCard({
   id,
   brand,
   model,
@@ -22,7 +21,7 @@ export default function CarCard({
 
   return (
     <div
-      className={`flex flex-col justify-between md:gap-y-4 bg-white p-6 rounded-xl ${
+      className={`flex flex-col justify-between md:gap-y-4 bg-white p-5 rounded-xl ${
         isSlider ? "min-w-72" : ""
       }`}
     >
@@ -46,7 +45,7 @@ export default function CarCard({
             : "flex-row md:flex-col sm:justify-between"
         }`}
       >
-        <div className="flex justify-center relative py-8 mr-auto md:m-auto ">
+        <div className="flex justify-between relative py-8 mr-auto md:m-auto ">
           <img
             src={mainImage ? mainImage : "/car4.svg"}
             alt={`${brand} ${model}`}
@@ -62,33 +61,21 @@ export default function CarCard({
               : "flex-col md:flex-row justify-between"
           }`}
         >
-          <div
-            className="flex gap-1 text-gray-400"
-            data-tooltip-content={`Fuel Type: ${fuelType}`}
-          >
+          <div className="flex gap-1 text-gray-400">
             <Fuel size={18} />
             <span className="text-xs">{fuelType}</span>
-            <Tooltip />
           </div>
-          <div
-            className="flex gap-1 text-gray-400"
-            data-tooltip-content={`Transmission: ${transmission}`}
-          >
+          <div className="flex gap-1 text-gray-400">
             <LifeBuoy size={18} />
             <span className="text-xs">{transmission}</span>
-            <Tooltip />
           </div>
-          <div
-            className="flex gap-1 text-gray-400"
-            data-tooltip-content={`Seating capacity: ${seats}`}
-          >
+          <div className="flex gap-1 text-gray-400">
             <Users size={18} />
             <span className="text-xs">{seats} People</span>
-            <Tooltip />
           </div>
         </div>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mt-3">
         <p className="font-semibold text-lg">
           ${price}/<span className="text-gray-400 text-xs"> day</span>
         </p>
@@ -102,3 +89,5 @@ export default function CarCard({
     </div>
   );
 }
+
+export default memo(CarCard);

@@ -48,7 +48,7 @@ function CarDetails() {
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col gap-10 px-6 py-10 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6 h-full">
           <Carousel vehicle={vehicle} />
           <CarInfo vehicle={vehicle} />
         </div>

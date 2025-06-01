@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\web\\CarRent\\CarRent.Server\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\carrent.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:carrent.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|c:\\web\\carrent\\carrent.server\\service\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1707029A-2769-4767-9281-2A153B869CC6}|CarRent.Server.csproj|solutionrelative:service\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -30,11 +34,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "CarRent.Server",
+              "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\CarRent.Server.csproj",
+              "RelativeDocumentMoniker": "CarRent.Server.csproj",
+              "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\CarRent.Server.csproj",
+              "RelativeToolTip": "CarRent.Server.csproj",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-05-12T16:05:32.271Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "VehiclesController.cs",
               "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Controllers\\VehiclesController.cs",
               "RelativeDocumentMoniker": "Controllers\\VehiclesController.cs",
@@ -42,12 +59,11 @@
               "RelativeToolTip": "Controllers\\VehiclesController.cs",
               "ViewState": "AgIAAFcAAAAAAAAAAAAAAIMAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T16:34:25.992Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-23T16:34:25.992Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "VehicleRepository.cs",
               "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Repository\\VehicleRepository.cs",
               "RelativeDocumentMoniker": "Repository\\VehicleRepository.cs",
@@ -55,12 +71,11 @@
               "RelativeToolTip": "Repository\\VehicleRepository.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAQwCAAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T16:34:02.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-23T16:34:02.969Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -68,12 +83,11 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAHgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-23T16:14:35.004Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-23T16:14:35.004Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": ".env",
               "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\.env",
               "RelativeDocumentMoniker": ".env",
@@ -81,18 +95,17 @@
               "RelativeToolTip": ".env",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-04-23T16:14:10.085Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-23T16:14:10.085Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ImageService.cs",
               "DocumentMoniker": "C:\\web\\CarRent\\CarRent.Server\\Service\\ImageService.cs",
               "RelativeDocumentMoniker": "Service\\ImageService.cs",
               "ToolTip": "C:\\web\\CarRent\\CarRent.Server\\Service\\ImageService.cs",
               "RelativeToolTip": "Service\\ImageService.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAcwBEAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-23T15:50:34.316Z",
               "EditorCaption": ""

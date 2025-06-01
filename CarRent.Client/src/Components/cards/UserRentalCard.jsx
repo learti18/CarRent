@@ -58,9 +58,9 @@ export default function UserRentalCard({ rental, onViewDetails }) {
   return (
     <>
       <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-        <div className="flex flex-col sm:flex-row h-full">
+        <div className="flex flex-col md:flex-row h-full">
           {/* Car image with status indicator - now full height */}
-          <div className=" sm:w-2/5 md:w-1/3 relative h-full bg-gray-50 min-h-[200px]">
+          <div className=" md:w-2/5 lg:w-1/3 relative bg-gray-200 min-h-[200px] flex items-center">
             {/* Status badge positioned on top of image */}
             <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
               <span
@@ -76,15 +76,10 @@ export default function UserRentalCard({ rental, onViewDetails }) {
             {/* Full height image */}
             <img
               src={
-                vehicle.mainImage
-                  ? `${IMGURL}${vehicle.mainImage}`
-                  : "/car-placeholder.png"
+                vehicle.mainImage ? vehicle.mainImage : "/car-placeholder.png"
               }
               alt={vehicle.brand || "Car"}
-              className="w-full h-full object-contain p-10 md:p-12 absolute inset-0"
-              onError={(e) => {
-                e.target.src = "/car-placeholder.png";
-              }}
+              className="w-full object-contain p-14 md:p-4 lg:p-10 inset-0"
             />
           </div>
 
@@ -92,9 +87,6 @@ export default function UserRentalCard({ rental, onViewDetails }) {
           <div className="p-6 sm:w-3/5 md:w-2/3 flex flex-col justify-between border-l border-gray-100">
             {/* Top section with dates */}
             <div>
-              {/* Gradient divider for visual interest */}
-              <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mb-5"></div>
-
               {/* Rental ID and summary */}
               <div className="mb-5 flex flex-col">
                 <h3 className="text-lg font-semibold text-gray-900">

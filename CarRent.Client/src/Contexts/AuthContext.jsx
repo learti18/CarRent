@@ -45,15 +45,21 @@ export const AuthProvider = ({ children }) => {
     authStateRef.current = state;
   }, [state]);
 
-  const login = useCallback((user, token, expiresAt) => {
-    setAccessToken(token);
-    // Ensure we have the complete user data including profile image
-    const completeUserData = {
-      ...user,
-      profileImageUrl: user.profileImageUrl || state.user?.profileImageUrl,
-    };
-    dispatch({ type: "login", payload: { user: completeUserData, token, expiresAt } });
-  }, [state.user]);
+  const login = useCallback(
+    (user, token, expiresAt) => {
+      setAccessToken(token);
+      // Ensure we have the complete user data including profile image
+      const completeUserData = {
+        ...user,
+        profileImageUrl: user.profileImageUrl || state.user?.profileImageUrl,
+      };
+      dispatch({
+        type: "login",
+        payload: { user: completeUserData, token, expiresAt },
+      });
+    },
+    [state.user]
+  );
 
   const logout = useCallback(() => {
     setAccessToken(null);
@@ -63,14 +69,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const updateUser = useCallback((user) => {
-    // Ensure we preserve existing user data when updating
-    const updatedUser = {
-      ...state.user,
-      ...user,
-    };
-    dispatch({ type: "updateUser", payload: updatedUser });
-  }, [state.user]);
+  const updateUser = useCallback(
+    (user) => {
+      // Ensure we preserve existing user data when updating
+      const updatedUser = {
+        ...state.user,
+        ...user,
+      };
+      dispatch({ type: "updateUser", payload: updatedUser });
+    },
+    [state.user]
+  );
 
   const setAuthenticationStatus = useCallback((status) => {
     dispatch({ type: "status", payload: status });
@@ -106,7 +115,9 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const response = await authenticateWithStoredCredentials(storedUserName);
+        const response = await authenticateWithStoredCredentials(
+          storedUserName
+        );
         const { data } = response;
 
         if (data.username) {
@@ -133,7 +144,7 @@ export const AuthProvider = ({ children }) => {
     if (!state.isAuthenticated || !state.expiresAt) return;
 
     const refreshTime = calculateRefreshTime(state.expiresAt);
-    
+
     if (tokenRefreshTimer.current) {
       clearTimeout(tokenRefreshTimer.current);
     }

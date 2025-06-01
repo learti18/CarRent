@@ -2,30 +2,41 @@ import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import Slider from "./Slider";
 import CheckBox from "./Inputs/CheckBox";
-import { useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 export default function FilteringSidebar({ isExpanded, toggleExpanded }) {
-  const { register } = useForm({
-    defaultValues: {
-      bodyType: "",
-      fuelType: "",
-      transmission: "",
-      seat: "",
-      location: "",
-      priceRange: {
-        min: 20,
-        max: 100,
-      },
-    },
-  });
-
-  const [rangeValues, setRangeValues] = useState({ min: 20, max: 100 });
+  const { register, setValue, watch } = useFormContext();
+  const priceRange = watch("priceRange");
+  const [localPriceRange, setLocalPriceRange] = useState(
+    priceRange || { min: 20, max: 300 }
+  );
 
   const handleRangeChange = (values) => {
-    setRangeValues(values);
+    setLocalPriceRange(values);
   };
 
-  // Add effect to control body scroll
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (JSON.stringify(priceRange) !== JSON.stringify(localPriceRange)) {
+        setValue("priceRange", localPriceRange, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [localPriceRange, setValue, priceRange]);
+
+  useEffect(() => {
+    if (
+      priceRange &&
+      JSON.stringify(priceRange) !== JSON.stringify(localPriceRange)
+    ) {
+      setLocalPriceRange(priceRange);
+    }
+  }, [priceRange]);
+
   useEffect(() => {
     if (isExpanded) {
       document.body.style.overflow = "hidden";
@@ -129,7 +140,7 @@ export default function FilteringSidebar({ isExpanded, toggleExpanded }) {
               value="6person"
               label="6 Person"
               amount={20}
-              name="capacity"
+              name="filters"
               register={register}
             />
             <CheckBox
@@ -143,10 +154,15 @@ export default function FilteringSidebar({ isExpanded, toggleExpanded }) {
           </div>
           <div className="text-sm text-gray-400 mb-3 space-y-5">
             <p>PRICE</p>
-            <Slider min={20} max={100} onChange={handleRangeChange} />
+            <Slider
+              min={20}
+              max={300}
+              value={localPriceRange}
+              onChange={handleRangeChange}
+            />
             <div className="flex justify-between text-gray-800 text-sm mt-2">
-              <span>{`$${rangeValues.min}`}</span>
-              <span>{`$${rangeValues.max}`}</span>
+              <span>{`$${localPriceRange?.min || 20}`}</span>
+              <span>{`$${localPriceRange?.max || 300}`}</span>
             </div>
           </div>
         </div>

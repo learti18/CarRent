@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, memo } from "react";
 import { ArrowUpDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LOCATIONS } from "../../common/constants";
 import PickupDropoffInfo from "./PickupDropoffInfo";
+import { useSearchForm } from "../../Contexts/SearchFormContext";
 
-export default function LocationSelector({ onDataChange }) {
+function LocationSelector() {
   const [isSwitched, setIsSwitched] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [pickupData, setPickupData] = useState({
@@ -20,19 +21,70 @@ export default function LocationSelector({ onDataChange }) {
     time: new Date().getHours() + ":00",
   });
 
-  // Notify parent of data changes - memoized to avoid unnecessary rerenders
-  const notifyDataChange = useCallback(() => {
-    if (onDataChange) {
-      onDataChange("pickup", pickupData);
-      onDataChange("dropoff", dropoffData);
-    }
-  }, [onDataChange, pickupData, dropoffData]);
+  // Track data changes to avoid excessive updates
+  const [pickupChanged, setPickupChanged] = useState(false);
+  const [dropoffChanged, setDropoffChanged] = useState(false);
 
+  // Get form context handlers
+  const { handleLocationChange, watch } = useSearchForm();
+  const rental = watch("rental");
+
+  // Initialize with form values if available and update when they change
   useEffect(() => {
-    notifyDataChange();
-  }, [notifyDataChange]);
+    // Skip the effect if rental data is not available
+    if (!rental) return;
 
-  // Animation properties based on device type
+    const rentalPickup = rental.pickup || {};
+    const rentalDropoff = rental.dropoff || {};
+
+    // Only update if values are different but check by individual properties
+    // to avoid JSON.stringify which can cause infinite loops
+
+    // Check pickup data
+    const isPickupDifferent =
+      rentalPickup.date !== pickupData.date ||
+      rentalPickup.time !== pickupData.time ||
+      JSON.stringify(rentalPickup.location) !==
+        JSON.stringify(pickupData.location);
+
+    if (rentalPickup && isPickupDifferent) {
+      setPickupData(rentalPickup);
+    }
+
+    // Check dropoff data
+    const isDropoffDifferent =
+      rentalDropoff.date !== dropoffData.date ||
+      rentalDropoff.time !== dropoffData.time ||
+      JSON.stringify(rentalDropoff.location) !==
+        JSON.stringify(dropoffData.location);
+
+    if (rentalDropoff && isDropoffDifferent) {
+      setDropoffData(rentalDropoff);
+    }
+  }, [rental]); // Remove pickupData and dropoffData to prevent infinite loops
+
+  // Initial notification on mount
+  useEffect(() => {
+    handleLocationChange("pickup", pickupData);
+    handleLocationChange("dropoff", dropoffData);
+  }, []); // Run only once on mount
+
+  // Handle pickup changes
+  useEffect(() => {
+    if (pickupChanged) {
+      handleLocationChange("pickup", pickupData);
+      setPickupChanged(false);
+    }
+  }, [pickupChanged, pickupData, handleLocationChange]);
+
+  // Handle dropoff changes
+  useEffect(() => {
+    if (dropoffChanged) {
+      handleLocationChange("dropoff", dropoffData);
+      setDropoffChanged(false);
+    }
+  }, [dropoffChanged, dropoffData, handleLocationChange]);
+
   const getAnimationProps = (isFirst) => {
     if (isMobile) {
       return {
@@ -48,12 +100,10 @@ export default function LocationSelector({ onDataChange }) {
     };
   };
 
-  // Toggle between pickup and dropoff positions
   function toggleSwitch() {
     setIsSwitched((prevState) => !prevState);
   }
 
-  // Handle pickup data changes with validation
   const handlePickupDataChange = useCallback(
     (data) => {
       setPickupData((prev) => {
@@ -61,7 +111,6 @@ export default function LocationSelector({ onDataChange }) {
           return prev;
         }
 
-        // Check if dropoff needs updating
         const newPickupDate = new Date(data.date);
         const currentDropoffDate = new Date(dropoffData.date);
 
@@ -70,15 +119,17 @@ export default function LocationSelector({ onDataChange }) {
             ...prevDropoff,
             date: data.date,
           }));
+          setDropoffChanged(true);
         }
 
+        // Mark data as changed for the effect to handle
+        setPickupChanged(true);
         return data;
       });
     },
     [dropoffData.date]
   );
 
-  // Handle dropoff data changes with validation
   const handleDropoffDataChange = useCallback(
     (data) => {
       setDropoffData((prev) => {
@@ -86,24 +137,28 @@ export default function LocationSelector({ onDataChange }) {
           return prev;
         }
 
-        // Validate against pickup date
         const newDropoffDate = new Date(data.date);
         const currentPickupDate = new Date(pickupData.date);
 
         if (newDropoffDate < currentPickupDate) {
-          return {
+          const updatedData = {
             ...data,
             date: pickupData.date,
           };
+
+          // Mark data as changed for the effect to handle
+          setDropoffChanged(true);
+          return updatedData;
         }
 
+        // Mark data as changed for the effect to handle
+        setDropoffChanged(true);
         return data;
       });
     },
     [pickupData.date]
   );
 
-  // Date constraints
   const pickupDateConstraints = useMemo(
     () => ({
       minDate: new Date().toISOString().split("T")[0],
@@ -189,3 +244,5 @@ export default function LocationSelector({ onDataChange }) {
     </div>
   );
 }
+
+export default memo(LocationSelector);

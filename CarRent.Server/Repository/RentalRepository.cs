@@ -92,8 +92,10 @@ namespace CarRent.Server.Repository
 
             return !await _context.Rentals
                 .AnyAsync(r => r.VehicleId == vehicleId &&
-                            r.PickupDate < dropOffDate &&
-                            r.PickupDate > pickupDate);
+                           r.Status != RentalStatus.Cancelled &&
+                           ((pickupDate >= r.PickupDate && pickupDate < r.DropOffDate) ||
+                           (dropOffDate > r.PickupDate && dropOffDate <= r.DropOffDate) ||
+                           (pickupDate <= r.PickupDate && dropOffDate >= r.DropOffDate)));
         }
 
         public async Task UpdateRentalStatusesAsync()

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { LOCATIONS } from "../../common/constants";
 import DropDown from "../Inputs/Dropdown";
 import DatePickerInput from "../Inputs/DatePickerInput";
@@ -11,15 +11,17 @@ export default function PickupDropoffInfo({
   onDataChange,
   dateConstraints = {},
 }) {
-  // Track the effective min date
   const [effectiveMinDate, setEffectiveMinDate] = useState(() => {
     if (type === "PickUp" && !dateConstraints.minDate) {
       return new Date().toISOString().split("T")[0];
     }
     return dateConstraints.minDate || null;
   });
+  
+  // Use a ref to track previous form data to avoid unnecessary updates
+  const prevFormDataRef = useRef(defaultValues);
 
-  const { control, reset, watch, setValue } = useForm({
+  const { control, reset, watch, setValue, getValues } = useForm({
     defaultValues: defaultValues || {
       location: LOCATIONS[0],
       date: new Date().toISOString().split("T")[0],
@@ -30,7 +32,6 @@ export default function PickupDropoffInfo({
   const formDate = watch("date");
   const formData = watch(); // All form values
 
-  // Update min date when constraints change
   useEffect(() => {
     let newMinDate = null;
 
@@ -43,7 +44,6 @@ export default function PickupDropoffInfo({
     if (newMinDate) {
       setEffectiveMinDate(newMinDate);
 
-      // Validate current date against new constraint
       const currentDate = new Date(formDate);
       const minDate = new Date(newMinDate);
 
@@ -53,12 +53,11 @@ export default function PickupDropoffInfo({
     }
   }, [dateConstraints.minDate, type, formDate, setValue]);
 
-  // Reset form when defaultValues change
+  // Reset when defaultValues change
   useEffect(() => {
     if (defaultValues) {
       reset(defaultValues);
 
-      // Validate against constraints
       if (dateConstraints.minDate) {
         const defaultDate = new Date(defaultValues.date);
         const minDate = new Date(dateConstraints.minDate);
@@ -70,12 +69,10 @@ export default function PickupDropoffInfo({
     }
   }, [defaultValues, reset, dateConstraints.minDate, setValue]);
 
-  // Handle data changes
   const handleDataChange = useCallback(
     (data) => {
       if (!onDataChange) return;
 
-      // Validate before sending data upstream
       if (dateConstraints.minDate) {
         const selectedDate = new Date(data.date);
         const minDate = new Date(dateConstraints.minDate);
@@ -83,14 +80,26 @@ export default function PickupDropoffInfo({
         if (selectedDate < minDate) return;
       }
 
+      // Check if data has changed before notifying
+      const prevData = prevFormDataRef.current;
+      if (
+        prevData?.date === data.date &&
+        prevData?.time === data.time &&
+        JSON.stringify(prevData?.location) === JSON.stringify(data.location)
+      ) {
+        return; // Skip notification if data hasn't changed
+      }
+      
+      // Update the reference
+      prevFormDataRef.current = {...data};
+      
+      // Notify parent
       onDataChange(data);
     },
     [onDataChange, dateConstraints.minDate]
   );
 
-  // Custom date change validator
   const handleDateChange = (date) => {
-    // For pickup: enforce today as minimum
     if (type === "PickUp") {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -98,7 +107,6 @@ export default function PickupDropoffInfo({
       if (date < today) return false;
     }
 
-    // For parent constraints (typically dropoff)
     if (dateConstraints.minDate) {
       const selectedDate = new Date(date);
       const minDate = new Date(dateConstraints.minDate);
@@ -109,16 +117,31 @@ export default function PickupDropoffInfo({
     return true;
   };
 
-  // Notify parent of changes
+  // Debounce data changes to avoid rapid updates
   useEffect(() => {
-    const timer = setTimeout(() => {
-      handleDataChange(formData);
-    }, 0);
-
-    return () => clearTimeout(timer);
+    // Skip initial render
+    if (!prevFormDataRef.current) {
+      prevFormDataRef.current = formData;
+      return;
+    }
+    
+    // Compare current form data with previous
+    const prevData = prevFormDataRef.current;
+    const dataChanged = 
+      prevData?.date !== formData.date ||
+      prevData?.time !== formData.time ||
+      JSON.stringify(prevData?.location) !== JSON.stringify(formData.location);
+      
+    if (dataChanged) {
+      // Use a timeout to debounce frequent changes
+      const timer = setTimeout(() => {
+        handleDataChange(formData);
+      }, 300); // 300ms debounce
+      
+      return () => clearTimeout(timer);
+    }
   }, [formData, handleDataChange]);
 
-  // Common props for DropDown component
   const dropdownProps = {
     label: "",
     options: LOCATIONS,

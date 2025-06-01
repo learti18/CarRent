@@ -110,17 +110,17 @@ namespace CarRent.Server.Repository
 
         public async Task<List<Vehicle>> GetAvailableVehiclesAsync(VehicleQueryDto query, string userID)
         {
+            var busyVehicleIds = await _context.Rentals
+                .Where(r => r.Status != RentalStatus.Cancelled)
+                .Where(r => (query.PickupDate < r.DropOffDate && query.DropOffDate > r.PickupDate))
+                .Select(r => r.VehicleId)
+                .Distinct()
+                .ToListAsync();
+
             var vehicles = _context.Vehicles
                 .Include(v => v.Features)
+                .Where(v => !busyVehicleIds.Contains(v.Id))
                 .AsQueryable();
-
-            vehicles = vehicles.Where(v =>
-                    !_context.Rentals.Any(r =>
-                            r.VehicleId == v.Id &&
-                            (query.PickupDate < r.DropOffDate && query.DropOffDate > r.PickupDate) &&
-                            r.Status != RentalStatus.Cancelled
-                        )
-                    );
 
             vehicles = vehicles
                 .ApplyFiltering(query)
