@@ -6,8 +6,6 @@ import { useSearchForm } from "../../Contexts/SearchFormContext";
 import { useVehicleReviews } from "../../Queries/reviews/useVehicleReviews";
 
 export default function CarInfo({ vehicle }) {
-  const { handleLocationChange } = useSearchForm();
-  const navigate = useNavigate();
   const { data: reviews, isLoading, error } = useVehicleReviews(vehicle.id);
   const rating = reviews
     ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
