@@ -26,7 +26,7 @@ export default function AllCars() {
     <div className="bg-gray-100 min-h-screen">
       <div className="relative">
         {/* Full-width white background for sidebar that extends to the left edge */}
-        <div className="absolute top-0 bottom-0 left-0 bg-white hidden lg:block lg:w-80"></div>
+        <div className="absolute top-0 bottom-0 left-0 bg-white hidden lg:block w-64"></div>
 
         {/* Main content container with max-w-7xl */}
         <div className="relative max-w-7xl mx-auto">

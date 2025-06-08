@@ -12,6 +12,7 @@ export const useAddToFavorites = () => {
         onSuccess: (data) => {
           queryClient.invalidateQueries(['availableVehicles'])
           queryClient.invalidateQueries(['vehicle'])
+          queryClient.invalidateQueries(['favoriteVehicles'])
 
           toast.success("Successfully added to favorite", {
                 duration: 2000,

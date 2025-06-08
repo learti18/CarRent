@@ -14,7 +14,8 @@ export default function Hero() {
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.8 }}
-          className='absolute inset-0 bg-[url("background4.jpg")] bg-cover bg-center'
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/background4.jpg')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 to-black/20"></div>
       </div>

@@ -72,5 +72,21 @@ namespace CarRent.Server.Controllers
             return Ok("Vehicle removed from favorites");
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetFavoriteVehicles()
+        {
+            var userId = User.GetUserId();
+
+            var favoriteVehicles = await _favoriteRepo.GetAllAsync(userId);
+
+            if (favoriteVehicles == null || !favoriteVehicles.Any())
+            {
+                return NotFound("No favorite vehicles found");
+            }
+
+            return Ok(favoriteVehicles);
+        }
+
     }
 }

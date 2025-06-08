@@ -14,6 +14,7 @@ function CarCard({
   seats,
   price,
   mainImage,
+  images = [],
   isFavorite,
   variant = "default",
 }) {
@@ -47,7 +48,7 @@ function CarCard({
       >
         <div className="flex justify-between relative py-8 mr-auto md:m-auto ">
           <img
-            src={mainImage ? mainImage : "/car4.svg"}
+            src={images[0] ? images[0] : "/car4.svg"}
             alt={`${brand} ${model}`}
             className="max-h-24 object-contain pr-4 md:pr-0"
             loading="lazy"

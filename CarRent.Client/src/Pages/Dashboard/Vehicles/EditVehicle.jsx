@@ -136,8 +136,8 @@ export default function EditVehicle() {
   return (
     <div className="">
       <Link
-        to=".."
-        relative="path"
+        to={"/dashboard/vehicles"}
+        replace
         className="flex flex-row justify-start items-center text-gray-500 text-lg mb-5 gap-2 hover:text-gray-700"
       >
         <ArrowLeft size={20} />

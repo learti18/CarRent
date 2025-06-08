@@ -69,7 +69,6 @@ namespace CarRent.Server.Controllers
             return Ok(reviewsDto);
         }
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllReviews()
         {
             var reviews = await _reviewRepo.GetAllAsync();

@@ -23,6 +23,14 @@ namespace CarRent.Server.Repository
             return favoriteVehicle;
         }
 
+        public Task<List<FavoriteVehicle>> GetAllAsync(string userId)
+        {
+            return _context.FavoriteVehicles
+                .Where(fv => fv.UserId == userId)
+                .Include(fv => fv.Vehicle)
+                .ToListAsync();
+        }
+
         public async Task<FavoriteVehicle?> GetByIdAsync(string userId, int vehicleId)
         {
             return await _context.FavoriteVehicles

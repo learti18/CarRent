@@ -3,10 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import FavoriteButton from "../Buttons/FavoriteButton";
 import RatingStars from "../RatingStars";
 import { useSearchForm } from "../../Contexts/SearchFormContext";
+import { useVehicleReviews } from "../../Queries/reviews/useVehicleReviews";
 
 export default function CarInfo({ vehicle }) {
   const { handleLocationChange } = useSearchForm();
   const navigate = useNavigate();
+  const { data: reviews, isLoading, error } = useVehicleReviews(vehicle.id);
+  const rating = reviews
+    ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+    : 0;
+
+  const reviewCount = reviews ? reviews.length : 0;
+
   return (
     <div className="flex flex-col justify-between gap-4 w-full lg:w-1/2 p-4 md:p-6 bg-white rounded-xl shadow-sm">
       <div className="space-y-2">
@@ -17,8 +25,8 @@ export default function CarInfo({ vehicle }) {
           <FavoriteButton isFavorite={vehicle.isFavorite} id={vehicle.id} />
         </div>
         <div className="flex gap-2 items-center">
-          <RatingStars rating={3} />
-          <p className="text-gray-600 text-sm">440+ Reviewer</p>
+          <RatingStars rating={rating} />
+          <p className="text-gray-600 text-sm">{reviewCount} Reviewer</p>
         </div>
       </div>
 

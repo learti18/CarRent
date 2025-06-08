@@ -12,6 +12,7 @@ export const useRemoveFromFavorites = () => {
         onSuccess: (data) => {
             queryClient.invalidateQueries(['availableVehicles'])
             queryClient.invalidateQueries(['vehicle'])
+            queryClient.invalidateQueries(['favoriteVehicles'])
 
             toast.error("Successfully removed from favorites", {
                 duration: 2000,
